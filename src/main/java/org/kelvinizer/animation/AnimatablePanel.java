@@ -83,7 +83,6 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
                         entry.getKey()
                 );
                 getActionMap().put(entry.getKey(), entry.getValue());
-                int altDownMask = InputEvent.ALT_DOWN_MASK;
             }
         }
     }

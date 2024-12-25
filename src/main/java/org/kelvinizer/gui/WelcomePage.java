@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class WelcomePage extends AnimatablePanel {
-    private BufferedImage image;
+    private final BufferedImage image;
     private int click_count=0;
 
     public WelcomePage(){
