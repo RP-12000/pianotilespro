@@ -28,6 +28,7 @@ public class App extends JFrame {
         setSize(Constants.ReferenceWindow.REF_WIN_W, Constants.ReferenceWindow.REF_WIN_H);
         addPanel(new WelcomePage());
         addPanel(new SelectionPage());
+        addPanel(new ChartSelection());
         add(panels.get(0));
     }
 
@@ -37,9 +38,12 @@ public class App extends JFrame {
     }
 
     public void runGame(){
-        if(last_panel!=PanelControl.panel_index){
+        if(last_panel!=panel_index){
             remove(panels.get(last_panel));
-            last_panel=PanelControl.panel_index;
+            last_panel=panel_index;
+            if(last_panel==2){
+                panels.set(2, new ChartSelection());
+            }
             add(panels.get(last_panel));
             revalidate();
         }

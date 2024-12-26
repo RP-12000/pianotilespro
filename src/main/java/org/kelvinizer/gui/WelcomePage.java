@@ -1,7 +1,6 @@
 package org.kelvinizer.gui;
 
 import org.kelvinizer.Constants;
-import org.kelvinizer.Constants.*;
 import org.kelvinizer.animation.*;
 
 import javax.imageio.ImageIO;
@@ -80,6 +79,6 @@ public class WelcomePage extends AnimatablePanel {
     @Override
     public void toNextPanel() {
         click_count = 0;
-        PanelControl.panel_index=1;
+        Constants.panel_index=1;
     }
 }

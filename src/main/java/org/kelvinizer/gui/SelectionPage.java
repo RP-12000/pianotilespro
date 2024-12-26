@@ -130,6 +130,15 @@ public class SelectionPage extends AnimatablePanel {
     }
 
     @Override
+    public void mouseMoved(MouseEvent e){
+        next.setFocused(e);
+        previous.setFocused(e);
+        jacket.setFocused(e);
+        back.setFocused(e);
+        settings.setFocused(e);
+    }
+
+    @Override
     public void mouseClicked(MouseEvent e){
         if(!menu.isEmpty()){
             if(next.contains(e.getPoint())){
@@ -206,9 +215,9 @@ public class SelectionPage extends AnimatablePanel {
                     metrics.getAscent() + metrics.getDescent()+ 10
             );
             g2d.setStroke(new BasicStroke(1.0f));
-            g2d.fill(next.getButtonShape());
-            g2d.fill(previous.getButtonShape());
-            g2d.draw(jacket.getButtonShape());
+            next.fill(g2d);
+            previous.fill(g2d);
+            jacket.draw(g2d);
             if(jackets.get(menuIndex.get(layer))!=null){
                 g2d.drawImage(jackets.get(menuIndex.get(layer)), 360, 140, 360, 360, this);
             }
@@ -222,15 +231,15 @@ public class SelectionPage extends AnimatablePanel {
                 );
             }
         }
-        g2d.draw(settings.getButtonShape());
-        g2d.draw(back.getButtonShape());
+        settings.draw(g2d);
+        back.draw(g2d);
     }
 
     @Override
     public void toNextPanel() {
         if(goBack){
             if(currentSelection.lastIndexOf('/') == -1){
-                Constants.PanelControl.panel_index = 0;
+                Constants.panel_index = 0;
             }
             else{
                 currentSelection = currentSelection.substring(0, currentSelection.lastIndexOf('/'));
@@ -240,8 +249,9 @@ public class SelectionPage extends AnimatablePanel {
             goBack=false;
         }
         else{
-            if(layer == 2){
-                Constants.PanelControl.panel_index = 2;
+            if(layer == 1){
+                Constants.GameWindow.songDir = currentSelection+"/"+menu.get(menuIndex.get(layer));
+                Constants.panel_index = 2;
             }
             else{
                 currentSelection+="/";
