@@ -130,13 +130,21 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
     }
 
     @Override
-    public void onAppearance(Graphics2D g2d) {}
+    public void onAppearance(Graphics2D g2d) {
+        setAppearingOpacity(g2d);
+        renderObjects(g2d);
+    }
 
     @Override
-    public void onActive(Graphics2D g2d) {}
+    public void onActive(Graphics2D g2d) {
+        renderObjects(g2d);
+    }
 
     @Override
-    public void onDisappearance(Graphics2D g2d) {}
+    public void onDisappearance(Graphics2D g2d) {
+        setDisappearingOpacity(g2d);
+        renderObjects(g2d);
+    }
 
     @Override
     public void toNextPanel() {}

@@ -27,7 +27,7 @@ public class App extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(Constants.ReferenceWindow.REF_WIN_W, Constants.ReferenceWindow.REF_WIN_H);
         addPanel(new WelcomePage());
-        addPanel(new SelectionPage());
+        addPanel(new MenuSelection());
         addPanel(new ChartSelection());
         add(panels.get(0));
     }

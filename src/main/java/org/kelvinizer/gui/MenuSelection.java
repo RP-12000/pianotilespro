@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SelectionPage extends AnimatablePanel {
+public class MenuSelection extends AnimatablePanel {
     private final ArrayList<String> menu = new ArrayList<>();
     private int layer = 0;
     private final ArrayList<Integer> menuIndex = new ArrayList<>();
@@ -38,7 +38,7 @@ public class SelectionPage extends AnimatablePanel {
             new Rectangle(Constants.ReferenceWindow.REF_WIN_W-100, 0, 100, 100)
     );
 
-    public SelectionPage(){
+    public MenuSelection(){
         super();
         updateMenu();
         menuIndex.add(0);
@@ -170,23 +170,7 @@ public class SelectionPage extends AnimatablePanel {
     }
 
     @Override
-    public void onAppearance(Graphics2D g2d) {
-        setAppearingOpacity(g2d);
-        renderObjects(g2d);
-    }
-
-    @Override
-    public void onActive(Graphics2D g2d) {
-        renderObjects(g2d);
-    }
-
-    @Override
-    public void onDisappearance(Graphics2D g2d) {
-        setDisappearingOpacity(g2d);
-        renderObjects(g2d);
-    }
-
-    public void renderObjects(Graphics2D g2d){
+    protected void renderObjects(Graphics2D g2d){
         if(menu.isEmpty()){
             g2d.setColor(Color.WHITE);
             g2d.setFont(NULL_FOLDER_FONT);

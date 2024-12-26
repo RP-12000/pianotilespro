@@ -121,23 +121,6 @@ public class ChartSelection extends AnimatablePanel {
     }
 
     @Override
-    public void onAppearance(Graphics2D g2d) {
-        setAppearingOpacity(g2d);
-        renderObjects(g2d);
-    }
-
-    @Override
-    public void onActive(Graphics2D g2d) {
-        renderObjects(g2d);
-    }
-
-    @Override
-    public void onDisappearance(Graphics2D g2d) {
-        setDisappearingOpacity(g2d);
-        renderObjects(g2d);
-    }
-
-    @Override
     public void resizeButtons(Dimension d){
         BS.resize(d);
         MD.resize(d);
@@ -186,8 +169,8 @@ public class ChartSelection extends AnimatablePanel {
                 AV_WITHOUT_LG.draw(g2d);
                 g2d.drawString(
                         "Advanced",
-                        650 - (metrics.stringWidth("Advanced") / 2),
-                        475 + ((metrics.getAscent() - metrics.getDescent()) / 2)
+                        565 - (metrics.stringWidth("Advanced") / 2),
+                        455 + ((metrics.getAscent() - metrics.getDescent()) / 2)
                 );
             }
             else{
@@ -195,12 +178,12 @@ public class ChartSelection extends AnimatablePanel {
                 LG.draw(g2d);
                 g2d.drawString(
                         "Advanced",
-                        345 - (metrics.stringWidth("Advanced") / 2),
+                        347 - (metrics.stringWidth("Advanced") / 2),
                         455 + ((metrics.getAscent() - metrics.getDescent()) / 2)
                 );
                 g2d.drawString(
                         "Legendary",
-                        785 - (metrics.stringWidth("Legendary") / 2),
+                        782 - (metrics.stringWidth("Legendary") / 2),
                         455 + ((metrics.getAscent() - metrics.getDescent()) / 2)
                 );
             }
