@@ -1,0 +1,271 @@
+@startuml
+interface Animatable{
++ onAppearance(Graphics2D g2d): void
++ onActive(Graphics2D g2d): void
++ onDisappearance(Graphics2D g2d): void
++ toNextPanel(): void
++ resizeButtons(Dimension d): void
+}
+
+class JPanel{}
+class JFrame{}
+interface MouseMotionListener{}
+interface MouseWheelListener{}
+interface MouseListener{}
+
+class AnimatablePanel{
+- is_start: boolean
+- is_end: boolean
+- has_start: boolean
+- has_end: boolean
+- bindings: HashMap<Triple<Integer, Boolean, Integer>, Action>
+# start_time: long
+# end_time: long
+# start_duration: long
+# end_duration: long
++ AnimatablePanel(long start_duration_in_ms, long end_duration_in_ms)
++ AnimatablePanel()
+- addListeners(): void
+# paintComponent(Graphics g): void
+# exit(): void
+# setAppearingOpacity(Graphics2D g2d): void
+# setDisappearingOpacity(Graphics2D g2d): void
+# renderObjects(Graphics2D g2d): void
+# addKeyBinding(int VK_Code, boolean onRelease, int VK_State, Action a): void
+# addKeyBinding(int VK_Code, boolean onRelease, Action a): void
+# addKeyBinding(int VK_Code, Action a): void
+}
+
+class PolygonButton{
+- buttonShape: Polygon
+- buttonSpace: Polygon
+- isFocused: boolean
+- focusedColor: Color
+- focusedStroke: Stroke
++ PolygonButton(Polygon bs, Color c, Stroke s)
++ PolygonButton(Polygon bs)
++ PolygonButton(Rectangle r)
++ contains(Point p): boolean
++ setFocused(MouseEvent e): void
++ setFocused(boolean b): void
++ resize(Dimension d): void
++ draw(Graphics2D g2d): void
++ fill(Graphics2D g2d): void
+}
+
+class JacketMenu{
+- dir: String
+- menu: ArrayList<Pair<String, BufferedImage>>
+- menuIndex: int
++ JacketMenu(String dir, int mi)
+- getJacket(File f): BufferedImage
+- updateMenu(): void
++ getMenuIndex(): int
++ moveBackward(): void
++ moveForward(): void
++ move(int amount): void
++ move(MouseWheelEvent e): void
++ getSelectionJacket(int index): BufferedImage
++ getSelectionJacket(): BufferedImage
++ getSelectionString(int index): String
++ getSelectionString(): String
++ isEmpty(): boolean
++ atEnd(): boolean
++ atBeginning(): boolean
+}
+
+class Song{
+- composer: String
+- illustration: String
+- lg: boolean
+- basicData: Pair<String, Double>
+- mediumData: Pair<String, Double>
+- advancedData: Pair<String, Double>
+- legendaryData: Pair<String, Double>
++ Song(String dir)
++ hasLG(): boolean
++ getComposer(): String
++ getIllustration(): String
++ getBasicData(): Pair<String, Double>
++ getMediumData(): Pair<String, Double>
++ getAdvancedData(): Pair<String, Double>
++ getLegendaryData(): Pair<String, Double>
+}
+
+class Pair<A, B>{
++ first: A
++ second: B
++ Pair(A a, B b)
+}
+
+class Triple<A, B, C>{
++ first: A
++ second: B
++ third: C
++ Triple(A a, B b, C c)
+}
+
+class WelcomePage{
+- click_count: int
++ WelcomePage()
+}
+
+class CollectionSelection{
+- collections: JacketMenu
+- goBack: boolean
+- toSettings: boolean
+- NULL_FOLDER_FONT: Font
+- MENU_FONT: Font
+- previous: PolygonButton
+- next: PolygonButton
+- back: PolygonButton
+- jacket: PolygonButton
+- settings: PolygonButton
++ CollectionSelection()
+}
+
+class SongSelection{
+- menu: JacketMenu
+- songs: ArrayList<Song>
+- goBack: boolean
+- toSettings: boolean
+- isValid: boolean
+- back: PolygonButton
+- settings: PolygonButton
+- play: PolygonButton
+- basic: PolygonButton
+- medium: PolygonButton
+- advanced: PolygonButton
+- legendary: PolygonButton
+- moveUp: PolygonButton
+- moveDown: PolygonButton
++ SongSelection()
+- check(): void
+}
+
+class Settings{
+- normal: PolygonButton
+- autoplay: PolygonButton
+- back: PolygonButton
++ Settings()
+}
+
+class CRect{
+- x: double
+- y: double
+- width: double
+- height: double
+- origin: Point
+- fillColor: Color
+- outlineColor: Color
+- outlineThickness: double
++ CRect(double x, double y, double width, double height)
++ CRect(double width, double height)
++ CRect()
++ setFillColor(Color fillColor): void
++ setOutlineColor(Color outlineColor): void
++ setOutlineThickness(double outlineThickness): void
++ setOrigin(Point origin): void
++ setOrigin(double x, double y): void
++ draw(Graphics2D g2d): void
++ getHeight(): double
++ getWidth(): double
++ toRect(): Rectangle
++ setSize(double width, double height): void
++ setPosition(double x, double y): voi
+}
+
+class Note{
+- lane_num: int
+}
+
+class Lane{
+- lane_notes: ArrayList<Note>
+- invisible_time: ArrayList<Pair<Double, Double>>
+- left_pointer: int
+- right_pointer: int
+- active_note_pointer: int
+- visibility_pointer: int
+- lane_num: int
++ miss: double
++ bad: double
++ good: double
++ perfect: double
++ early: double
++ late: double
++ total: double
++ Lane(int l)
+- update_pointers(): void
++ add_note(Note n): void
++ add_invisible_interval(double start, double duration): void
++ sort_note(): void
++ update(int type): void
++ autoplay(): void
++ to_rect(int is_paused): ArrayList<CRect>
++ invisible(): boolean
++ restart(): void
+}
+
+class Chart{
+- noteCount: double
+- lanes: Lane[]
+- STATIC_TIMER: double
+- illustration: BufferedImage
+- isPaused: int
+- activation: int[]
+- isDown: boolean[]
+- signal: int[]
++ Chart(String dir)
++ Chart()
+- getJacket(File f): void
+- press(int l): void
+- release(int l): void
+- restart(): void
++ isValidChart(String dir): void
+}
+
+class App{
+- display: AnimatablePanel
+- lastPanel: int
+- last_size: Dimension
++ App()
+- boot(): void
+- runGame(): void
+}
+
+class Main{
++ main(): void
+}
+
+Animatable <|.. AnimatablePanel
+MouseWheelListener <|.. AnimatablePanel
+MouseMotionListener <|.. AnimatablePanel
+MouseListener <|.. AnimatablePanel
+
+JPanel <|-- AnimatablePanel
+AnimatablePanel <|-- WelcomePage
+AnimatablePanel <|-- CollectionSelection
+AnimatablePanel <|-- Settings
+AnimatablePanel <|-- SongSelection
+AnimatablePanel <|-- Chart
+JFrame <|-- App
+
+Triple <-- AnimatablePanel
+Pair <-- JacketMenu
+Pair <-- Song
+Pair <-- Lane
+PolygonButton <-- CollectionSelection
+PolygonButton <-- SongSelection
+PolygonButton <-- Settings
+JacketMenu <-- CollectionSelection
+JacketMenu <-- SongSelection
+AnimatablePanel <-- App
+Song <-- SongSelection
+Note <-- Lane
+Lane <-- Chart
+App <-- Main
+
+CRect <.. Note
+CRect <.. Lane
+CRect <.. Chart
+@enduml
