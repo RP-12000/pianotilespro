@@ -2,25 +2,30 @@ package org.kelvinizer.animation;
 
 import org.kelvinizer.Constants;
 import org.kelvinizer.Constants.*;
-import org.kelvinizer.support.Pair;
+import org.kelvinizer.support.Triple;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class AnimatablePanel extends JPanel implements Animatable, MouseMotionListener, MouseWheelListener, MouseListener{
     private boolean is_start = true, is_end = false;
     private boolean has_start = false, has_end = false;
     protected long start_time, end_time;
     protected final long start_duration, end_duration;
-    private final HashMap<Pair, Action> bindings = new HashMap<>();
+    private final HashMap<Triple<Integer, Boolean, Integer>, Action> bindings = new HashMap<>();
 
     public AnimatablePanel(long start_duration_in_ms, long end_duration_in_ms){
         start_duration=start_duration_in_ms*Time.MS_TO_NS_CONVERSION_FACTOR;
         end_duration=end_duration_in_ms*Time.MS_TO_NS_CONVERSION_FACTOR;
-        setSize(ReferenceWindow.REF_WIN_W, ReferenceWindow.REF_WIN_H);
+        setSize((int)ReferenceWindow.REF_WIN_W, (int)ReferenceWindow.REF_WIN_H);
+        ScheduledExecutorService e = Executors.newSingleThreadScheduledExecutor();
+        e.scheduleAtFixedRate(this::repaint, 0, 1000/Time.FPS, TimeUnit.MILLISECONDS);
     }
 
     public AnimatablePanel(){
@@ -34,7 +39,7 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.scale((double)getWidth()/ReferenceWindow.REF_WIN_W, (double)getHeight()/ReferenceWindow.REF_WIN_H);
         g2d.setColor(Color.BLACK);
-        g2d.fillRect(0,0, Constants.ReferenceWindow.REF_WIN_W,Constants.ReferenceWindow.REF_WIN_H);
+        g2d.fillRect(0,0, (int)Constants.ReferenceWindow.REF_WIN_W, (int)Constants.ReferenceWindow.REF_WIN_H);
         if(is_start){
             if(!has_start){
                 has_start=true;
@@ -74,14 +79,19 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
         addMouseMotionListener(this);
         addMouseWheelListener(this);
         if(!bindings.isEmpty()){
-            for(Map.Entry<Pair, Action> entry: bindings.entrySet()){
-                getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-                        KeyStroke.getKeyStroke(
-                                (int)entry.getKey().first,
-                                (int)entry.getKey().second
-                        ),
-                        entry.getKey()
-                );
+            for(Map.Entry<Triple<Integer, Boolean, Integer>, Action> entry: bindings.entrySet()){
+                try{
+                    getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                            KeyStroke.getKeyStroke(
+                                    entry.getKey().first,
+                                    entry.getKey().third,
+                                    entry.getKey().second
+                            ),
+                            entry.getKey()
+                    );
+                }catch (IllegalStateException e){
+                    throw new RuntimeException(e);
+                }
                 getActionMap().put(entry.getKey(), entry.getValue());
             }
         }
@@ -93,13 +103,18 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
         removeMouseMotionListener(this);
         removeMouseWheelListener(this);
         if(!bindings.isEmpty()){
-            for(Map.Entry<Pair, Action> entry: bindings.entrySet()){
-                getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).remove(
-                        KeyStroke.getKeyStroke(
-                                (int)entry.getKey().first,
-                                (int)entry.getKey().second
-                        )
-                );
+            for(Map.Entry<Triple<Integer, Boolean, Integer>, Action> entry: bindings.entrySet()){
+                try{
+                    getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).remove(
+                            KeyStroke.getKeyStroke(
+                                    entry.getKey().first,
+                                    entry.getKey().third,
+                                    entry.getKey().second
+                            )
+                    );
+                }catch (IllegalStateException e){
+                    throw new RuntimeException(e);
+                }
                 getActionMap().remove(entry.getKey());
             }
         }
@@ -121,12 +136,16 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
 
     protected void renderObjects(Graphics2D g2d) {}
 
-    protected void addKeyBinding(Integer VK_Code, Integer VK_State, Action a){
-        bindings.put(new Pair(VK_Code, VK_State), a);
+    protected void addKeyBinding(int VK_Code, boolean onRelease, Action a){
+        addKeyBinding(VK_Code, onRelease, 0, a);
     }
 
-    protected void addKeyBinding(Integer VK_Code, Action a){
-        addKeyBinding(VK_Code, 0, a);
+    protected void addKeyBinding(int VK_Code, boolean onRelease, int VK_State, Action a){
+        bindings.put(new Triple<>(VK_Code, onRelease, VK_State), a);
+    }
+
+    protected void addKeyBinding(int VK_Code, Action a){
+        addKeyBinding(VK_Code, true, a);
     }
 
     @Override

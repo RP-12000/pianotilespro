@@ -3,7 +3,6 @@ package org.kelvinizer.gui;
 import org.kelvinizer.Constants;
 import org.kelvinizer.animation.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -21,6 +20,7 @@ public class WelcomePage extends AnimatablePanel {
             removeMouseListener(this);
             exit();
         }
+        repaint();
     }
 
     @Override

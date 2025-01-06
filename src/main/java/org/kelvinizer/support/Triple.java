@@ -1,11 +1,13 @@
 package org.kelvinizer.support;
 
-public class Pair<A, B> {
+public class Triple<A, B, C> {
     public A first;
     public B second;
+    public C third;
 
-    public Pair(A a, B b){
+    public Triple(A a, B b, C c){
         first = a;
         second = b;
+        third = c;
     }
 }

@@ -48,6 +48,10 @@ public class PolygonButton {
         isFocused = buttonSpace.contains(e.getPoint());
     }
 
+    public void setFocused(boolean b){
+        isFocused = b;
+    }
+
     public void resize(Dimension d){
         int[] newX = new int[buttonShape.npoints];
         int[] newY = new int[buttonShape.npoints];
