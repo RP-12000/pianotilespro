@@ -1,6 +1,6 @@
 package org.kelvinizer.support;
 
-import org.kelvinizer.Constants;
+import org.kelvinizer.constants.General;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -56,8 +56,8 @@ public class PolygonButton {
         int[] newX = new int[buttonShape.npoints];
         int[] newY = new int[buttonShape.npoints];
         for(int i=0; i<buttonShape.npoints; i++){
-            newX[i] = (int)(buttonShape.xpoints[i]*d.getWidth()/ Constants.ReferenceWindow.REF_WIN_W);
-            newY[i] = (int)(buttonShape.ypoints[i]*d.getHeight()/ Constants.ReferenceWindow.REF_WIN_H);
+            newX[i] = (int)(buttonShape.xpoints[i]*d.getWidth()/ General.ReferenceWindow.REF_WIN_W);
+            newY[i] = (int)(buttonShape.ypoints[i]*d.getHeight()/ General.ReferenceWindow.REF_WIN_H);
         }
         buttonSpace = new Polygon(newX, newY, buttonShape.npoints);
     }
@@ -69,12 +69,12 @@ public class PolygonButton {
             g2d.draw(buttonShape);
         }
         else{
-            g2d.setStroke(Constants.DEFAULT_STROKE);
-            g2d.setColor(Constants.DEFAULT_COLOR);
+            g2d.setStroke(General.DEFAULT_STROKE);
+            g2d.setColor(General.DEFAULT_COLOR);
             g2d.draw(buttonShape);
         }
-        g2d.setColor(Constants.DEFAULT_COLOR);
-        g2d.setStroke(Constants.DEFAULT_STROKE);
+        g2d.setColor(General.DEFAULT_COLOR);
+        g2d.setStroke(General.DEFAULT_STROKE);
     }
 
     public void fill(Graphics2D g2d){

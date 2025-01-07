@@ -1,8 +1,9 @@
 package org.kelvinizer.gui;
 
-import org.kelvinizer.Constants;
-import org.kelvinizer.Constants.*;
+import org.kelvinizer.constants.General;
 import org.kelvinizer.animation.AnimatablePanel;
+import org.kelvinizer.constants.ReferenceWindow;
+import org.kelvinizer.constants.Selection;
 import org.kelvinizer.support.JacketMenu;
 import org.kelvinizer.support.PolygonButton;
 
@@ -31,7 +32,7 @@ public class CollectionSelection extends AnimatablePanel {
             new Rectangle(360, 140, 360, 360)
     );
     private final PolygonButton settings = new PolygonButton(
-            new Rectangle((int)ReferenceWindow.REF_WIN_W-100, 0, 100, 100)
+            new Rectangle((int) ReferenceWindow.REF_WIN_W-100, 0, 100, 100)
     );
 
     public CollectionSelection(){
@@ -175,14 +176,14 @@ public class CollectionSelection extends AnimatablePanel {
     public void toNextPanel() {
         Selection.collectionIndex = collections.getMenuIndex();
         if(goBack){
-            Constants.panel_index = 0;
+            General.panel_index = 0;
         }
         else if(toSettings){
-            Constants.panel_index = 11;
+            General.panel_index += General.numPanels;
         }
         else{
             Selection.collectionDir = collections.getSelectionString();
-            Constants.panel_index = 2;
+            General.panel_index = 2;
         }
     }
 }

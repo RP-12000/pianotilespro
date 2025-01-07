@@ -1,7 +1,8 @@
 package org.kelvinizer.gui;
 
-import org.kelvinizer.Constants;
-import org.kelvinizer.Constants.*;
+import org.kelvinizer.constants.General;
+import org.kelvinizer.constants.ReferenceWindow;
+import org.kelvinizer.constants.Selection;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.gamewindow.Song;
 import org.kelvinizer.support.JacketMenu;
@@ -17,7 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SongSelection extends AnimatablePanel {
-    private final JacketMenu menu = new JacketMenu("Chart/"+Constants.Selection.collectionDir, Constants.Selection.songIndex);
+    private final JacketMenu menu = new JacketMenu("Chart/"+ Selection.collectionDir, Selection.songIndex);
     private final ArrayList<Song> songs = new ArrayList<>();
     private boolean goBack = false;
     private boolean toSettings = false;
@@ -30,10 +31,10 @@ public class SongSelection extends AnimatablePanel {
             new Rectangle(100, 100)
     );
     private final PolygonButton settings = new PolygonButton(
-            new Rectangle((int) Constants.ReferenceWindow.REF_WIN_W-100, 0, 100, 100)
+            new Rectangle((int) ReferenceWindow.REF_WIN_W-100, 0, 100, 100)
     );
     private final PolygonButton play = new PolygonButton(
-            new Rectangle((int) Constants.ReferenceWindow.REF_WIN_W-100, (int) Constants.ReferenceWindow.REF_WIN_H-100, 100, 100)
+            new Rectangle((int) ReferenceWindow.REF_WIN_W-100, (int) ReferenceWindow.REF_WIN_H-100, 100, 100)
     );
     private final PolygonButton basic = new PolygonButton(
             new Rectangle()
@@ -96,7 +97,7 @@ public class SongSelection extends AnimatablePanel {
     private void check(){
         for(int i=0; i<menu.size(); i++){
             try{
-                songs.add(new Song("Chart/"+Constants.Selection.collectionDir+"/"+menu.getSelectionString(i)));
+                songs.add(new Song("Chart/"+ Selection.collectionDir+"/"+menu.getSelectionString(i)));
             } catch (RuntimeException | IOException e) {
                 isValid=false;
                 songs.clear();
@@ -201,14 +202,14 @@ public class SongSelection extends AnimatablePanel {
     @Override
     public void toNextPanel(){
         if(goBack){
-            Constants.panel_index = 1;
+            General.panel_index = 1;
         }
         else if(toSettings){
-            Constants.panel_index += 10;
+            General.panel_index += 10;
         }
         else{
             Selection.songDir = menu.getSelectionString();
-            Constants.panel_index = 2;
+            General.panel_index = 2;
         }
     }
 }

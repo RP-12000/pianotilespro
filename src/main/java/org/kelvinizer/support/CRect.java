@@ -1,6 +1,6 @@
 package org.kelvinizer.support;
 
-import org.kelvinizer.Constants;
+import org.kelvinizer.constants.General;
 
 import java.awt.*;
 
@@ -68,7 +68,7 @@ public class CRect {
             g2d.setColor(outlineColor);
             g2d.draw(toRect());
         }
-        g2d.setStroke(Constants.DEFAULT_STROKE);
+        g2d.setStroke(General.DEFAULT_STROKE);
         if(fillColor!=null) {
             g2d.setColor(fillColor);
             g2d.fill(toRect());

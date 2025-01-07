@@ -1,48 +1,38 @@
-package org.kelvinizer.gamewindow;
+package org.kelvinizer.note;
 
-import org.kelvinizer.Constants.*;
+import org.kelvinizer.constants.GameColors;
+import org.kelvinizer.constants.JudgementLimits;
+import org.kelvinizer.constants.ReferenceWindow;
+import org.kelvinizer.constants.Time;
+import org.kelvinizer.motion.Motion;
 import org.kelvinizer.support.CRect;
 
 import java.awt.*;
+import java.util.ArrayList;
+
+import static org.kelvinizer.constants.ReferenceWindow.UNIT;
 
 public class Note implements Comparable<Object>{
     private final int lane_num;
-    private final double perfect_hit_time, fall_position_ratio, fall_time, duration, note_height;
+    private final double perfect_hit_time;
     private boolean is_sync;
     private double actual_hit_time = -1;
+    private int motionPointer = 0;
     private int status = 4;
+    private final ArrayList<Motion> movement;
 
     private double dist_from_judgement_line(double time) {
-        double dist = ((int)ReferenceWindow.REF_WIN_H - ReferenceWindow.HORIZONTAL_JUDGEMENT_SPACING) * fall_position_ratio *
-                (perfect_hit_time - time) / fall_time;
-        if (duration != 0) {
-            dist = Math.max(dist, 0.0);
-        }
-        if (lane_num < 8) {
-            dist = -dist;
-        }
-        dist += ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[lane_num/8];
-        return dist;
+        return UNIT*movement.get(motionPointer).dist(time);
     }
 
-    public Note(String verdict){
-        String[] temp = verdict.split(" ");
-        try{
-            perfect_hit_time = Double.parseDouble(temp[0]);
-            lane_num = (int)Double.parseDouble(temp[1]);
-            fall_time = Double.parseDouble(temp[2]);
-            fall_position_ratio = Double.parseDouble(temp[3]);
-            duration = Double.parseDouble(temp[4]);
-            is_sync=false;
-            if (duration == 0) {
-                note_height = ReferenceWindow.TAP_NOTE_HEIGHT;
-            }
-            else {
-                note_height = (ReferenceWindow.REF_WIN_W - ReferenceWindow.HORIZONTAL_JUDGEMENT_SPACING) / fall_time * duration * Double.parseDouble(temp[5]);
-            }
-        }catch (NumberFormatException e){
-            throw new RuntimeException("Invalid Note Constructor");
-        }
+    public Note(int lane_num, double perfect_hit_time, ArrayList<Motion> motions){
+        this.lane_num=lane_num;
+        this.perfect_hit_time=perfect_hit_time;
+        movement = motions;
+    }
+
+    public static Note parseNote(String[] s){
+
     }
 
     void reset() {
@@ -52,10 +42,6 @@ public class Note implements Comparable<Object>{
 
     int get_status() {
         return status;
-    }
-
-    double get_duration() {
-        return duration;
     }
 
     double getPerfect_hit_time(){

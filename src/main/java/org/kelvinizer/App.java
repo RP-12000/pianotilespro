@@ -1,6 +1,9 @@
 package org.kelvinizer;
 
 import org.kelvinizer.animation.AnimatablePanel;
+import org.kelvinizer.constants.General;
+import org.kelvinizer.constants.ReferenceWindow;
+import org.kelvinizer.constants.Time;
 import org.kelvinizer.gamewindow.Chart;
 import org.kelvinizer.gui.*;
 
@@ -8,31 +11,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.*;
 
-import static org.kelvinizer.Constants.*;
+import static org.kelvinizer.constants.General.*;
 
 public class App extends JFrame {
     private AnimatablePanel display = new WelcomePage();
     int lastPanel = 0;
-    Dimension last_size = new Dimension((int)Constants.ReferenceWindow.REF_WIN_W, (int)Constants.ReferenceWindow.REF_WIN_H);
+    Dimension last_size = new Dimension((int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
 
     public App(){
         boot();
         ScheduledExecutorService gameLoop = Executors.newSingleThreadScheduledExecutor();
-        gameLoop.scheduleAtFixedRate(this::runGame, 0, 1000/Time.FPS, TimeUnit.MILLISECONDS);
+        gameLoop.scheduleAtFixedRate(this::runGame, 0, 1000/ Time.FPS, TimeUnit.MILLISECONDS);
         setVisible(true);
     }
 
     private void boot(){
         setTitle("PianoTilesPro");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize((int)Constants.ReferenceWindow.REF_WIN_W, (int)Constants.ReferenceWindow.REF_WIN_H);
+        setSize((int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
         add(display);
     }
 
     private void runGame(){
-        if(lastPanel!=panel_index){
+        if(lastPanel!=General.panel_index){
             remove(display);
-            switch (panel_index){
+            switch (General.panel_index){
                 case 0:
                     display = new WelcomePage();break;
                 case 1:

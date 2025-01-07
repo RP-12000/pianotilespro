@@ -1,6 +1,6 @@
 package org.kelvinizer.gui;
 
-import org.kelvinizer.Constants;
+import org.kelvinizer.constants.General;
 import org.kelvinizer.animation.*;
 
 import java.awt.*;
@@ -29,15 +29,15 @@ public class WelcomePage extends AnimatablePanel {
         g2d.setFont(new Font("Arial", Font.BOLD, 27));
         FontMetrics metrics = g2d.getFontMetrics();
         g2d.drawString(
-                Constants.VERSION,
-                540 - (metrics.stringWidth(Constants.VERSION) / 2),
+                General.VERSION,
+                540 - (metrics.stringWidth(General.VERSION) / 2),
                 590 + ((metrics.getAscent() - metrics.getDescent()) / 2)
         );
         g2d.setFont(new Font("Arial", Font.BOLD, 81));
         metrics = g2d.getFontMetrics();
         g2d.drawString(
-                Constants.GameName,
-                540 - (metrics.stringWidth(Constants.GameName) / 2),
+                General.GameName,
+                540 - (metrics.stringWidth(General.GameName) / 2),
                 200 + ((metrics.getAscent() - metrics.getDescent()) / 2)
         );
         g2d.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -51,7 +51,6 @@ public class WelcomePage extends AnimatablePanel {
 
     @Override
     public void toNextPanel() {
-        click_count = 0;
-        Constants.panel_index=1;
+        General.panel_index=1;
     }
 }

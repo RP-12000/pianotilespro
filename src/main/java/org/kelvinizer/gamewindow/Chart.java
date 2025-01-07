@@ -1,7 +1,11 @@
 package org.kelvinizer.gamewindow;
 
-import org.kelvinizer.Constants.*;
 import org.kelvinizer.animation.AnimatablePanel;
+import org.kelvinizer.constants.GameColors;
+import org.kelvinizer.constants.ReferenceWindow;
+import org.kelvinizer.constants.Selection;
+import org.kelvinizer.constants.Time;
+import org.kelvinizer.note.Note;
 import org.kelvinizer.support.CRect;
 
 import javax.imageio.ImageIO;

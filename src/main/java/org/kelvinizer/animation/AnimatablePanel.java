@@ -1,7 +1,7 @@
 package org.kelvinizer.animation;
 
-import org.kelvinizer.Constants;
-import org.kelvinizer.Constants.*;
+import org.kelvinizer.constants.ReferenceWindow;
+import org.kelvinizer.constants.Time;
 import org.kelvinizer.support.Triple;
 
 import javax.swing.*;
@@ -21,9 +21,9 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
     private final HashMap<Triple<Integer, Boolean, Integer>, Action> bindings = new HashMap<>();
 
     public AnimatablePanel(long start_duration_in_ms, long end_duration_in_ms){
-        start_duration=start_duration_in_ms*Time.MS_TO_NS_CONVERSION_FACTOR;
+        start_duration=start_duration_in_ms* Time.MS_TO_NS_CONVERSION_FACTOR;
         end_duration=end_duration_in_ms*Time.MS_TO_NS_CONVERSION_FACTOR;
-        setSize((int)ReferenceWindow.REF_WIN_W, (int)ReferenceWindow.REF_WIN_H);
+        setSize((int) ReferenceWindow.REF_WIN_W, (int)ReferenceWindow.REF_WIN_H);
         ScheduledExecutorService e = Executors.newSingleThreadScheduledExecutor();
         e.scheduleAtFixedRate(this::repaint, 0, 1000/Time.FPS, TimeUnit.MILLISECONDS);
     }
@@ -39,7 +39,7 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.scale((double)getWidth()/ReferenceWindow.REF_WIN_W, (double)getHeight()/ReferenceWindow.REF_WIN_H);
         g2d.setColor(Color.BLACK);
-        g2d.fillRect(0,0, (int)Constants.ReferenceWindow.REF_WIN_W, (int)Constants.ReferenceWindow.REF_WIN_H);
+        g2d.fillRect(0,0, (int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
         if(is_start){
             if(!has_start){
                 has_start=true;

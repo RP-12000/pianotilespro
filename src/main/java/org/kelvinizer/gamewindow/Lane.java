@@ -1,8 +1,9 @@
 package org.kelvinizer.gamewindow;
 
-import org.kelvinizer.Constants.*;
+import org.kelvinizer.note.Note;
 import org.kelvinizer.support.CRect;
 import org.kelvinizer.support.Pair;
+import org.kelvinizer.constants.Time;
 
 import java.util.ArrayList;
 

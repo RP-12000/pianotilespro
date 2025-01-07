@@ -2,7 +2,7 @@ package org.kelvinizer.gui;
 
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.support.PolygonButton;
-import org.kelvinizer.Constants;
+import org.kelvinizer.constants.General;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,13 +26,13 @@ public class Settings extends AnimatablePanel {
         addKeyBinding(KeyEvent.VK_LEFT, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Constants.isAutoplay = !Constants.isAutoplay;
+                General.isAutoplay = !General.isAutoplay;
             }
         });
         addKeyBinding(KeyEvent.VK_RIGHT, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Constants.isAutoplay = !Constants.isAutoplay;
+                General.isAutoplay = !General.isAutoplay;
             }
         });
     }
@@ -47,10 +47,10 @@ public class Settings extends AnimatablePanel {
     @Override
     public void mouseClicked(MouseEvent e){
         if(autoplay.contains(e.getPoint())){
-            Constants.isAutoplay = true;
+            General.isAutoplay = true;
         }
         else if(normal.contains(e.getPoint())){
-            Constants.isAutoplay = false;
+            General.isAutoplay = false;
         }
         else if(back.contains(e.getPoint())){
             exit();
@@ -59,7 +59,7 @@ public class Settings extends AnimatablePanel {
 
     @Override
     protected void renderObjects(Graphics2D g2d){
-        if(Constants.isAutoplay){
+        if(General.isAutoplay){
             autoplay.setFocused(true);
         }
         else{
@@ -85,6 +85,6 @@ public class Settings extends AnimatablePanel {
 
     @Override
     public void toNextPanel(){
-        Constants.panel_index -= 10;
+        General.panel_index -= General.numPanels;
     }
 }
