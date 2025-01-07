@@ -10,7 +10,7 @@ public class QuadraticMotion extends Motion{
         this.c = c;
     }
 
-    public static QuadraticMotion parseQuadraticMotion(String s){
+    public static QuadraticMotion parseQuadraticMotion(String s) throws NumberFormatException{
         String[] temp = s.split(" ");
         return new QuadraticMotion(
                 Double.parseDouble(temp[1]),

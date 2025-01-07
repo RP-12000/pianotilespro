@@ -9,7 +9,7 @@ public class LinearMotion extends Motion{
         this.b = b;
     }
 
-    public static LinearMotion parseLinearMotion(String s){
+    public static LinearMotion parseLinearMotion(String s) throws NumberFormatException{
         String[] temp = s.split(" ");
         return new LinearMotion(
                 Double.parseDouble(temp[1]),

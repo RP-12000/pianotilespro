@@ -1,7 +1,9 @@
 package org.kelvinizer.support;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.event.MouseWheelEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +12,9 @@ import java.util.ArrayList;
 public class JacketMenu{
     private final String dir;
     private final ArrayList<Pair<String, BufferedImage>> menu = new ArrayList<>();
+    private CRect textBoundary = new CRect();
+    private static final int HORIZONTAL_WHITE_SPACE = 3;
+    private static final int VERTICAL_WHITE_SPACE = 2;
     private int menuIndex;
 
     private BufferedImage getJacket(File f){
@@ -54,6 +59,20 @@ public class JacketMenu{
         }
     }
 
+    private static boolean isValidSize(Graphics2D g2d, Font f, String d, CRect c){
+        FontMetrics fm = g2d.getFontMetrics(f);
+        return (c.getWidth() - 2 * HORIZONTAL_WHITE_SPACE > fm.stringWidth(d)) &&
+                (c.getHeight() - 2 * VERTICAL_WHITE_SPACE > fm.getAscent() - fm.getDescent());
+    }
+
+    private static Pair<Double, Double> getRenderPoint(Graphics2D g2d, Font f, String d, CRect c){
+        FontMetrics fm = g2d.getFontMetrics(f);
+        return new Pair<>(
+                c.getX()+c.getWidth()/2 - (fm.stringWidth(d) / 2),
+                c.getY()+ c.getHeight()/2 + ((fm.getAscent() - fm.getDescent()) / 2)
+        );
+    }
+
     public JacketMenu(String dir, int mi){
         this.dir = dir;
         updateMenu();
@@ -63,6 +82,10 @@ public class JacketMenu{
         else{
             menuIndex = 0;
         }
+    }
+
+    public void setTextBoundary(CRect c){
+        textBoundary = c;
     }
 
     public int getMenuIndex(){
@@ -119,5 +142,27 @@ public class JacketMenu{
 
     public boolean atBeginning(){
         return menuIndex == 0;
+    }
+
+    public CRect getTextBoundary() {
+        return textBoundary;
+    }
+
+    public Triple<Font, Double, Double> getTextRenderParams(Graphics2D g2d, String name, int style){
+        return getTextRenderParams(g2d, menuIndex, name, style);
+    }
+
+    public Triple<Font, Double, Double> getTextRenderParams(Graphics2D g2d, int index, String name, int style){
+        return getTextRenderParams(g2d, menu.get(index).first, name, style, textBoundary);
+    }
+
+    public static Triple<Font, Double, Double> getTextRenderParams(Graphics2D g2d, String data, String name, int style, CRect c){
+        int size = 0;
+        while(isValidSize(g2d, new Font(name, style, size), data, c)){
+            size++;
+        }
+        Font temp = new Font(name, style, size-1);
+        Pair<Double, Double> p = getRenderPoint(g2d, temp, data, c);
+        return new Triple<>(temp, p.first, p.second);
     }
 }

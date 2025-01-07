@@ -124,17 +124,19 @@ public class SongSelection extends AnimatablePanel {
     public void mouseMoved(MouseEvent e){
         back.setFocused(e);
         settings.setFocused(e);
-        play.setFocused(e);
-        basic.setFocused(e);
-        medium.setFocused(e);
-        if(songs.get(menu.getMenuIndex()).hasLG()){
-            legendary.setFocused(e);
-        }
-        if(!menu.atBeginning()){
-            moveUp.setFocused(e);
-        }
-        if(!menu.atEnd()){
-            moveDown.setFocused(e);
+        if(!menu.isEmpty() && isValid){
+            play.setFocused(e);
+            basic.setFocused(e);
+            medium.setFocused(e);
+            if(songs.get(menu.getMenuIndex()).hasLG()){
+                legendary.setFocused(e);
+            }
+            if(!menu.atBeginning()){
+                moveUp.setFocused(e);
+            }
+            if(!menu.atEnd()){
+                moveDown.setFocused(e);
+            }
         }
     }
 
@@ -144,11 +146,17 @@ public class SongSelection extends AnimatablePanel {
             goBack = true;
             exit();
         }
-        else if(settings.contains(e.getPoint())){
+        if(settings.contains(e.getPoint())){
             toSettings = true;
             exit();
         }
         if(!menu.isEmpty() && isValid){
+            if(moveUp.contains(e.getPoint())){
+                menu.moveForward();
+            }
+            if(moveDown.contains(e.getPoint())){
+                menu.moveBackward();
+            }
             if(play.contains(e.getPoint())){
                 exit();
             }
@@ -174,6 +182,8 @@ public class SongSelection extends AnimatablePanel {
 
     @Override
     protected void renderObjects(Graphics2D g2d){
+        settings.draw(g2d);
+        back.draw(g2d);
         if(menu.isEmpty()){
             g2d.setColor(Color.WHITE);
             g2d.setFont(NULL_FOLDER_FONT);
@@ -190,12 +200,15 @@ public class SongSelection extends AnimatablePanel {
             FontMetrics metrics = g2d.getFontMetrics();
             g2d.drawString(
                     "Collection Corrupted QAQ\n",
-                    540 - (metrics.stringWidth("Nothing is in here QAQ\n") / 2),
+                    540 - (metrics.stringWidth("Collection Corrupted QAQ\n") / 2),
                     360 + ((metrics.getAscent() - metrics.getDescent()) / 2)
             );
         }
         else{
-
+            if(menu.getSelectionJacket()!=null){
+                g2d.drawImage(menu.getSelectionJacket(), 360, 140, 360, 360, this);
+            }
+            play.draw(g2d);
         }
     }
 
@@ -205,7 +218,7 @@ public class SongSelection extends AnimatablePanel {
             General.panel_index = 1;
         }
         else if(toSettings){
-            General.panel_index += 10;
+            General.panel_index += General.numPanels;
         }
         else{
             Selection.songDir = menu.getSelectionString();

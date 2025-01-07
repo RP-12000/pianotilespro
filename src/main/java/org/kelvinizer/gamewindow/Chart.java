@@ -1,11 +1,11 @@
 package org.kelvinizer.gamewindow;
 
 import org.kelvinizer.animation.AnimatablePanel;
-import org.kelvinizer.constants.GameColors;
-import org.kelvinizer.constants.ReferenceWindow;
-import org.kelvinizer.constants.Selection;
-import org.kelvinizer.constants.Time;
+import org.kelvinizer.constants.*;
+import org.kelvinizer.motion.Motion;
+import org.kelvinizer.note.HoldNote;
 import org.kelvinizer.note.Note;
+import org.kelvinizer.note.TapNote;
 import org.kelvinizer.support.CRect;
 
 import javax.imageio.ImageIO;
@@ -17,12 +17,13 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 
+import static org.kelvinizer.constants.General.isPaused;
+
 public class Chart extends AnimatablePanel {
-    double noteCount = 0;
+    double noteCount;
     Lane[] lanes = new Lane[16];
-    private double STATIC_TIMER;
+    private final double STATIC_TIMER;
     BufferedImage illustration;
-    int isPaused = 0;
     int[] activation = {
             KeyEvent.VK_A,
             KeyEvent.VK_S,
@@ -100,72 +101,39 @@ public class Chart extends AnimatablePanel {
         Time.CURRENT_TIME = STATIC_TIMER;
     }
 
-    public Chart(String dir){
+    public Chart(String dir) throws IOException, RuntimeException {
         super(1000, 1000);
-        FileReader f;
-        try{
-            f = new FileReader(dir +"/chart.txt");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("Invalid Chart");
-        }
-        BufferedReader chart = new BufferedReader(f);
+        BufferedReader chart = new BufferedReader(new FileReader(dir +"/chart.txt"));
         ArrayList<Note> tempNotes = new ArrayList<>();
-        while(true){
-            try{
-                String temp = chart.readLine();
-                if(temp==null){
-                    break;
-                }
-                try{
-                    tempNotes.add(new Note(temp));
-                } catch (RuntimeException e) {
-                    throw new RuntimeException("Invalid Chart");
-                }
-                noteCount++;
-            } catch (IOException e) {
-                break;
+        noteCount = Double.parseDouble(chart.readLine());
+        for(int i=0; i<(int)noteCount; i++){
+            String[] s = chart.readLine().split(" ");
+            int numMotions = Integer.parseInt(s[1]);
+            Note n;
+            if(s[0].equals("0")){
+                n = TapNote.parseTapNote(chart.readLine());
             }
+            else{
+                n = HoldNote.parseHoldNote(chart.readLine());
+            }
+            for(int j=0; j<numMotions; j++){
+                n.addMotion(Motion.parseMotion(chart.readLine()));
+            }
+            tempNotes.add(n);
         }
         tempNotes.sort(Note::compareTo);
         for(int i=0; i<tempNotes.size()-1; i++){
-            if(tempNotes.get(i).getPerfect_hit_time() == tempNotes.get(i+1).getPerfect_hit_time()){
+            if(tempNotes.get(i).equals(tempNotes.get(i+1))){
                 tempNotes.get(i).sync();
                 tempNotes.get(i+1).sync();
             }
         }
-        STATIC_TIMER = Math.min(0.0, tempNotes.getFirst().getPerfect_hit_time() - tempNotes.getFirst().get_duration());
+        STATIC_TIMER = Math.min(0.0, tempNotes.getFirst().getPerfectHitTime() - tempNotes.getFirst().getTotalMovementTime());
         for(int i=0; i<16; i++){
-            lanes[i] = new Lane(i);
+            lanes[i] = new Lane();
         }
         for (Note tempNote : tempNotes) {
-            try{
-                lanes[tempNote.getLaneNum()].add_note(tempNote);
-            }catch(IndexOutOfBoundsException e){
-                throw new RuntimeException("Invalid Chart");
-            }
-        }
-        try{
-            f = new FileReader(dir + "/jm.txt");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("Invalid Chart");
-        }
-        chart = new BufferedReader(f);
-        while(true){
-            try{
-                String temp = chart.readLine();
-                if(temp==null){
-                    break;
-                }
-                try{
-                    String[] strings = temp.split(" ");
-                    lanes[(int)Double.parseDouble(strings[0])].add_invisible_interval(Double.parseDouble(strings[1]), Double.parseDouble(strings[2]));
-                } catch (RuntimeException e) {
-                    throw new RuntimeException("Invalid Chart");
-                }
-                noteCount++;
-            } catch (IOException e) {
-                break;
-            }
+            lanes[tempNote.getLaneNum()].addNote(tempNote);
         }
         getJacket(new File(dir));
         for(int i=0; i<16; i++){
@@ -192,14 +160,14 @@ public class Chart extends AnimatablePanel {
         restart();
     }
 
-    public Chart(){
+    public Chart() throws IOException{
         this(Selection.collectionDir+"/"+Selection.songDir + "/" + Selection.level);
     }
 
     public static boolean isValidChart(String dir){
         try{
             new Chart(dir);
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | IOException e) {
             return false;
         }
         return true;
@@ -223,7 +191,7 @@ public class Chart extends AnimatablePanel {
     @Override
     protected void renderObjects(Graphics2D g2d){
         for(int i=0; i<16; i++){
-            ArrayList<CRect> render = lanes[i].to_rect(isPaused);
+            ArrayList<CRect> render = lanes[i].toRect();
             for(CRect r: render){
                 r.draw(g2d);
             }

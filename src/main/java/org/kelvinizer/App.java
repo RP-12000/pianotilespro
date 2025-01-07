@@ -9,6 +9,7 @@ import org.kelvinizer.gui.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.concurrent.*;
 
 import static org.kelvinizer.constants.General.*;
@@ -43,7 +44,12 @@ public class App extends JFrame {
                 case 2:
                     display = new SongSelection();break;
                 case 3:
-                    display = new Chart();break;
+                    try {
+                        display = new Chart();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
                 default:
                     display = new Settings();break;
             }

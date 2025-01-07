@@ -29,6 +29,11 @@ package Animation{
         # addKeyBinding(int VK_Code, boolean onRelease, int VK_State, Action a): void
         # addKeyBinding(int VK_Code, boolean onRelease, Action a): void
         # addKeyBinding(int VK_Code, Action a): void
+        + onAppearance(Graphics2D g2d): void
+        + onActive(Graphics2D g2d): void
+        + onDisappearance(Graphics2D g2d): void
+        + toNextPanel(): void
+        + resizeButtons(Dimension d): void
     }
 }
 
@@ -206,6 +211,27 @@ package motion{
 package note{
     abstract class Note{
         - movement: ArrayList<Motion>
+        - motionPointer: int
+        - totalMovementTime: int
+        - NOTE_WIDTH: double
+        - TAP_NOTE_HEIGHT: double
+        - NOTE_OUTLINE_THICKNESS: double
+        - SYNC_COLOR: Color[]
+        - PARTICLE_COLOR: Color[][]
+        # lane_num: int
+        # perfect_hit_time: double
+        # is_sync: boolean
+        # actual_hit_time: double
+        # status: int
+        + Note(int lane_num, double perfect_hit_time, ArrayList<Motion> motions)
+        + Note(int lane_num, double perfect_hit_time)
+        - updateMotion(): void
+        - getParticleCRect(): CRect
+        # distFromJudgementLine(double time): double
+        + addMotion(Motion m): void
+        + reset(): void
+        + sync(): void
+        + compareTo(Note n): int
     }
 
     class TapNote{
@@ -346,6 +372,7 @@ Animatable <|.. AnimatablePanel
 MouseWheelListener <|.. AnimatablePanel
 MouseMotionListener <|.. AnimatablePanel
 MouseListener <|.. AnimatablePanel
+Comparable <|.. Note
 
 JPanel <|-- AnimatablePanel
 JFrame <|-- App
@@ -375,7 +402,6 @@ Lane <-- Chart
 App <-- Main
 Motion <-- Note
 
-CRect <.. Note
 CRect <.. Lane
 CRect <.. Chart
 General <.. App
@@ -392,8 +418,6 @@ ReferenceWindow <.. CollectionSelection
 ReferenceWindow <.. Note
 ReferenceWindow <.. Chart
 ReferenceWindow <.. AnimatablePanel
-JudgementLimits <.. Note
-GameColors <.. Note
 GameColors <.. Chart
 Time <.. Note
 Time <.. Lane
