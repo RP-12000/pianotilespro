@@ -12,7 +12,7 @@ public class Song {
     private final Pair<String, Double> basicData, mediumData, advancedData, legendaryData;
 
     public Song(String dir) throws IOException, NullPointerException {
-        BufferedReader br = new BufferedReader(new FileReader(dir+"credits.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(dir+"/credits.txt"));
         composer = br.readLine();
         illustration = br.readLine();
         lg = Boolean.parseBoolean(br.readLine());

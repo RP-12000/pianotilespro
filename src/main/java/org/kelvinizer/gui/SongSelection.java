@@ -5,8 +5,10 @@ import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.gamewindow.Song;
+import org.kelvinizer.support.CRect;
 import org.kelvinizer.support.JacketMenu;
 import org.kelvinizer.support.PolygonButton;
+import org.kelvinizer.support.Triple;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,57 +20,61 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SongSelection extends AnimatablePanel {
-    private final JacketMenu menu = new JacketMenu("Chart/"+ Selection.collectionDir, Selection.songIndex);
-    private final ArrayList<Song> songs = new ArrayList<>();
+    private final JacketMenu songs = new JacketMenu("Chart/"+ Selection.collectionDir, Selection.songIndex, 20);
+    private final ArrayList<Song> songData = new ArrayList<>();
     private boolean goBack = false;
     private boolean toSettings = false;
     private boolean isValid;
-
-    private final Font NULL_FOLDER_FONT = new Font("Arial", Font.BOLD, 25);
-    private final Font MENU_FONT = new Font("Arial", Font.BOLD, 50);
 
     private final PolygonButton back = new PolygonButton(
             new Rectangle(100, 100)
     );
     private final PolygonButton settings = new PolygonButton(
-            new Rectangle((int) ReferenceWindow.REF_WIN_W-100, 0, 100, 100)
+            new Rectangle((int) ReferenceWindow.REF_WIN_W-113, 0, 100, 100)
     );
     private final PolygonButton play = new PolygonButton(
-            new Rectangle((int) ReferenceWindow.REF_WIN_W-100, (int) ReferenceWindow.REF_WIN_H-100, 100, 100)
+            new Rectangle((int) ReferenceWindow.REF_WIN_W-113, (int) ReferenceWindow.REF_WIN_H-135, 100, 100)
     );
     private final PolygonButton basic = new PolygonButton(
-            new Rectangle()
+            new Rectangle(800, 500, 30, 30)
     );
     private final PolygonButton medium = new PolygonButton(
-            new Rectangle()
+            new Rectangle(520, 500, 30, 30)
     );
     private final PolygonButton advanced = new PolygonButton(
-            new Rectangle()
+            new Rectangle(570, 500, 30, 30)
     );
     private final PolygonButton legendary = new PolygonButton(
-            new Rectangle()
+            new Rectangle(620, 500, 30, 30)
     );
     private final PolygonButton moveUp = new PolygonButton(
-            new Polygon()
+            new Polygon(new int[]{100, 100, 200}, new int[]{100, 200, 200}, 3)
     );
     private final PolygonButton moveDown = new PolygonButton(
-            new Polygon()
+            new Polygon(new int[]{300, 300, 400}, new int[]{300, 400, 400}, 3)
     );
 
     public SongSelection(){
         super();
         check();
-        if(!menu.isEmpty() && isValid){
+        songs.setTextBoundary(new CRect(200, 360, 150, 50));
+        songs.getTextBoundary().setOrigin(
+                songs.getTextBoundary().getWidth()/2,
+                songs.getTextBoundary().getHeight()/2
+        );
+        songs.getTextBoundary().setOutlineColor(Color.WHITE);
+        songs.getTextBoundary().setOutlineThickness(3.0);
+        if(!songs.isEmpty() && isValid){
             addKeyBinding(KeyEvent.VK_UP, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    menu.moveForward();
+                    songs.moveBackward();
                 }
             });
             addKeyBinding(KeyEvent.VK_DOWN, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    menu.moveBackward();
+                    songs.moveForward();
                 }
             });
             addKeyBinding(KeyEvent.VK_ENTER, new AbstractAction() {
@@ -95,12 +101,12 @@ public class SongSelection extends AnimatablePanel {
     }
 
     private void check(){
-        for(int i=0; i<menu.size(); i++){
+        for(int i = 0; i< songs.size(); i++){
             try{
-                songs.add(new Song("Chart/"+ Selection.collectionDir+"/"+menu.getSelectionString(i)));
+                songData.add(new Song("Chart/"+ Selection.collectionDir+"/"+ songs.getSelectionString(i)));
             } catch (RuntimeException | IOException e) {
                 isValid=false;
-                songs.clear();
+                songData.clear();
                 return;
             }
         }
@@ -124,17 +130,18 @@ public class SongSelection extends AnimatablePanel {
     public void mouseMoved(MouseEvent e){
         back.setFocused(e);
         settings.setFocused(e);
-        if(!menu.isEmpty() && isValid){
+        if(!songs.isEmpty() && isValid){
             play.setFocused(e);
             basic.setFocused(e);
             medium.setFocused(e);
-            if(songs.get(menu.getMenuIndex()).hasLG()){
+            advanced.setFocused(e);
+            if(songData.get(songs.getMenuIndex()).hasLG()){
                 legendary.setFocused(e);
             }
-            if(!menu.atBeginning()){
+            if(!songs.atBeginning()){
                 moveUp.setFocused(e);
             }
-            if(!menu.atEnd()){
+            if(!songs.atEnd()){
                 moveDown.setFocused(e);
             }
         }
@@ -150,12 +157,18 @@ public class SongSelection extends AnimatablePanel {
             toSettings = true;
             exit();
         }
-        if(!menu.isEmpty() && isValid){
+        if(!songs.isEmpty() && isValid){
             if(moveUp.contains(e.getPoint())){
-                menu.moveForward();
+                songs.moveForward();
+                if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
+                    Selection.level = "AV";
+                }
             }
             if(moveDown.contains(e.getPoint())){
-                menu.moveBackward();
+                songs.moveBackward();
+                if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
+                    Selection.level = "AV";
+                }
             }
             if(play.contains(e.getPoint())){
                 exit();
@@ -169,7 +182,7 @@ public class SongSelection extends AnimatablePanel {
             else if(advanced.contains(e.getPoint())){
                 Selection.level = "AV";
             }
-            else if(songs.get(menu.getMenuIndex()).hasLG() && legendary.contains(e.getPoint())){
+            else if(songData.get(songs.getMenuIndex()).hasLG() && legendary.contains(e.getPoint())){
                 Selection.level = "LG";
             }
         }
@@ -177,38 +190,44 @@ public class SongSelection extends AnimatablePanel {
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e){
-        menu.move(e);
+        songs.move(e);
     }
 
     @Override
     protected void renderObjects(Graphics2D g2d){
         settings.draw(g2d);
         back.draw(g2d);
-        if(menu.isEmpty()){
+        if(songs.isEmpty()){
             g2d.setColor(Color.WHITE);
-            g2d.setFont(NULL_FOLDER_FONT);
-            FontMetrics metrics = g2d.getFontMetrics();
-            g2d.drawString(
-                    "Nothing is in here QAQ\n",
-                    540 - (metrics.stringWidth("Nothing is in here QAQ\n") / 2),
-                    360 + ((metrics.getAscent() - metrics.getDescent()) / 2)
-            );
+            g2d.setFont(new Font("Arial", Font.BOLD, 25));
+            g2d.drawString("Nothing is in here QAQ\n", 540, 360);
         }
         else if(!isValid){
             g2d.setColor(Color.WHITE);
-            g2d.setFont(NULL_FOLDER_FONT);
-            FontMetrics metrics = g2d.getFontMetrics();
-            g2d.drawString(
-                    "Collection Corrupted QAQ\n",
-                    540 - (metrics.stringWidth("Collection Corrupted QAQ\n") / 2),
-                    360 + ((metrics.getAscent() - metrics.getDescent()) / 2)
-            );
+            g2d.setFont(new Font("Arial", Font.BOLD, 25));
+            g2d.drawString("Collection Corrupted QAQ\n", 540, 360);
         }
         else{
-            if(menu.getSelectionJacket()!=null){
-                g2d.drawImage(menu.getSelectionJacket(), 360, 140, 360, 360, this);
+            if(songs.getSelectionJacket()!=null){
+                g2d.drawImage(songs.getSelectionJacket(), 520, 180, 480, 300, this);
             }
             play.draw(g2d);
+            songs.getTextBoundary().draw(g2d);
+            if(!songs.atBeginning()){
+                moveUp.fill(g2d);
+            }
+            if(!songs.atEnd()){
+                moveDown.fill(g2d);
+            }
+            basic.draw(g2d);
+            medium.draw(g2d);
+            advanced.draw(g2d);
+            if(songData.get(songs.getMenuIndex()).hasLG()){
+                legendary.draw(g2d);
+            }
+            Triple<Font, Float, Float> params = songs.getTextRenderParams(g2d, "Arial", Font.PLAIN);
+            g2d.setFont(params.first);
+            g2d.drawString(songs.getSelectionString(), params.second, params.third);
         }
     }
 
@@ -221,7 +240,7 @@ public class SongSelection extends AnimatablePanel {
             General.panel_index += General.numPanels;
         }
         else{
-            Selection.songDir = menu.getSelectionString();
+            Selection.songDir = songs.getSelectionString();
             General.panel_index = 2;
         }
     }

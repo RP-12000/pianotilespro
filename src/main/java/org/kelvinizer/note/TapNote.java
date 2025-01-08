@@ -3,11 +3,9 @@ package org.kelvinizer.note;
 import org.kelvinizer.constants.General;
 import org.kelvinizer.constants.JudgementLimits;
 import org.kelvinizer.constants.Time;
-import org.kelvinizer.motion.Motion;
 import org.kelvinizer.support.CRect;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 import static org.kelvinizer.constants.GameColors.PAUSED_OPACITY;
 
@@ -17,17 +15,17 @@ public class TapNote extends Note{
             new Color(130,222,250,PAUSED_OPACITY)
     };
 
-    public TapNote(int lane_num, double perfect_hit_time, ArrayList<Motion> motions){
-        super(lane_num, perfect_hit_time, motions);
-    }
-
-    public TapNote(int lane_num, double perfect_hit_time){
-        super(lane_num, perfect_hit_time);
+    public TapNote(int lane_num, double perfect_hit_time, double duration){
+        super(lane_num, perfect_hit_time, duration);
     }
 
     public static TapNote parseTapNote(String s){
         String[] t = s.split(" ");
-        return new TapNote(Integer.parseInt(t[0]), Double.parseDouble(t[1]));
+        return new TapNote(
+                Integer.parseInt(t[0]),
+                Double.parseDouble(t[1]),
+                Double.parseDouble(t[2])
+        );
     }
 
     @Override

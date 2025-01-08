@@ -1,5 +1,6 @@
 package org.kelvinizer.animation;
 
+import org.kelvinizer.constants.General;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
 import org.kelvinizer.support.Triple;
@@ -40,6 +41,8 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
         g2d.scale((double)getWidth()/ReferenceWindow.REF_WIN_W, (double)getHeight()/ReferenceWindow.REF_WIN_H);
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0,0, (int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
+        g2d.setColor(General.DEFAULT_COLOR);
+        g2d.setStroke(General.DEFAULT_STROKE);
         if(is_start){
             if(!has_start){
                 has_start=true;

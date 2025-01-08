@@ -4,20 +4,19 @@ import org.kelvinizer.constants.General;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Selection;
+import org.kelvinizer.support.CRect;
 import org.kelvinizer.support.JacketMenu;
 import org.kelvinizer.support.PolygonButton;
+import org.kelvinizer.support.Triple;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class CollectionSelection extends AnimatablePanel {
-    private final JacketMenu collections = new JacketMenu("Chart", Selection.collectionIndex);
+    private final JacketMenu collections = new JacketMenu("Chart", Selection.collectionIndex, 50);
     private boolean goBack = false;
     private boolean toSettings = false;
-
-    private final Font NULL_FOLDER_FONT = new Font("Arial", Font.BOLD, 25);
-    private final Font MENU_FONT = new Font("Arial", Font.BOLD, 50);
 
     private final PolygonButton previous = new PolygonButton(
             new Polygon(new int[]{60, 60, 30}, new int[]{310, 410, 360}, 3)
@@ -32,11 +31,18 @@ public class CollectionSelection extends AnimatablePanel {
             new Rectangle(360, 140, 360, 360)
     );
     private final PolygonButton settings = new PolygonButton(
-            new Rectangle((int) ReferenceWindow.REF_WIN_W-100, 0, 100, 100)
+            new Rectangle((int) ReferenceWindow.REF_WIN_W-113, 0, 100, 100)
     );
 
     public CollectionSelection(){
         super();
+        collections.setTextBoundary(new CRect(540, 620, 200, 50));
+        collections.getTextBoundary().setOrigin(
+                collections.getTextBoundary().getWidth()/2,
+                collections.getTextBoundary().getHeight()/2
+        );
+        collections.getTextBoundary().setOutlineColor(Color.WHITE);
+        collections.getTextBoundary().setOutlineThickness(3.0);
         if(!collections.isEmpty()){
             addKeyBinding(KeyEvent.VK_RIGHT, new AbstractAction() {
                 @Override
@@ -121,33 +127,15 @@ public class CollectionSelection extends AnimatablePanel {
     @Override
     protected void renderObjects(Graphics2D g2d){
         if(collections.isEmpty()){
-            g2d.setColor(Color.WHITE);
-            g2d.setFont(NULL_FOLDER_FONT);
-            FontMetrics metrics = g2d.getFontMetrics();
-            g2d.drawString(
-                    "Nothing is in here QAQ\n",
-                    540 - (metrics.stringWidth("Nothing is in here QAQ\n") / 2),
-                    360 + ((metrics.getAscent() - metrics.getDescent()) / 2)
-            );
+            g2d.setFont(new Font("Arial", Font.BOLD, 25));
+            g2d.drawString("Nothing is in here QAQ\n",540, 360);
         }
         else{
             g2d.setColor(Color.WHITE);
-            g2d.setFont(MENU_FONT);
-            FontMetrics metrics = g2d.getFontMetrics();
-            g2d.drawString(
-                    collections.getSelectionString(),
-                    540 - (metrics.stringWidth(collections.getSelectionString()) / 2),
-                    600 + ((metrics.getAscent() - metrics.getDescent()) / 2)
-            );
-            g2d.setColor(Color.WHITE);
-            g2d.setStroke(new BasicStroke(5.0f));
-            g2d.drawRect(
-                    540 - (metrics.stringWidth(collections.getSelectionString()) / 2) - 5,
-                    600 - ((metrics.getAscent() + metrics.getDescent()) / 2) - 5,
-                    metrics.stringWidth(collections.getSelectionString()) + 10,
-                    metrics.getAscent() + metrics.getDescent()+ 10
-            );
-            g2d.setStroke(new BasicStroke(1.0f));
+            Triple<Font, Float, Float> params = collections.getTextRenderParams(g2d, "Arial", Font.BOLD);
+            g2d.setFont(params.first);
+            g2d.drawString(collections.getSelectionString(), params.second, params.third);
+            collections.getTextBoundary().draw(g2d);
             if(!collections.atBeginning()){
                 previous.fill(g2d);
             }
@@ -160,12 +148,7 @@ public class CollectionSelection extends AnimatablePanel {
             }
             else{
                 g2d.setFont(new Font("Arial", Font.ITALIC, 15));
-                metrics = g2d.getFontMetrics();
-                g2d.drawString(
-                        "No jacket preview available",
-                        540 - (metrics.stringWidth("No jacket preview available") / 2),
-                        320 + ((metrics.getAscent() - metrics.getDescent()) / 2)
-                );
+                g2d.drawString("No jacket preview available", 450, 330);
             }
         }
         settings.draw(g2d);

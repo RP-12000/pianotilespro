@@ -3,11 +3,9 @@ package org.kelvinizer.note;
 import org.kelvinizer.constants.JudgementLimits;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
-import org.kelvinizer.motion.Motion;
 import org.kelvinizer.support.CRect;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 import static org.kelvinizer.constants.GameColors.PAUSED_OPACITY;
 import static org.kelvinizer.constants.General.isPaused;
@@ -23,21 +21,21 @@ public class HoldNote extends Note{
             new Color(255,255,255, PAUSED_OPACITY)
     };
 
-    public HoldNote(int lane_num, double perfect_hit_time, double duration, double noteHeight, ArrayList<Motion> motions){
-        super(lane_num, perfect_hit_time, motions);
+    public HoldNote(int lane_num, double perfect_hit_time, double duration, double last, double noteHeight){
+        super(lane_num, perfect_hit_time, duration);
         this.noteHeight = noteHeight;
-        this.duration = duration;
-    }
-
-    public HoldNote(int lane_num, double perfect_hit_time, double duration, double noteHeight){
-        super(lane_num, perfect_hit_time);
-        this.noteHeight = noteHeight;
-        this.duration = duration;
+        this.duration = last;
     }
 
     public static HoldNote parseHoldNote(String s){
         String[] t = s.split(" ");
-        return new HoldNote(Integer.parseInt(t[0]), Double.parseDouble(t[1]), Double.parseDouble(t[2]), Double.parseDouble(t[3]));
+        return new HoldNote(
+                Integer.parseInt(t[0]),
+                Double.parseDouble(t[1]),
+                Double.parseDouble(t[2]),
+                Double.parseDouble(t[3]),
+                Double.parseDouble(t[4])
+        );
     }
 
     @Override

@@ -2,10 +2,10 @@ package org.kelvinizer.note;
 
 import org.kelvinizer.constants.*;
 import org.kelvinizer.motion.Motion;
+import org.kelvinizer.motion.MotionManager;
 import org.kelvinizer.support.CRect;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 import static org.kelvinizer.constants.GameColors.PAUSED_OPACITY;
 import static org.kelvinizer.constants.GameColors.setColorAlpha;
@@ -13,9 +13,8 @@ import static org.kelvinizer.constants.General.isPaused;
 import static org.kelvinizer.constants.ReferenceWindow.UNIT;
 
 public abstract class Note implements Comparable<Note>{
-    private final ArrayList<Motion> movement;
-    private int motionPointer = 0;
-    private double totalMovementTime = 0;
+    private final MotionManager movement;
+
     private static final double NOTE_WIDTH = 48.0;
     private static final double TAP_NOTE_HEIGHT = 5.0;
     private static final double NOTE_OUTLINE_THICKNESS = 1.0;
@@ -42,29 +41,10 @@ public abstract class Note implements Comparable<Note>{
     protected double actual_hit_time = -1;
     protected int status = 4;
 
-    public Note(int lane_num, double perfect_hit_time, ArrayList<Motion> motions){
+    public Note(int lane_num, double perfect_hit_time, double duration){
         this.lane_num=lane_num;
         this.perfect_hit_time=perfect_hit_time;
-        movement = motions;
-        for(Motion m: movement){
-            totalMovementTime += m.getEnd()-m.getStart();
-        }
-    }
-
-    public Note(int lane_num, double perfect_hit_time){
-        this(lane_num, perfect_hit_time, new ArrayList<>());
-    }
-
-    private void updateMotion(){
-        if(motionPointer == movement.size()){
-            return;
-        }
-        while(movement.get(motionPointer).getEnd() < Time.CURRENT_TIME){
-            motionPointer++;
-            if(motionPointer == movement.size()){
-                return;
-            }
-        }
+        movement = new MotionManager(duration);
     }
 
     private CRect getParticleCRect(double current_time, double actual_hit_time, int status) {
@@ -92,25 +72,25 @@ public abstract class Note implements Comparable<Note>{
     }
 
     protected double distFromJudgementLine(double time) {
-        if(motionPointer == movement.size()){
-            return 0;
-        }
         if(status!=2){
-            updateMotion();
+            movement.update();
         }
-        return UNIT*movement.get(motionPointer).dist(time);
+        return UNIT*movement.dist(time);
     }
 
     public void addMotion(Motion m){
-        assert(m.getEnd()-m.getStart()>=0);
-        movement.add(m);
-        totalMovementTime+=m.getEnd()-m.getStart();
+        movement.addMotion(m);
+    }
+
+    public boolean isValidNote(){
+        return movement.isValidMotionManager() &&
+                lane_num >= 0 && lane_num < 16 &&
+                perfect_hit_time >=0;
     }
 
     public void reset() {
         status = 4;
         actual_hit_time = -1;
-        motionPointer = 0;
     }
 
     public void sync(){
@@ -221,6 +201,6 @@ public abstract class Note implements Comparable<Note>{
     }
 
     public double getTotalMovementTime() {
-        return totalMovementTime;
+        return movement.getDuration();
     }
 }

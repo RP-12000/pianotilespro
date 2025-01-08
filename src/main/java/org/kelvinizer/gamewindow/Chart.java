@@ -117,9 +117,14 @@ public class Chart extends AnimatablePanel {
                 n = HoldNote.parseHoldNote(chart.readLine());
             }
             for(int j=0; j<numMotions; j++){
-                n.addMotion(Motion.parseMotion(chart.readLine()));
+                n.addMotion(new Motion(chart.readLine()));
             }
-            tempNotes.add(n);
+            if(n.isValidNote()){
+                tempNotes.add(n);
+            }
+            else{
+                throw new RuntimeException("Invalid Note detected");
+            }
         }
         tempNotes.sort(Note::compareTo);
         for(int i=0; i<tempNotes.size()-1; i++){

@@ -1,28 +1,31 @@
 package org.kelvinizer.motion;
 
-public abstract class Motion {
-    private final double start, end;
+public class Motion{
+    private final double startTime;
+    private final double startPoint, endPoint;
+    private final int type;
 
-    public Motion(double s, double e){
-        start = s;
-        end = e;
+    public Motion(String s){
+        String[] t = s.split(" ");
+        startTime = Double.parseDouble(t[0]);
+        type = Integer.parseInt(t[1]);
+        startPoint = Double.parseDouble(t[2]);
+        endPoint = Double.parseDouble(t[3]);
     }
 
-    public double getStart(){
-        return start;
+    public double getStartPoint(){
+        return startPoint;
     }
 
-    public double getEnd(){
-        return end;
+    public double getEndPoint(){
+        return endPoint;
     }
 
-    public static Motion parseMotion(String s){
-        String[] temp = s.split(" ");
-        return switch (Integer.parseInt(temp[0])) {
-            case 0 -> LinearMotion.parseLinearMotion(s);
-            case 1 -> QuadraticMotion.parseQuadraticMotion(s);
-            default -> throw new IllegalArgumentException("Invalid motion");
-        };
+    public double getStartTime() {
+        return startTime;
     }
-    public abstract double dist(double time);
+
+    public int getType() {
+        return type;
+    }
 }
