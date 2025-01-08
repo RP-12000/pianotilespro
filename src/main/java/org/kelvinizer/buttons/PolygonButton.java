@@ -1,4 +1,4 @@
-package org.kelvinizer.support;
+package org.kelvinizer.buttons;
 
 import org.kelvinizer.constants.General;
 import org.kelvinizer.constants.ReferenceWindow;

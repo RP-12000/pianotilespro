@@ -3,7 +3,7 @@ package org.kelvinizer.note;
 import org.kelvinizer.constants.*;
 import org.kelvinizer.motion.Motion;
 import org.kelvinizer.motion.MotionManager;
-import org.kelvinizer.support.CRect;
+import org.kelvinizer.shapes.CRect;
 
 import java.awt.*;
 

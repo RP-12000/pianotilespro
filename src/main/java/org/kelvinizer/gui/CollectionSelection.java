@@ -4,14 +4,15 @@ import org.kelvinizer.constants.General;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Selection;
-import org.kelvinizer.support.CRect;
+import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.JacketMenu;
-import org.kelvinizer.support.PolygonButton;
-import org.kelvinizer.support.Triple;
+import org.kelvinizer.buttons.PolygonButton;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
+import static org.kelvinizer.buttons.GameButtons.back;
 
 public class CollectionSelection extends AnimatablePanel {
     private final JacketMenu collections = new JacketMenu("Chart", Selection.collectionIndex, 50);
@@ -24,9 +25,6 @@ public class CollectionSelection extends AnimatablePanel {
     private final PolygonButton next = new PolygonButton(
             new Polygon(new int[]{1020, 1020, 1050}, new int[]{310, 410, 360}, 3)
     );
-    private final PolygonButton back = new PolygonButton(
-            new Rectangle(100, 100)
-    );
     private final PolygonButton jacket = new PolygonButton(
             new Rectangle(360, 140, 360, 360)
     );
@@ -36,13 +34,14 @@ public class CollectionSelection extends AnimatablePanel {
 
     public CollectionSelection(){
         super();
-        collections.setTextBoundary(new CRect(540, 620, 200, 50));
-        collections.getTextBoundary().setOrigin(
-                collections.getTextBoundary().getWidth()/2,
-                collections.getTextBoundary().getHeight()/2
-        );
-        collections.getTextBoundary().setOutlineColor(Color.WHITE);
-        collections.getTextBoundary().setOutlineThickness(3.0);
+        collections.setBounds(new CRect(540, 620, 200, 50));
+        collections.setOutlineColor(Color.WHITE);
+        collections.setOutlineThickness(2.0);
+        for(int i=0; i<collections.size(); i++){
+            if(!Selection.songIndex.containsKey(collections.getSelectionString(i))){
+                Selection.songIndex.put(collections.getSelectionString(i), 0);
+            }
+        }
         if(!collections.isEmpty()){
             addKeyBinding(KeyEvent.VK_RIGHT, new AbstractAction() {
                 @Override
@@ -105,7 +104,7 @@ public class CollectionSelection extends AnimatablePanel {
                 exit();
             }
         }
-        if(back.contains(e.getPoint())){
+        if(back.isFocused()){
             goBack = true;
             exit();
         }
@@ -131,11 +130,7 @@ public class CollectionSelection extends AnimatablePanel {
             g2d.drawString("Nothing is in here QAQ\n",540, 360);
         }
         else{
-            g2d.setColor(Color.WHITE);
-            Triple<Font, Float, Float> params = collections.getTextRenderParams(g2d, "Arial", Font.BOLD);
-            g2d.setFont(params.first);
-            g2d.drawString(collections.getSelectionString(), params.second, params.third);
-            collections.getTextBoundary().draw(g2d);
+            collections.drawSelectionString(g2d);
             if(!collections.atBeginning()){
                 previous.fill(g2d);
             }

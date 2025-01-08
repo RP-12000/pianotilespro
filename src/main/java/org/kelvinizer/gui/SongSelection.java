@@ -5,10 +5,9 @@ import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.gamewindow.Song;
-import org.kelvinizer.support.CRect;
+import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.JacketMenu;
-import org.kelvinizer.support.PolygonButton;
-import org.kelvinizer.support.Triple;
+import org.kelvinizer.buttons.PolygonButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +19,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SongSelection extends AnimatablePanel {
-    private final JacketMenu songs = new JacketMenu("Chart/"+ Selection.collectionDir, Selection.songIndex, 20);
+    private final JacketMenu songs = new JacketMenu(
+            "Chart/"+ Selection.collectionDir,
+            Selection.songIndex.get(Selection.collectionDir),
+            20
+    );
     private final ArrayList<Song> songData = new ArrayList<>();
     private boolean goBack = false;
     private boolean toSettings = false;
@@ -57,13 +60,9 @@ public class SongSelection extends AnimatablePanel {
     public SongSelection(){
         super();
         check();
-        songs.setTextBoundary(new CRect(300, 350, 400, 60));
-        songs.getTextBoundary().setOrigin(
-                songs.getTextBoundary().getWidth()/2,
-                songs.getTextBoundary().getHeight()/2
-        );
-        songs.getTextBoundary().setOutlineColor(Color.WHITE);
-        songs.getTextBoundary().setOutlineThickness(3.0);
+        songs.setBounds(new CRect(300, 350, 400, 60));
+        songs.setOutlineColor(Color.WHITE);
+        songs.setOutlineThickness(5.0);
         basic.setFocusedColor(Color.GREEN);
         medium.setFocusedColor(Color.GREEN);
         advanced.setFocusedColor(Color.GREEN);
@@ -221,7 +220,7 @@ public class SongSelection extends AnimatablePanel {
                 g2d.drawString("No jacket preview available", 675, 340);
             }
             play.draw(g2d);
-            songs.getTextBoundary().draw(g2d);
+            songs.drawSelectionString(g2d);
             if(!songs.atBeginning()){
                 moveUp.fill(g2d);
             }
@@ -240,19 +239,16 @@ public class SongSelection extends AnimatablePanel {
             if(songData.get(songs.getMenuIndex()).hasLG()){
                 legendary.draw(g2d);
             }
-            Triple<Font, Float, Float> params = songs.getTextRenderParams(g2d, "Arial", Font.PLAIN);
-            g2d.setFont(params.first);
-            g2d.drawString(songs.getSelectionString(), params.second, params.third);
         }
     }
 
     @Override
     public void toNextPanel(){
+        Selection.songIndex.put(Selection.collectionDir, songs.getMenuIndex());
         if(goBack){
             General.panel_index = 1;
             return;
         }
-        Selection.songIndex = songs.getMenuIndex();
         if(toSettings){
             General.panel_index += General.numPanels;
         }

@@ -6,7 +6,7 @@ import org.kelvinizer.motion.Motion;
 import org.kelvinizer.note.HoldNote;
 import org.kelvinizer.note.Note;
 import org.kelvinizer.note.TapNote;
-import org.kelvinizer.support.CRect;
+import org.kelvinizer.shapes.CRect;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -3,7 +3,7 @@ package org.kelvinizer.note;
 import org.kelvinizer.constants.JudgementLimits;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
-import org.kelvinizer.support.CRect;
+import org.kelvinizer.shapes.CRect;
 
 import java.awt.*;
 

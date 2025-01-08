@@ -2,7 +2,7 @@ package org.kelvinizer.gamewindow;
 
 import org.kelvinizer.note.HoldNote;
 import org.kelvinizer.note.Note;
-import org.kelvinizer.support.CRect;
+import org.kelvinizer.shapes.CRect;
 
 import java.util.ArrayList;
 

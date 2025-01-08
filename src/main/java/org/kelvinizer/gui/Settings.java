@@ -1,8 +1,11 @@
 package org.kelvinizer.gui;
 
 import org.kelvinizer.animation.AnimatablePanel;
-import org.kelvinizer.support.PolygonButton;
+import org.kelvinizer.support.BoundedString;
+import org.kelvinizer.shapes.CRect;
+import org.kelvinizer.buttons.PolygonButton;
 import org.kelvinizer.constants.General;
+import org.kelvinizer.buttons.RectangleButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,12 +14,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class Settings extends AnimatablePanel {
-    private final PolygonButton normal = new PolygonButton(
-            new Rectangle(100, 100, 200, 200)
-    );
-    private final PolygonButton autoplay = new PolygonButton(
-            new Rectangle(500, 100, 200, 200)
-    );
+    private final RectangleButton normal = new RectangleButton();
+    private final RectangleButton autoplay = new RectangleButton();
     private final PolygonButton back = new PolygonButton(
             new Rectangle(100, 100)
     );
@@ -35,6 +34,39 @@ public class Settings extends AnimatablePanel {
                 General.isAutoplay = !General.isAutoplay;
             }
         });
+
+        BoundedString temp = new BoundedString("Normal", 50, 200, 100, 300, 100);
+        temp.setVerticalWhiteSpace(30);
+        temp.setHorizontalWhiteSpace(50);
+        temp.getBounds().setOutlineColor(Color.WHITE);
+        temp.getBounds().setOutlineThickness(2.0);
+        normal.setNormalMode(temp.clone());
+
+        temp.getBounds().setOutlineColor(Color.BLUE);
+        temp.getBounds().setOutlineThickness(5.0);
+        normal.setOnFocus(temp.clone());
+
+        temp.getBounds().setOutlineColor(Color.GREEN);
+        temp.getBounds().setOutlineThickness(2.0);
+        temp.setStringColor(Color.GREEN);
+        normal.setOnSelection(temp.clone());
+
+        temp.setBounds(new CRect(700, 100, 300, 100));
+        temp.setString("Autoplay");
+        temp.setVerticalWhiteSpace(30);
+        temp.setHorizontalWhiteSpace(50);
+        temp.getBounds().setOutlineColor(Color.WHITE);
+        temp.getBounds().setOutlineThickness(2.0);
+        autoplay.setNormalMode(temp.clone());
+
+        temp.getBounds().setOutlineColor(Color.BLUE);
+        temp.getBounds().setOutlineThickness(5.0);
+        autoplay.setOnFocus(temp.clone());
+
+        temp.getBounds().setOutlineColor(Color.GREEN);
+        temp.getBounds().setOutlineThickness(2.0);
+        temp.setStringColor(Color.GREEN);
+        autoplay.setOnSelection(temp.clone());
     }
 
     @Override
@@ -46,10 +78,10 @@ public class Settings extends AnimatablePanel {
 
     @Override
     public void mouseClicked(MouseEvent e){
-        if(autoplay.contains(e.getPoint())){
+        if(autoplay.isFocused()){
             General.isAutoplay = true;
         }
-        else if(normal.contains(e.getPoint())){
+        else if(normal.isFocused()){
             General.isAutoplay = false;
         }
         else if(back.contains(e.getPoint())){
@@ -60,27 +92,16 @@ public class Settings extends AnimatablePanel {
     @Override
     protected void renderObjects(Graphics2D g2d){
         if(General.isAutoplay){
-            autoplay.setFocused(true);
+            autoplay.select(true);
+            normal.select(false);
         }
         else{
-            normal.setFocused(true);
+            autoplay.select(false);
+            normal.select(true);
         }
         normal.draw(g2d);
         autoplay.draw(g2d);
         back.draw(g2d);
-        g2d.setColor(Color.WHITE);
-        g2d.setFont(new Font("Arial", Font.BOLD, 50));
-        FontMetrics metrics = g2d.getFontMetrics();
-        g2d.drawString(
-                "Play",
-                540 - (metrics.stringWidth("Play") / 2),
-                600 + ((metrics.getAscent() - metrics.getDescent()) / 2)
-        );
-        g2d.drawString(
-                "Autoplay",
-                540 - (metrics.stringWidth("Autoplay") / 2),
-                600 + ((metrics.getAscent() - metrics.getDescent()) / 2)
-        );
     }
 
     @Override

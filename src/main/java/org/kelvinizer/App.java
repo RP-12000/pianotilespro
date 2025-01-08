@@ -1,6 +1,7 @@
 package org.kelvinizer;
 
 import org.kelvinizer.animation.AnimatablePanel;
+import org.kelvinizer.buttons.GameButtons;
 import org.kelvinizer.constants.General;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
@@ -17,17 +18,17 @@ import static org.kelvinizer.constants.General.*;
 public class App extends JFrame {
     private AnimatablePanel display;
     int lastPanel = 0;
-    Dimension last_size = new Dimension((int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
 
     public App(){
         boot();
         ScheduledExecutorService gameLoop = Executors.newSingleThreadScheduledExecutor();
-        gameLoop.scheduleAtFixedRate(this::runGame, 0, 1000/ Time.FPS, TimeUnit.MILLISECONDS);
+        gameLoop.scheduleAtFixedRate(this::runGame, 0, 1000/Time.FPS, TimeUnit.MILLISECONDS);
         setVisible(true);
     }
 
     private void boot(){
         setTitle("PianoTilesPro");
+        GameButtons.init();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Insets insets = getInsets();
         ReferenceWindow.extraWidth = insets.left + insets.right;
@@ -61,10 +62,7 @@ public class App extends JFrame {
             revalidate();
             lastPanel = panel_index;
         }
-        if(getSize()!=last_size) {
-            last_size = getSize();
-            display.setBounds(0, 0, last_size.width, last_size.height);
-            display.resizeButtons(last_size);
-        }
+        display.setBounds(0, 0, getSize().width, getSize().height);
+        display.resizeButtons(getSize());
     }
 }

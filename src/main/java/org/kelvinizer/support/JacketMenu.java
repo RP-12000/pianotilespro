@@ -1,5 +1,7 @@
 package org.kelvinizer.support;
 
+import org.kelvinizer.shapes.CRect;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.MouseWheelEvent;
@@ -10,10 +12,7 @@ import java.util.ArrayList;
 
 public class JacketMenu{
     private final String dir;
-    private final ArrayList<Pair<String, BufferedImage>> menu = new ArrayList<>();
-    private CRect textBoundary = new CRect();
-    private static final int HORIZONTAL_WHITE_SPACE = 3;
-    private static final int VERTICAL_WHITE_SPACE = 2;
+    private final ArrayList<Pair<BoundedString, BufferedImage>> menu = new ArrayList<>();
     private int menuIndex;
     private final int maxStringSize;
 
@@ -48,7 +47,10 @@ public class JacketMenu{
                     String path = thing.getCanonicalPath();
                     String[] temp = path.split("\\\\");
                     try{
-                        menu.add(new Pair<>(temp[temp.length-1], getJacket(thing)));
+                        menu.add(new Pair<>(
+                                new BoundedString(temp[temp.length-1],maxStringSize),
+                                getJacket(thing)
+                        ));
                     } catch (RuntimeException e) {
                         throw new RuntimeException(e);
                     }
@@ -59,22 +61,9 @@ public class JacketMenu{
         }
     }
 
-    private boolean isValidSize(Graphics2D g2d, Font f, String d){
-        FontMetrics fm = g2d.getFontMetrics(f);
-        return (textBoundary.getWidth() - 2 * HORIZONTAL_WHITE_SPACE > fm.stringWidth(d)) &&
-                (textBoundary.getHeight() - 2 * VERTICAL_WHITE_SPACE > fm.getAscent() - fm.getDescent());
-    }
-
-    private Pair<Double, Double> getRenderPoint(Graphics2D g2d, Font f, String d){
-        FontMetrics fm = g2d.getFontMetrics(f);
-        return new Pair<>(
-                textBoundary.getX()-textBoundary.getOrigin().x+textBoundary.getWidth()/2 - (fm.stringWidth(d) / 2),
-                textBoundary.getY()-textBoundary.getOrigin().y+ textBoundary.getHeight()/2 + ((fm.getAscent() - fm.getDescent()) / 2)
-        );
-    }
-
     public JacketMenu(String dir, int mi, int maxStringSize){
         this.dir = dir;
+        this.maxStringSize = maxStringSize;
         updateMenu();
         if(mi>=0 && mi<menu.size()){
             menuIndex = mi;
@@ -82,11 +71,61 @@ public class JacketMenu{
         else{
             menuIndex = 0;
         }
-        this.maxStringSize = maxStringSize;
     }
 
-    public void setTextBoundary(CRect c){
-        textBoundary = c;
+    public void setBounds(CRect c){
+        for(Pair<BoundedString, BufferedImage> p: menu){
+            p.first.setBounds(c);
+        }
+    }
+
+    public void setOutlineColor(Color c){
+        for(Pair<BoundedString, BufferedImage> p: menu){
+            p.first.getBounds().setOutlineColor(c);
+        }
+    }
+
+    public void setFillColor(Color c){
+        for(Pair<BoundedString, BufferedImage> p: menu){
+            p.first.getBounds().setFillColor(c);
+        }
+    }
+
+    public void setOutlineThickness(double t){
+        for(Pair<BoundedString, BufferedImage> p: menu){
+            p.first.getBounds().setOutlineThickness(t);
+        }
+    }
+
+    public void setBounds(Rectangle c){
+        for(Pair<BoundedString, BufferedImage> p: menu){
+            p.first.setBounds(c);
+        }
+    }
+
+    public void setStringColor(Color c){
+        for(Pair<BoundedString, BufferedImage> p: menu){
+            p.first.setStringColor(c);
+        }
+    }
+
+    public void setHorizontalWhiteSpace(double d){
+        for(Pair<BoundedString, BufferedImage> p: menu){
+            p.first.setHorizontalWhiteSpace(d);
+        }
+    }
+
+    public void setVerticalWhiteSpace(double d){
+        for(Pair<BoundedString, BufferedImage> p: menu){
+            p.first.setVerticalWhiteSpace(d);
+        }
+    }
+
+    public void setFont(String name, int style){
+        for(Pair<BoundedString, BufferedImage> p: menu){
+            p.first.setName(name);
+            p.first.setStyle(style);
+        }
     }
 
     public int getMenuIndex(){
@@ -122,7 +161,7 @@ public class JacketMenu{
     }
 
     public String getSelectionString(int index){
-        return menu.get(index).first;
+        return menu.get(index).first.getString();
     }
 
     public String getSelectionString(){
@@ -145,21 +184,7 @@ public class JacketMenu{
         return menuIndex == 0;
     }
 
-    public CRect getTextBoundary() {
-        return textBoundary;
-    }
-
-    public Triple<Font, Float, Float> getTextRenderParams(Graphics2D g2d, String name, int style){
-        return getTextRenderParams(g2d, name, style, menuIndex);
-    }
-
-    public Triple<Font, Float, Float> getTextRenderParams(Graphics2D g2d, String name, int style, int index){
-        int size = 0;
-        while(isValidSize(g2d, new Font(name, style, size), menu.get(index).first) && size<=maxStringSize){
-            size++;
-        }
-        Font temp = new Font(name, style, size-1);
-        Pair<Double, Double> p = getRenderPoint(g2d, temp, menu.get(index).first);
-        return new Triple<>(temp, (float)(double)p.first, (float)(double)p.second);
+    public void drawSelectionString(Graphics2D g2d){
+        menu.get(menuIndex).first.draw(g2d);
     }
 }
