@@ -50,12 +50,6 @@ public class MotionManager {
         if(motionPointer == movement.size()){
             return 0;
         }
-        switch (movement.get(motionPointer).getType()){
-            case 0:
-                return 0;
-            case 1:
-                return 0;
-        }
         return 0;
     }
 

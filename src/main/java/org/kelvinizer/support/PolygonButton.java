@@ -10,8 +10,8 @@ public class PolygonButton {
     private final Polygon buttonShape;
     private Polygon buttonSpace;
     private boolean isFocused = false;
-    private final Color focusedColor;
-    private final Stroke focusedStroke;
+    private Color focusedColor;
+    private Stroke focusedStroke;
 
     public PolygonButton(Polygon bs, Color c, Stroke s){
         buttonShape = bs;
@@ -81,5 +81,13 @@ public class PolygonButton {
     public void fill(Graphics2D g2d){
         draw(g2d);
         g2d.fill(buttonShape);
+    }
+
+    public void setFocusedColor(Color c){
+        focusedColor = c;
+    }
+
+    public void setFocusedStroke(Stroke s){
+        focusedStroke = s;
     }
 }

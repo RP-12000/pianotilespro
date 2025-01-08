@@ -15,7 +15,7 @@ import java.util.concurrent.*;
 import static org.kelvinizer.constants.General.*;
 
 public class App extends JFrame {
-    private AnimatablePanel display = new WelcomePage();
+    private AnimatablePanel display;
     int lastPanel = 0;
     Dimension last_size = new Dimension((int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
 
@@ -29,7 +29,11 @@ public class App extends JFrame {
     private void boot(){
         setTitle("PianoTilesPro");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize((int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
+        Insets insets = getInsets();
+        ReferenceWindow.extraWidth = insets.left + insets.right;
+        ReferenceWindow.extraHeight = insets.top + insets.bottom;
+        setSize((int) ReferenceWindow.REF_WIN_W+ReferenceWindow.extraWidth, (int) ReferenceWindow.REF_WIN_H+ReferenceWindow.extraHeight);
+        display = new WelcomePage();
         add(display);
     }
 

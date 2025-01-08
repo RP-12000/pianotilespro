@@ -36,34 +36,38 @@ public class SongSelection extends AnimatablePanel {
             new Rectangle((int) ReferenceWindow.REF_WIN_W-113, (int) ReferenceWindow.REF_WIN_H-135, 100, 100)
     );
     private final PolygonButton basic = new PolygonButton(
-            new Rectangle(800, 500, 30, 30)
+            new Rectangle(520, 480, 50, 50)
     );
     private final PolygonButton medium = new PolygonButton(
-            new Rectangle(520, 500, 30, 30)
+            new Rectangle(570, 480, 50, 50)
     );
     private final PolygonButton advanced = new PolygonButton(
-            new Rectangle(570, 500, 30, 30)
+            new Rectangle(620, 480, 50, 50)
     );
     private final PolygonButton legendary = new PolygonButton(
-            new Rectangle(620, 500, 30, 30)
+            new Rectangle(670, 480, 50, 50)
     );
     private final PolygonButton moveUp = new PolygonButton(
-            new Polygon(new int[]{100, 100, 200}, new int[]{100, 200, 200}, 3)
+            new Polygon(new int[]{220, 380, 300}, new int[]{150, 150, 100}, 3)
     );
     private final PolygonButton moveDown = new PolygonButton(
-            new Polygon(new int[]{300, 300, 400}, new int[]{300, 400, 400}, 3)
+            new Polygon(new int[]{220, 380, 300}, new int[]{550, 550, 600}, 3)
     );
 
     public SongSelection(){
         super();
         check();
-        songs.setTextBoundary(new CRect(200, 360, 150, 50));
+        songs.setTextBoundary(new CRect(300, 350, 400, 60));
         songs.getTextBoundary().setOrigin(
                 songs.getTextBoundary().getWidth()/2,
                 songs.getTextBoundary().getHeight()/2
         );
         songs.getTextBoundary().setOutlineColor(Color.WHITE);
         songs.getTextBoundary().setOutlineThickness(3.0);
+        basic.setFocusedColor(Color.GREEN);
+        medium.setFocusedColor(Color.GREEN);
+        advanced.setFocusedColor(Color.GREEN);
+        legendary.setFocusedColor(Color.GREEN);
         if(!songs.isEmpty() && isValid){
             addKeyBinding(KeyEvent.VK_UP, new AbstractAction() {
                 @Override
@@ -159,13 +163,13 @@ public class SongSelection extends AnimatablePanel {
         }
         if(!songs.isEmpty() && isValid){
             if(moveUp.contains(e.getPoint())){
-                songs.moveForward();
+                songs.moveBackward();
                 if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
                     Selection.level = "AV";
                 }
             }
             if(moveDown.contains(e.getPoint())){
-                songs.moveBackward();
+                songs.moveForward();
                 if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
                     Selection.level = "AV";
                 }
@@ -211,6 +215,11 @@ public class SongSelection extends AnimatablePanel {
             if(songs.getSelectionJacket()!=null){
                 g2d.drawImage(songs.getSelectionJacket(), 520, 180, 480, 300, this);
             }
+            else{
+                g2d.drawRect(520, 180, 480, 300);
+                g2d.setFont(new Font("Arial", Font.ITALIC, 15));
+                g2d.drawString("No jacket preview available", 675, 340);
+            }
             play.draw(g2d);
             songs.getTextBoundary().draw(g2d);
             if(!songs.atBeginning()){
@@ -218,6 +227,12 @@ public class SongSelection extends AnimatablePanel {
             }
             if(!songs.atEnd()){
                 moveDown.fill(g2d);
+            }
+            switch (Selection.level) {
+                case "BS" -> basic.setFocused(true);
+                case "MD" -> medium.setFocused(true);
+                case "AV" -> advanced.setFocused(true);
+                case "LG" -> legendary.setFocused(true);
             }
             basic.draw(g2d);
             medium.draw(g2d);
@@ -235,8 +250,10 @@ public class SongSelection extends AnimatablePanel {
     public void toNextPanel(){
         if(goBack){
             General.panel_index = 1;
+            return;
         }
-        else if(toSettings){
+        Selection.songIndex = songs.getMenuIndex();
+        if(toSettings){
             General.panel_index += General.numPanels;
         }
         else{

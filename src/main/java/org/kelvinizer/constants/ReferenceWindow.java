@@ -3,6 +3,7 @@ package org.kelvinizer.constants;
 public class ReferenceWindow{
     public static final double REF_WIN_W = 1080.0;
     public static final double REF_WIN_H = 720.0;
+    public static int extraWidth, extraHeight;
     public static final double HORIZONTAL_JUDGEMENT_SPACING = 108.0;
     public static final double UNIT = REF_WIN_H - HORIZONTAL_JUDGEMENT_SPACING;
     public static final double FIRST_JUDGEMENT_LINE_X = 160.0;

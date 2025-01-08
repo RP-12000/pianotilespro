@@ -1,16 +1,23 @@
 package org.kelvinizer.motion;
 
-public class Motion{
+public abstract class Motion{
     private final double startTime;
     private final double startPoint, endPoint;
-    private final int type;
 
     public Motion(String s){
         String[] t = s.split(" ");
-        startTime = Double.parseDouble(t[0]);
-        type = Integer.parseInt(t[1]);
+        startTime = Double.parseDouble(t[1]);
         startPoint = Double.parseDouble(t[2]);
         endPoint = Double.parseDouble(t[3]);
+    }
+
+    public static Motion parseMotion(String s){
+        String[] t = s.split(" ");
+        return switch (t[0]) {
+            case "0" -> new LinearMotion(s);
+            case "1" -> new QuadraticMotion(s);
+            default -> throw new IllegalArgumentException("Invalid motion type detected");
+        };
     }
 
     public double getStartPoint(){
@@ -25,7 +32,6 @@ public class Motion{
         return startTime;
     }
 
-    public int getType() {
-        return type;
-    }
+    public abstract void initParams(double motionEndTime);
+    public abstract double dist(double time);
 }

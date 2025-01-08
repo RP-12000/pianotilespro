@@ -24,7 +24,7 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
     public AnimatablePanel(long start_duration_in_ms, long end_duration_in_ms){
         start_duration=start_duration_in_ms* Time.MS_TO_NS_CONVERSION_FACTOR;
         end_duration=end_duration_in_ms*Time.MS_TO_NS_CONVERSION_FACTOR;
-        setSize((int) ReferenceWindow.REF_WIN_W, (int)ReferenceWindow.REF_WIN_H);
+        setSize((int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
         ScheduledExecutorService e = Executors.newSingleThreadScheduledExecutor();
         e.scheduleAtFixedRate(this::repaint, 0, 1000/Time.FPS, TimeUnit.MILLISECONDS);
     }
