@@ -2,11 +2,11 @@ package org.kelvinizer.game.gamewindow;
 
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.*;
-import org.kelvinizer.motion.Motion;
 import org.kelvinizer.note.HoldNote;
 import org.kelvinizer.note.Note;
 import org.kelvinizer.note.TapNote;
 import org.kelvinizer.shapes.CRect;
+import org.kelvinizer.support.classes.Motion;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -101,9 +101,9 @@ public class Chart extends AnimatablePanel {
         Time.CURRENT_TIME = STATIC_TIMER;
     }
 
-    public Chart(String dir) throws IOException, RuntimeException {
+    public Chart(String songDir, String level) throws IOException, RuntimeException {
         super(1000, 1000);
-        BufferedReader chart = new BufferedReader(new FileReader(dir +"/chart.txt"));
+        BufferedReader chart = new BufferedReader(new FileReader(songDir+"/"+level+".txt"));
         ArrayList<Note> tempNotes = new ArrayList<>();
         noteCount = Double.parseDouble(chart.readLine());
         for(int i=0; i<(int)noteCount; i++){
@@ -117,7 +117,7 @@ public class Chart extends AnimatablePanel {
                 n = HoldNote.parseHoldNote(chart.readLine());
             }
             for(int j=0; j<numMotions; j++){
-                n.addMotion(Motion.parseMotion(chart.readLine()));
+                n.addMotion(new Motion(chart.readLine()));
             }
             if(n.isValidNote()){
                 tempNotes.add(n);
@@ -140,7 +140,7 @@ public class Chart extends AnimatablePanel {
         for (Note tempNote : tempNotes) {
             lanes[tempNote.getLaneNum()].addNote(tempNote);
         }
-        getJacket(new File(dir));
+        getJacket(new File(songDir));
         for(int i=0; i<16; i++){
             int finalI = i;
             addKeyBinding(activation[i], false, new AbstractAction() {
@@ -166,12 +166,12 @@ public class Chart extends AnimatablePanel {
     }
 
     public Chart() throws IOException{
-        this(Selection.collectionDir+"/"+Selection.songDir + "/" + Selection.level);
+        this(Selection.collectionDir+"/"+Selection.songDir, Selection.level);
     }
 
-    public static boolean isValidChart(String dir){
+    public static boolean isValidChart(String dir, String songLevel){
         try{
-            new Chart(dir);
+            new Chart(dir, songLevel);
         } catch (RuntimeException | IOException e) {
             return false;
         }

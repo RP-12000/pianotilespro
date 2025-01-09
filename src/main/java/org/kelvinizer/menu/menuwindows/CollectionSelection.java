@@ -4,8 +4,8 @@ import org.kelvinizer.constants.Control;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.menu.menubuttons.CollectionSelectionButtons;
-import org.kelvinizer.menu.menutext.CollectionSelectionText;
 import org.kelvinizer.shapes.CRect;
+import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.classes.JacketMenu;
 
 import javax.swing.*;
@@ -18,13 +18,15 @@ public class CollectionSelection extends AnimatablePanel {
     private boolean toSettings = false;
 
     private final CollectionSelectionButtons csb = new CollectionSelectionButtons();
-    private final CollectionSelectionText cst = new CollectionSelectionText();
+    private final BoundedString emptyFolder = new BoundedString("Nothing is here QAQ", 50, 540, 360);
+    private final BoundedString nullJacket = new BoundedString("No jacket preview available", 15, 540, 330);
 
     public CollectionSelection(){
         super();
         collections.setBounds(new CRect(540, 620, 200, 50));
         collections.setOutlineColor(Color.WHITE);
         collections.setOutlineThickness(2.0);
+        nullJacket.setStyle(Font.ITALIC);
         for(int i=0; i<collections.size(); i++){
             if(!Selection.songIndex.containsKey(collections.getSelectionString(i))){
                 Selection.songIndex.put(collections.getSelectionString(i), 0);
@@ -102,7 +104,7 @@ public class CollectionSelection extends AnimatablePanel {
     @Override
     public void render(Graphics2D g2d){
         if(collections.isEmpty()){
-            cst.emptyFolderVerdict.render(g2d);
+            emptyFolder.render(g2d);
         }
         else{
             collections.drawSelectionString(g2d);
@@ -117,7 +119,7 @@ public class CollectionSelection extends AnimatablePanel {
                 g2d.drawImage(collections.getSelectionJacket(), 360, 140, 360, 360, this);
             }
             else{
-                cst.nullJacketVerdict.render(g2d);
+                nullJacket.render(g2d);
             }
         }
         csb.back.render(g2d);

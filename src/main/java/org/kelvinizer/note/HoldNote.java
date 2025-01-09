@@ -63,7 +63,7 @@ public class HoldNote extends Note{
         }
         r.setPosition(
                 ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[lane_num % 8] + ReferenceWindow.VERTICAL_JUDGEMENT_SPACING / 2,
-                distFromJudgementLine(Time.CURRENT_TIME)
+                movement.dist(Time.CURRENT_TIME)
         );
         return r;
     }

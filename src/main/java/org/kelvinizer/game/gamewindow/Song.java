@@ -29,16 +29,16 @@ public class Song {
         else{
             legendaryData = null;
         }
-        if(!Chart.isValidChart(dir+"/BS")){
+        if(!Chart.isValidChart(dir, "BS")){
             throw new RuntimeException("Broken Basic Chart");
         }
-        else if(!Chart.isValidChart(dir+"/MD")){
+        else if(!Chart.isValidChart(dir, "MD")){
             throw new RuntimeException("Broken MD Chart");
         }
-        else if(!Chart.isValidChart(dir+"/AV")){
+        else if(!Chart.isValidChart(dir, "AV")){
             throw new RuntimeException("Broken AV Chart");
         }
-        else if(lg && !Chart.isValidChart(dir + "/LG")){
+        else if(lg && !Chart.isValidChart(dir, "LG")){
             throw new RuntimeException("Broken LG Chart");
         }
     }

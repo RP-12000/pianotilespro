@@ -1,19 +1,18 @@
 package org.kelvinizer.note;
 
 import org.kelvinizer.constants.*;
-import org.kelvinizer.motion.Motion;
-import org.kelvinizer.motion.MotionManager;
 import org.kelvinizer.shapes.CRect;
+import org.kelvinizer.support.classes.Motion;
 
 import java.awt.*;
+import java.lang.reflect.GenericArrayType;
 
 import static org.kelvinizer.constants.GameColors.PAUSED_OPACITY;
 import static org.kelvinizer.constants.GameColors.setColorAlpha;
 import static org.kelvinizer.constants.Control.isPaused;
-import static org.kelvinizer.constants.ReferenceWindow.UNIT;
 
 public abstract class Note implements Comparable<Note>{
-    private final MotionManager movement;
+    protected final MotionManager movement;
 
     private static final double NOTE_WIDTH = 48.0;
     private static final double TAP_NOTE_HEIGHT = 5.0;
@@ -71,13 +70,6 @@ public abstract class Note implements Comparable<Note>{
         return r;
     }
 
-    protected double distFromJudgementLine(double time) {
-        if(status!=2){
-            movement.update();
-        }
-        return UNIT*movement.dist(time);
-    }
-
     public void addMotion(Motion m){
         movement.addMotion(m);
     }
@@ -131,7 +123,7 @@ public abstract class Note implements Comparable<Note>{
         if (status == 2) {
             r.setPosition(
                     ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[lane_num % 8] + ReferenceWindow.VERTICAL_JUDGEMENT_SPACING / 2,
-                    distFromJudgementLine(actual_hit_time)
+                    movement.dist(actual_hit_time)
             );
         }
         else {
@@ -171,12 +163,12 @@ public abstract class Note implements Comparable<Note>{
         else {
             r.setOrigin(r.getWidth() / 2.0f, 0);
         }
-        if (is_sync) {
+        if (is_sync && Control.syncEnabled) {
             r.setOutlineThickness(NOTE_OUTLINE_THICKNESS);
         }
         r.setPosition(
                 ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[lane_num % 8] + ReferenceWindow.VERTICAL_JUDGEMENT_SPACING / 2,
-                distFromJudgementLine(Time.CURRENT_TIME)
+                movement.dist(Time.CURRENT_TIME)
         );
         return r;
     }

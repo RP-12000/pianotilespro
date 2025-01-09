@@ -26,17 +26,22 @@ public class SongSelection extends AnimatablePanel {
     private final ArrayList<Song> songData = new ArrayList<>();
     private boolean goBack = false;
     private boolean toSettings = false;
-    private boolean isValid;
 
     private final SongSelectionButtons ssb = new SongSelectionButtons();
 
     public SongSelection(){
         super();
-        check();
         songs.setBounds(new CRect(300, 350, 400, 60));
         songs.setOutlineColor(Color.WHITE);
         songs.setOutlineThickness(5.0);
-        if(!songs.isEmpty() && isValid){
+        for(int i = 0; i< songs.size(); i++){
+            try{
+                songData.add(new Song("Chart/"+ Selection.collectionDir+"/"+ songs.getSelectionString(i)));
+            } catch (RuntimeException | IOException e) {
+                Selection.isValidCollection=false;
+            }
+        }
+        if(!songs.isEmpty() && Selection.isValidCollection){
             addKeyBinding(KeyEvent.VK_UP, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -52,6 +57,29 @@ public class SongSelection extends AnimatablePanel {
                     songs.moveForward();
                     if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
                         Selection.level = "AV";
+                    }
+                }
+            });
+            addKeyBinding(KeyEvent.VK_RIGHT, new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    switch (Selection.level){
+                        case "BS" -> Selection.level = "MD";
+                        case "MD" -> Selection.level = "AV";
+                        case "AV" -> Selection.level = "LG";
+                    }
+                    if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
+                        Selection.level = "AV";
+                    }
+                }
+            });
+            addKeyBinding(KeyEvent.VK_LEFT, new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    switch (Selection.level){
+                        case "LG" -> Selection.level = "AV";
+                        case "AV" -> Selection.level = "MD";
+                        case "MD" -> Selection.level = "BS";
                     }
                 }
             });
@@ -78,19 +106,6 @@ public class SongSelection extends AnimatablePanel {
         });
     }
 
-    private void check(){
-        for(int i = 0; i< songs.size(); i++){
-            try{
-                songData.add(new Song("Chart/"+ Selection.collectionDir+"/"+ songs.getSelectionString(i)));
-            } catch (RuntimeException | IOException e) {
-                isValid=false;
-                songData.clear();
-                return;
-            }
-        }
-        isValid=true;
-    }
-
     @Override
     public void scale(Dimension d){
         ssb.scale(d);
@@ -111,7 +126,7 @@ public class SongSelection extends AnimatablePanel {
             toSettings = true;
             exit();
         }
-        if(!songs.isEmpty() && isValid){
+        if(!songs.isEmpty() && Selection.isValidCollection){
             if(ssb.moveUp.isFocused()){
                 songs.moveBackward();
                 if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
@@ -145,6 +160,9 @@ public class SongSelection extends AnimatablePanel {
     @Override
     public void mouseWheelMoved(MouseWheelEvent e){
         songs.move(e);
+        if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
+            Selection.level = "AV";
+        }
     }
 
     @Override
@@ -156,7 +174,7 @@ public class SongSelection extends AnimatablePanel {
             g2d.setFont(new Font("Arial", Font.BOLD, 25));
             g2d.drawString("Nothing is in here QAQ\n", 540, 360);
         }
-        else if(!isValid){
+        else if(!Selection.isValidCollection){
             g2d.setColor(Color.WHITE);
             g2d.setFont(new Font("Arial", Font.BOLD, 25));
             g2d.drawString("Collection Corrupted QAQ\n", 540, 360);
@@ -194,7 +212,7 @@ public class SongSelection extends AnimatablePanel {
         }
         else{
             Selection.songDir = songs.getSelectionString();
-            Control.panel_index = 2;
+            Control.panel_index = 3;
         }
     }
 }

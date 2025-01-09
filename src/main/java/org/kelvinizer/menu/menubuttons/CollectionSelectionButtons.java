@@ -1,7 +1,7 @@
 package org.kelvinizer.menu.menubuttons;
 
-import org.kelvinizer.buttons.RectangleButton;
-import org.kelvinizer.buttons.TriangleButton;
+import org.kelvinizer.buttons.CRectButton;
+import org.kelvinizer.buttons.CTriangleButton;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.shapes.CTriangle;
 import org.kelvinizer.support.classes.BoundedString;
@@ -12,11 +12,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class CollectionSelectionButtons implements Scalable, Focusable {
-    public final RectangleButton back = new RectangleButton();
-    public final RectangleButton settings = new RectangleButton();
-    public final RectangleButton jacket = new RectangleButton();
-    public final TriangleButton moveLeft = new TriangleButton();
-    public final TriangleButton moveRight = new TriangleButton();
+    public final CRectButton back = new CRectButton();
+    public final CRectButton settings = new CRectButton();
+    public final CRectButton jacket = new CRectButton();
+    public final CTriangleButton moveLeft = new CTriangleButton();
+    public final CTriangleButton moveRight = new CTriangleButton();
 
     private void setBack(){
         BoundedString normal = new BoundedString();

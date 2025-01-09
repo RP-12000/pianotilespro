@@ -1,7 +1,7 @@
 package org.kelvinizer.menu.menubuttons;
 
-import org.kelvinizer.buttons.RectangleButton;
-import org.kelvinizer.buttons.TriangleButton;
+import org.kelvinizer.buttons.CRectButton;
+import org.kelvinizer.buttons.CTriangleButton;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.game.gamewindow.Song;
 import org.kelvinizer.shapes.CRect;
@@ -15,15 +15,19 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class SongSelectionButtons implements Scalable, Focusable {
-    public final RectangleButton back = new RectangleButton();
-    public final RectangleButton settings = new RectangleButton();
-    public final RectangleButton play = new RectangleButton();
-    public final RectangleButton basic = new RectangleButton();
-    public final RectangleButton medium = new RectangleButton();
-    public final RectangleButton advanced = new RectangleButton();
-    public final RectangleButton legendary = new RectangleButton();
-    public final TriangleButton moveUp = new TriangleButton();
-    public final TriangleButton moveDown = new TriangleButton();
+    public final CRectButton back = new CRectButton();
+    public final CRectButton settings = new CRectButton();
+    public final CRectButton play = new CRectButton();
+    public final CRectButton basic = new CRectButton();
+    public final CRectButton BS = new CRectButton();
+    public final CRectButton medium = new CRectButton();
+    public final CRectButton MD = new CRectButton();
+    public final CRectButton advanced = new CRectButton();
+    public final CRectButton AV = new CRectButton();
+    public final CRectButton legendary = new CRectButton();
+    public final CRectButton LG = new CRectButton();
+    public final CTriangleButton moveUp = new CTriangleButton();
+    public final CTriangleButton moveDown = new CTriangleButton();
 
     private void setBack(){
         BoundedString normal = new BoundedString();
@@ -68,19 +72,23 @@ public class SongSelectionButtons implements Scalable, Focusable {
     }
 
     private void setBasic(){
-        BoundedString normal = new BoundedString("", 15);
+        BoundedString normal = new BoundedString("", 30);
+        normal.setRelativeY(0.35);
         normal.setBounds(new CRect(545, 505, 50, 50));
         normal.getBounds().setOutlineColor(Color.WHITE);
         normal.getBounds().setOutlineThickness(1.0);
+        normal.setStyle(Font.PLAIN);
         basic.setNormal(normal);
 
-        BoundedString onFocus = new BoundedString("", 15);
+        BoundedString onFocus = new BoundedString("", 30);
+        onFocus.setRelativeY(0.35);
         onFocus.setBounds(new CRect(545, 505, 50, 50));
         onFocus.getBounds().setOutlineColor(Color.WHITE);
         onFocus.getBounds().setOutlineThickness(3.0);
         basic.setOnFocus(onFocus);
 
-        BoundedString onSelection = new BoundedString("", 15);
+        BoundedString onSelection = new BoundedString("", 30);
+        onSelection.setRelativeY(0.35);
         onSelection.setBounds(new CRect(545, 505, 50, 50));
         onSelection.getBounds().setOutlineColor(Color.WHITE);
         onSelection.getBounds().setOutlineThickness(1.0);
@@ -88,20 +96,47 @@ public class SongSelectionButtons implements Scalable, Focusable {
         basic.setOnSelection(onSelection);
     }
 
+    private void setBS(){
+        BoundedString normal = new BoundedString("BS", 13);
+        normal.setRelativeY(0.8);
+        normal.setBounds(new CRect(545, 505, 50, 50));
+        normal.getBounds().setOutlineColor(Color.WHITE);
+        normal.getBounds().setOutlineThickness(1.0);
+        BS.setNormal(normal);
+
+        BoundedString onFocus = new BoundedString("BS", 13);
+        onFocus.setRelativeY(0.8);
+        onFocus.setBounds(new CRect(545, 505, 50, 50));
+        onFocus.getBounds().setOutlineColor(Color.WHITE);
+        onFocus.getBounds().setOutlineThickness(3.0);
+        BS.setOnFocus(onFocus);
+
+        BoundedString onSelection = new BoundedString("BS", 13);
+        onSelection.setRelativeY(0.8);
+        onSelection.setBounds(new CRect(545, 505, 50, 50));
+        onSelection.getBounds().setOutlineColor(Color.WHITE);
+        onSelection.getBounds().setOutlineThickness(1.0);
+        BS.setOnSelection(onSelection);
+    }
+
     private void setMedium(){
-        BoundedString normal = new BoundedString("", 15);
+        BoundedString normal = new BoundedString("", 30);
+        normal.setRelativeY(0.35);
         normal.setBounds(new CRect(595, 505, 50, 50));
         normal.getBounds().setOutlineColor(Color.WHITE);
         normal.getBounds().setOutlineThickness(1.0);
+        normal.setStyle(Font.PLAIN);
         medium.setNormal(normal);
 
-        BoundedString onFocus = new BoundedString("", 15);
+        BoundedString onFocus = new BoundedString("", 30);
+        onFocus.setRelativeY(0.35);
         onFocus.setBounds(new CRect(595, 505, 50, 50));
         onFocus.getBounds().setOutlineColor(Color.WHITE);
         onFocus.getBounds().setOutlineThickness(3.0);
         medium.setOnFocus(onFocus);
 
-        BoundedString onSelection = new BoundedString("", 15);
+        BoundedString onSelection = new BoundedString("", 30);
+        onSelection.setRelativeY(0.35);
         onSelection.setBounds(new CRect(595, 505, 50, 50));
         onSelection.getBounds().setOutlineColor(Color.WHITE);
         onSelection.getBounds().setOutlineThickness(1.0);
@@ -109,20 +144,47 @@ public class SongSelectionButtons implements Scalable, Focusable {
         medium.setOnSelection(onSelection);
     }
 
+    private void setMD(){
+        BoundedString normal = new BoundedString("MD", 13);
+        normal.setRelativeY(0.8);
+        normal.setBounds(new CRect(595, 505, 50, 50));
+        normal.getBounds().setOutlineColor(Color.WHITE);
+        normal.getBounds().setOutlineThickness(1.0);
+        MD.setNormal(normal);
+
+        BoundedString onFocus = new BoundedString("MD", 13);
+        onFocus.setRelativeY(0.8);
+        onFocus.setBounds(new CRect(595, 505, 50, 50));
+        onFocus.getBounds().setOutlineColor(Color.WHITE);
+        onFocus.getBounds().setOutlineThickness(3.0);
+        MD.setOnFocus(onFocus);
+
+        BoundedString onSelection = new BoundedString("MD", 13);
+        onSelection.setRelativeY(0.8);
+        onSelection.setBounds(new CRect(595, 505, 50, 50));
+        onSelection.getBounds().setOutlineColor(Color.WHITE);
+        onSelection.getBounds().setOutlineThickness(1.0);
+        MD.setOnSelection(onSelection);
+    }
+
     private void setAdvanced(){
-        BoundedString normal = new BoundedString("", 15);
+        BoundedString normal = new BoundedString("", 30);
+        normal.setRelativeY(0.35);
         normal.setBounds(new CRect(645, 505, 50, 50));
         normal.getBounds().setOutlineColor(Color.WHITE);
         normal.getBounds().setOutlineThickness(1.0);
+        normal.setStyle(Font.PLAIN);
         advanced.setNormal(normal);
 
-        BoundedString onFocus = new BoundedString("", 15);
+        BoundedString onFocus = new BoundedString("", 30);
+        onFocus.setRelativeY(0.35);
         onFocus.setBounds(new CRect(645, 505, 50, 50));
         onFocus.getBounds().setOutlineColor(Color.WHITE);
         onFocus.getBounds().setOutlineThickness(3.0);
         advanced.setOnFocus(onFocus);
 
-        BoundedString onSelection = new BoundedString("", 15);
+        BoundedString onSelection = new BoundedString("", 30);
+        onSelection.setRelativeY(0.35);
         onSelection.setBounds(new CRect(645, 505, 50, 50));
         onSelection.getBounds().setOutlineColor(Color.WHITE);
         onSelection.getBounds().setOutlineThickness(1.0);
@@ -130,25 +192,75 @@ public class SongSelectionButtons implements Scalable, Focusable {
         advanced.setOnSelection(onSelection);
     }
 
+    private void setAV(){
+        BoundedString normal = new BoundedString("AV", 13);
+        normal.setRelativeY(0.8);
+        normal.setBounds(new CRect(645, 505, 50, 50));
+        normal.getBounds().setOutlineColor(Color.WHITE);
+        normal.getBounds().setOutlineThickness(1.0);
+        AV.setNormal(normal);
+
+        BoundedString onFocus = new BoundedString("AV", 13);
+        onFocus.setRelativeY(0.8);
+        onFocus.setBounds(new CRect(645, 505, 50, 50));
+        onFocus.getBounds().setOutlineColor(Color.WHITE);
+        onFocus.getBounds().setOutlineThickness(3.0);
+        AV.setOnFocus(onFocus);
+
+        BoundedString onSelection = new BoundedString("AV", 13);
+        onSelection.setRelativeY(0.8);
+        onSelection.setBounds(new CRect(645, 505, 50, 50));
+        onSelection.getBounds().setOutlineColor(Color.WHITE);
+        onSelection.getBounds().setOutlineThickness(1.0);
+        AV.setOnSelection(onSelection);
+    }
+
     private void setLegendary(){
-        BoundedString normal = new BoundedString("", 15);
+        BoundedString normal = new BoundedString("", 30);
+        normal.setRelativeY(0.35);
         normal.setBounds(new CRect(695, 505, 50, 50));
         normal.getBounds().setOutlineColor(Color.WHITE);
         normal.getBounds().setOutlineThickness(1.0);
+        normal.setStyle(Font.PLAIN);
         legendary.setNormal(normal);
 
-        BoundedString onFocus = new BoundedString("", 15);
+        BoundedString onFocus = new BoundedString("", 30);
+        onFocus.setRelativeY(0.35);
         onFocus.setBounds(new CRect(695, 505, 50, 50));
         onFocus.getBounds().setOutlineColor(Color.WHITE);
         onFocus.getBounds().setOutlineThickness(3.0);
         legendary.setOnFocus(onFocus);
 
-        BoundedString onSelection = new BoundedString("", 15);
+        BoundedString onSelection = new BoundedString("", 30);
+        onSelection.setRelativeY(0.35);
         onSelection.setBounds(new CRect(695, 505, 50, 50));
         onSelection.getBounds().setOutlineColor(Color.WHITE);
         onSelection.getBounds().setOutlineThickness(1.0);
         onSelection.getBounds().setFillColor(Color.MAGENTA);
         legendary.setOnSelection(onSelection);
+    }
+
+    private void setLG(){
+        BoundedString normal = new BoundedString("LG", 13);
+        normal.setRelativeY(0.8);
+        normal.setBounds(new CRect(695, 505, 50, 50));
+        normal.getBounds().setOutlineColor(Color.WHITE);
+        normal.getBounds().setOutlineThickness(1.0);
+        LG.setNormal(normal);
+
+        BoundedString onFocus = new BoundedString("LG", 13);
+        onFocus.setRelativeY(0.8);
+        onFocus.setBounds(new CRect(695, 505, 50, 50));
+        onFocus.getBounds().setOutlineColor(Color.WHITE);
+        onFocus.getBounds().setOutlineThickness(3.0);
+        LG.setOnFocus(onFocus);
+
+        BoundedString onSelection = new BoundedString("LG", 13);
+        onSelection.setRelativeY(0.8);
+        onSelection.setBounds(new CRect(695, 505, 50, 50));
+        onSelection.getBounds().setOutlineColor(Color.WHITE);
+        onSelection.getBounds().setOutlineThickness(1.0);
+        LG.setOnSelection(onSelection);
     }
 
     private void setMoveUp(){
@@ -192,9 +304,13 @@ public class SongSelectionButtons implements Scalable, Focusable {
         setSettings();
         setPlay();
         setBasic();
+        setBS();
         setMedium();
+        setMD();
         setAdvanced();
+        setAV();
         setLegendary();
+        setLG();
         setMoveUp();
         setMoveDown();
     }
@@ -205,9 +321,13 @@ public class SongSelectionButtons implements Scalable, Focusable {
         settings.scale(d);
         play.scale(d);
         basic.scale(d);
+        BS.scale(d);
         medium.scale(d);
+        MD.scale(d);
         advanced.scale(d);
+        AV.scale(d);
         legendary.scale(d);
+        LG.scale(d);
         moveUp.scale(d);
         moveDown.scale(d);
     }
@@ -218,15 +338,31 @@ public class SongSelectionButtons implements Scalable, Focusable {
 
     public void renderLevels(Graphics2D g2d, Song s){
         basic.select(false);
+        BS.select(false);
         medium.select(false);
+        MD.select(false);
         advanced.select(false);
+        AV.select(false);
         legendary.select(false);
+        LG.select(false);
 
         switch (Selection.level) {
-            case "BS" -> basic.select(true);
-            case "MD" -> medium.select(true);
-            case "AV" -> advanced.select(true);
-            case "LG" -> legendary.select(true);
+            case "BS" -> {
+                basic.select(true);
+                BS.select(true);
+            }
+            case "MD" -> {
+                medium.select(true);
+                MD.select(true);
+            }
+            case "AV" -> {
+                advanced.select(true);
+                AV.select(true);
+            }
+            case "LG" -> {
+                legendary.select(true);
+                LG.select(true);
+            }
         }
 
         basic.getNormal().setString(levelToString(s.getBasicData()));
@@ -245,10 +381,14 @@ public class SongSelectionButtons implements Scalable, Focusable {
         }
 
         basic.render(g2d);
+        BS.render(g2d);
         medium.render(g2d);
+        MD.render(g2d);
         advanced.render(g2d);
+        AV.render(g2d);
         if(s.hasLG()){
             legendary.render(g2d);
+            LG.render(g2d);
         }
     }
 

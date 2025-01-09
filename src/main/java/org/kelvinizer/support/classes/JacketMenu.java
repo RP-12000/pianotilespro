@@ -47,10 +47,9 @@ public class JacketMenu{
                     String path = thing.getCanonicalPath();
                     String[] temp = path.split("\\\\");
                     try{
-                        menu.add(new Pair<>(
-                                new BoundedString(temp[temp.length-1],maxStringSize),
-                                getJacket(thing)
-                        ));
+                        BoundedString bs = new BoundedString(temp[temp.length-1]);
+                        bs.setMaxStringSize(maxStringSize);
+                        menu.add(new Pair<>(bs, getJacket(thing)));
                     } catch (RuntimeException e) {
                         throw new RuntimeException(e);
                     }
@@ -123,7 +122,7 @@ public class JacketMenu{
 
     public void setFont(String name, int style){
         for(Pair<BoundedString, BufferedImage> p: menu){
-            p.first.setName(name);
+            p.first.setFontFamily(name);
             p.first.setStyle(style);
         }
     }

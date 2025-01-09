@@ -1,6 +1,6 @@
 package org.kelvinizer.menu.menubuttons;
 
-import org.kelvinizer.buttons.RectangleButton;
+import org.kelvinizer.buttons.CRectButton;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.interfaces.Drawable;
@@ -9,11 +9,11 @@ import org.kelvinizer.support.interfaces.Scalable;
 import java.awt.*;
 
 public class SettingsButtons implements Scalable, Drawable {
-    public final RectangleButton back = new RectangleButton();
-    public final RectangleButton normalMode = new RectangleButton();
-    public final RectangleButton autoplayMode = new RectangleButton();
-    public final RectangleButton syncOn = new RectangleButton();
-    public final RectangleButton syncOff = new RectangleButton();
+    public final CRectButton back = new CRectButton();
+    public final CRectButton normalMode = new CRectButton();
+    public final CRectButton autoplayMode = new CRectButton();
+    public final CRectButton syncOn = new CRectButton();
+    public final CRectButton syncOff = new CRectButton();
 
     private void setBack(){
         BoundedString normal = new BoundedString();

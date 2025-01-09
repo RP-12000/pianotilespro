@@ -171,8 +171,7 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
         render(g2d);
     }
 
-    @Override
-    public void toNextPanel() {}
+    protected void toNextPanel() {}
 
     @Override
     public void scale(Dimension d) {}

@@ -5,10 +5,7 @@ import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
 import org.kelvinizer.game.gamewindow.Chart;
-import org.kelvinizer.menu.menuwindows.CollectionSelection;
-import org.kelvinizer.menu.menuwindows.Settings;
-import org.kelvinizer.menu.menuwindows.SongSelection;
-import org.kelvinizer.menu.menuwindows.WelcomePage;
+import org.kelvinizer.menu.menuwindows.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,8 +45,10 @@ public class App extends JFrame {
                 case 1:
                     display = new CollectionSelection();break;
                 case 2:
-                    display = new SongSelection();break;
+                    display = new LoadingPage();break;
                 case 3:
+                    display = new SongSelection();break;
+                case 4:
                     try {
                         display = new Chart();
                     } catch (IOException e) {
