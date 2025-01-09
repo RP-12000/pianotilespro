@@ -1,4 +1,4 @@
-package org.kelvinizer.support;
+package org.kelvinizer.support.classes;
 
 public class Pair<A, B> {
     public A first;

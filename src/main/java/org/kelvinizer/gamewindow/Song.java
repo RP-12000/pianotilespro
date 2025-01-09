@@ -1,6 +1,6 @@
 package org.kelvinizer.gamewindow;
 
-import org.kelvinizer.support.Pair;
+import org.kelvinizer.support.classes.Pair;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

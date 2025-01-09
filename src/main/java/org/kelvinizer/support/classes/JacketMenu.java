@@ -1,4 +1,4 @@
-package org.kelvinizer.support;
+package org.kelvinizer.support.classes;
 
 import org.kelvinizer.shapes.CRect;
 
@@ -185,6 +185,6 @@ public class JacketMenu{
     }
 
     public void drawSelectionString(Graphics2D g2d){
-        menu.get(menuIndex).first.draw(g2d);
+        menu.get(menuIndex).first.render(g2d);
     }
 }

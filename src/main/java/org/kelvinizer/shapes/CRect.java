@@ -1,8 +1,7 @@
 package org.kelvinizer.shapes;
 
-import org.kelvinizer.constants.General;
 import org.kelvinizer.constants.ReferenceWindow;
-import org.kelvinizer.support.Pair;
+import org.kelvinizer.support.classes.Pair;
 
 import java.awt.*;
 

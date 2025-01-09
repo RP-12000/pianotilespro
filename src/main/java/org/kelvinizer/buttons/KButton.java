@@ -1,9 +1,8 @@
 package org.kelvinizer.buttons;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
+import org.kelvinizer.support.interfaces.*;
 
-public abstract class KButton {
+public abstract class KButton implements Drawable, Resizable, Focusable {
     protected boolean selected = false;
     protected boolean focused = false;
 
@@ -16,8 +15,4 @@ public abstract class KButton {
     public boolean isFocused() {
         return focused;
     }
-
-    public abstract void setFocused(MouseEvent e);
-    public abstract void resize(Dimension d);
-    public abstract void draw(Graphics2D g2d);
 }

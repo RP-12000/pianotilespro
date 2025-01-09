@@ -1,10 +1,11 @@
 package org.kelvinizer.shapes;
 
 import org.kelvinizer.constants.General;
+import org.kelvinizer.support.interfaces.Drawable;
 
 import java.awt.*;
 
-public abstract class CShape implements Cloneable{
+public abstract class CShape implements Drawable {
     private Color fillColor;
     private Color outlineColor;
     private double outlineThickness;
@@ -43,7 +44,8 @@ public abstract class CShape implements Cloneable{
         this.outlineThickness = outlineThickness;
     }
 
-    public void draw(Graphics2D g2d){
+    @Override
+    public void render(Graphics2D g2d){
         Shape s = toJShape();
         if(fillColor!=null) {
             g2d.setColor(fillColor);

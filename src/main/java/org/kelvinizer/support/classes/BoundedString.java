@@ -1,11 +1,12 @@
-package org.kelvinizer.support;
+package org.kelvinizer.support.classes;
 
 import org.kelvinizer.constants.General;
 import org.kelvinizer.shapes.CRect;
+import org.kelvinizer.support.interfaces.Drawable;
 
 import java.awt.*;
 
-public class BoundedString implements Cloneable{
+public class BoundedString implements Drawable {
     private CRect bounds;
     private String data;
     private final int maxStringSize;
@@ -28,6 +29,10 @@ public class BoundedString implements Cloneable{
         this(d, maxStringSize, 0, 0);
     }
 
+    public BoundedString(){
+        this("", 0);
+    }
+
     private boolean isValidSize(Graphics2D g2d, Font f, String d){
         FontMetrics fm = g2d.getFontMetrics(f);
         return (bounds.getWidth() - 2 * horizontalWhiteSpace > fm.stringWidth(d)) &&
@@ -42,8 +47,9 @@ public class BoundedString implements Cloneable{
         );
     }
 
-    public void draw(Graphics2D g2d){
-        bounds.draw(g2d);
+    @Override
+    public void render(Graphics2D g2d){
+        bounds.render(g2d);
         int size = 0;
         while(isValidSize(g2d, new Font(name, style, size), data) && size<=maxStringSize){
             size++;
@@ -94,14 +100,5 @@ public class BoundedString implements Cloneable{
 
     public void setBounds(Rectangle r){
         bounds = new CRect(r.x, r.y, r.width, r.height);
-    }
-
-    @Override
-    public BoundedString clone() {
-        try {
-            return (BoundedString) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
     }
 }

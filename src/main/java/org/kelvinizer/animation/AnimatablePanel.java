@@ -3,7 +3,7 @@ package org.kelvinizer.animation;
 import org.kelvinizer.constants.General;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
-import org.kelvinizer.support.Triple;
+import org.kelvinizer.support.classes.Triple;
 
 import javax.swing.*;
 import java.awt.*;

@@ -5,8 +5,9 @@ import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.gamewindow.Song;
+import org.kelvinizer.guibuttons.SongSelectionButtons;
 import org.kelvinizer.shapes.CRect;
-import org.kelvinizer.support.JacketMenu;
+import org.kelvinizer.support.classes.JacketMenu;
 import org.kelvinizer.buttons.PolygonButton;
 
 import javax.swing.*;
@@ -29,12 +30,8 @@ public class SongSelection extends AnimatablePanel {
     private boolean toSettings = false;
     private boolean isValid;
 
-    private final PolygonButton back = new PolygonButton(
-            new Rectangle(100, 100)
-    );
-    private final PolygonButton settings = new PolygonButton(
-            new Rectangle((int) ReferenceWindow.REF_WIN_W-113, 0, 100, 100)
-    );
+    private final SongSelectionButtons ssb = new SongSelectionButtons();
+
     private final PolygonButton play = new PolygonButton(
             new Rectangle((int) ReferenceWindow.REF_WIN_W-113, (int) ReferenceWindow.REF_WIN_H-135, 100, 100)
     );
@@ -63,10 +60,6 @@ public class SongSelection extends AnimatablePanel {
         songs.setBounds(new CRect(300, 350, 400, 60));
         songs.setOutlineColor(Color.WHITE);
         songs.setOutlineThickness(5.0);
-        basic.setFocusedColor(Color.GREEN);
-        medium.setFocusedColor(Color.GREEN);
-        advanced.setFocusedColor(Color.GREEN);
-        legendary.setFocusedColor(Color.GREEN);
         if(!songs.isEmpty() && isValid){
             addKeyBinding(KeyEvent.VK_UP, new AbstractAction() {
                 @Override
@@ -118,74 +111,66 @@ public class SongSelection extends AnimatablePanel {
 
     @Override
     public void resizeButtons(Dimension d){
-        back.resize(d);
-        settings.resize(d);
-        play.resize(d);
-        basic.resize(d);
-        medium.resize(d);
-        advanced.resize(d);
-        legendary.resize(d);
-        moveUp.resize(d);
-        moveDown.resize(d);
+        ssb.resize(d);
     }
 
     @Override
     public void mouseMoved(MouseEvent e){
-        back.setFocused(e);
-        settings.setFocused(e);
+        ssb.back.setFocused(e);
+        ssb.settings.setFocused(e);
         if(!songs.isEmpty() && isValid){
-            play.setFocused(e);
-            basic.setFocused(e);
-            medium.setFocused(e);
-            advanced.setFocused(e);
+            ssb.play.setFocused(e);
+            ssb.basic.setFocused(e);
+            ssb.medium.setFocused(e);
+            ssb.advanced.setFocused(e);
             if(songData.get(songs.getMenuIndex()).hasLG()){
-                legendary.setFocused(e);
+                ssb.legendary.setFocused(e);
             }
             if(!songs.atBeginning()){
-                moveUp.setFocused(e);
+                ssb.moveUp.setFocused(e);
             }
             if(!songs.atEnd()){
-                moveDown.setFocused(e);
+                ssb.moveDown.setFocused(e);
             }
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e){
-        if(back.contains(e.getPoint())){
+        if(ssb.back.isFocused()){
             goBack = true;
             exit();
         }
-        if(settings.contains(e.getPoint())){
+        if(ssb.settings.isFocused()){
             toSettings = true;
             exit();
         }
         if(!songs.isEmpty() && isValid){
-            if(moveUp.contains(e.getPoint())){
+            if(ssb.moveUp.isFocused()){
                 songs.moveBackward();
                 if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
                     Selection.level = "AV";
                 }
             }
-            if(moveDown.contains(e.getPoint())){
+            if(ssb.moveDown.isFocused()){
                 songs.moveForward();
                 if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
                     Selection.level = "AV";
                 }
             }
-            if(play.contains(e.getPoint())){
+            if(ssb.play.isFocused()){
                 exit();
             }
-            else if(basic.contains(e.getPoint())){
+            else if(ssb.basic.isFocused()){
                 Selection.level = "BS";
             }
-            else if(medium.contains(e.getPoint())){
+            else if(ssb.medium.isFocused()){
                 Selection.level = "MD";
             }
-            else if(advanced.contains(e.getPoint())){
+            else if(ssb.advanced.isFocused()){
                 Selection.level = "AV";
             }
-            else if(songData.get(songs.getMenuIndex()).hasLG() && legendary.contains(e.getPoint())){
+            else if(songData.get(songs.getMenuIndex()).hasLG() && ssb.legendary.isFocused()){
                 Selection.level = "LG";
             }
         }
@@ -198,8 +183,8 @@ public class SongSelection extends AnimatablePanel {
 
     @Override
     protected void renderObjects(Graphics2D g2d){
-        settings.draw(g2d);
-        back.draw(g2d);
+        ssb.settings.render(g2d);
+        ssb.back.render(g2d);
         if(songs.isEmpty()){
             g2d.setColor(Color.WHITE);
             g2d.setFont(new Font("Arial", Font.BOLD, 25));
@@ -219,25 +204,27 @@ public class SongSelection extends AnimatablePanel {
                 g2d.setFont(new Font("Arial", Font.ITALIC, 15));
                 g2d.drawString("No jacket preview available", 675, 340);
             }
-            play.draw(g2d);
+            ssb.play.render(g2d);
             songs.drawSelectionString(g2d);
             if(!songs.atBeginning()){
-                moveUp.fill(g2d);
+                ssb.moveUp.render(g2d);
             }
             if(!songs.atEnd()){
-                moveDown.fill(g2d);
+                ssb.moveDown.render(g2d);
             }
+            ssb.deselectAllLevel();
+            ssb.addLevelToButtons(songData.get(songs.getMenuIndex()));
             switch (Selection.level) {
                 case "BS" -> basic.setFocused(true);
                 case "MD" -> medium.setFocused(true);
                 case "AV" -> advanced.setFocused(true);
                 case "LG" -> legendary.setFocused(true);
             }
-            basic.draw(g2d);
-            medium.draw(g2d);
-            advanced.draw(g2d);
+            ssb.basic.render(g2d);
+            ssb.medium.render(g2d);
+            ssb.advanced.render(g2d);
             if(songData.get(songs.getMenuIndex()).hasLG()){
-                legendary.draw(g2d);
+                ssb.legendary.render(g2d);
             }
         }
     }

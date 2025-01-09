@@ -51,12 +51,12 @@ public class TriangleButton extends KButton {
     }
 
     @Override
-    public void draw(Graphics2D g2d) {
+    public void render(Graphics2D g2d) {
         if(focused){
-            onFocus.draw(g2d);
+            onFocus.render(g2d);
         }
         else{
-            normal.draw(g2d);
+            normal.render(g2d);
         }
     }
 }

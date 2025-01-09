@@ -1,4 +1,4 @@
-package org.kelvinizer.support;
+package org.kelvinizer.support.classes;
 
 public class Triple<A, B, C> {
     public A first;

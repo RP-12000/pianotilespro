@@ -1,7 +1,8 @@
 package org.kelvinizer.gui;
 
 import org.kelvinizer.animation.AnimatablePanel;
-import org.kelvinizer.support.BoundedString;
+import org.kelvinizer.guibuttons.SettingsButtons;
+import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.buttons.PolygonButton;
 import org.kelvinizer.constants.General;
@@ -14,94 +15,82 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class Settings extends AnimatablePanel {
-    private final RectangleButton normal = new RectangleButton();
-    private final RectangleButton autoplay = new RectangleButton();
-    private final PolygonButton back = new PolygonButton(
-            new Rectangle(100, 100)
-    );
+    private final SettingsButtons sb = new SettingsButtons();
 
     public Settings(){
         super();
-        addKeyBinding(KeyEvent.VK_LEFT, new AbstractAction() {
+        addKeyBinding(KeyEvent.VK_A, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 General.isAutoplay = !General.isAutoplay;
             }
         });
-        addKeyBinding(KeyEvent.VK_RIGHT, new AbstractAction() {
+        addKeyBinding(KeyEvent.VK_S, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                General.isAutoplay = !General.isAutoplay;
+                General.syncEnabled = !General.syncEnabled;
             }
         });
-
-        BoundedString temp = new BoundedString("Normal", 50, 200, 100, 300, 100);
-        temp.setVerticalWhiteSpace(30);
-        temp.setHorizontalWhiteSpace(50);
-        temp.getBounds().setOutlineColor(Color.WHITE);
-        temp.getBounds().setOutlineThickness(2.0);
-        normal.setNormalMode(temp.clone());
-
-        temp.getBounds().setOutlineColor(Color.BLUE);
-        temp.getBounds().setOutlineThickness(5.0);
-        normal.setOnFocus(temp.clone());
-
-        temp.getBounds().setOutlineColor(Color.GREEN);
-        temp.getBounds().setOutlineThickness(2.0);
-        temp.setStringColor(Color.GREEN);
-        normal.setOnSelection(temp.clone());
-
-        temp.setBounds(new CRect(700, 100, 300, 100));
-        temp.setString("Autoplay");
-        temp.setVerticalWhiteSpace(30);
-        temp.setHorizontalWhiteSpace(50);
-        temp.getBounds().setOutlineColor(Color.WHITE);
-        temp.getBounds().setOutlineThickness(2.0);
-        autoplay.setNormalMode(temp.clone());
-
-        temp.getBounds().setOutlineColor(Color.BLUE);
-        temp.getBounds().setOutlineThickness(5.0);
-        autoplay.setOnFocus(temp.clone());
-
-        temp.getBounds().setOutlineColor(Color.GREEN);
-        temp.getBounds().setOutlineThickness(2.0);
-        temp.setStringColor(Color.GREEN);
-        autoplay.setOnSelection(temp.clone());
+        addKeyBinding(KeyEvent.VK_BACK_SPACE, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exit();
+            }
+        });
     }
 
     @Override
     public void mouseMoved(MouseEvent e){
-        autoplay.setFocused(e);
-        normal.setFocused(e);
-        back.setFocused(e);
+        sb.back.setFocused(e);
+        sb.normalMode.setFocused(e);
+        sb.autoplayMode.setFocused(e);
+        sb.syncOn.setFocused(e);
+        sb.syncOff.setFocused(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e){
-        if(autoplay.isFocused()){
+        if(sb.autoplayMode.isFocused()){
             General.isAutoplay = true;
         }
-        else if(normal.isFocused()){
+        else if(sb.normalMode.isFocused()){
             General.isAutoplay = false;
         }
-        else if(back.contains(e.getPoint())){
+        else if(sb.syncOn.isFocused()){
+            General.syncEnabled=true;
+        }
+        else if(sb.syncOff.isFocused()){
+            General.syncEnabled=false;
+        }
+        else if(sb.back.isFocused()){
             exit();
         }
     }
 
     @Override
+    public void resizeButtons(Dimension d){
+        sb.resize(d);
+    }
+
+    @Override
     protected void renderObjects(Graphics2D g2d){
         if(General.isAutoplay){
-            autoplay.select(true);
-            normal.select(false);
+            sb.normalMode.select(false);
+            sb.autoplayMode.select(true);
         }
         else{
-            autoplay.select(false);
-            normal.select(true);
+            sb.normalMode.select(true);
+            sb.autoplayMode.select(false);
         }
-        normal.draw(g2d);
-        autoplay.draw(g2d);
-        back.draw(g2d);
+        if(General.syncEnabled){
+            sb.syncOff.select(false);
+            sb.syncOn.select(true);
+        }
+        else{
+            sb.syncOff.select(true);
+            sb.syncOn.select(false);
+        }
+        sb.render(g2d);
     }
 
     @Override

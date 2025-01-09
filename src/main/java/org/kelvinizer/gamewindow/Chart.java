@@ -198,7 +198,7 @@ public class Chart extends AnimatablePanel {
         for(int i=0; i<16; i++){
             ArrayList<CRect> render = lanes[i].toRect();
             for(CRect r: render){
-                r.draw(g2d);
+                r.render(g2d);
             }
             lanes[i].update(signal[i]);
             if(signal[i]!=0){

@@ -2,22 +2,22 @@ package org.kelvinizer.gui;
 
 import org.kelvinizer.constants.General;
 import org.kelvinizer.animation.AnimatablePanel;
-import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Selection;
+import org.kelvinizer.guibuttons.CollectionSelectionButtons;
 import org.kelvinizer.shapes.CRect;
-import org.kelvinizer.support.JacketMenu;
+import org.kelvinizer.support.classes.JacketMenu;
 import org.kelvinizer.buttons.PolygonButton;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static org.kelvinizer.buttons.GameButtons.back;
-
 public class CollectionSelection extends AnimatablePanel {
     private final JacketMenu collections = new JacketMenu("Chart", Selection.collectionIndex, 50);
     private boolean goBack = false;
     private boolean toSettings = false;
+
+    private final CollectionSelectionButtons csb = new CollectionSelectionButtons();
 
     private final PolygonButton previous = new PolygonButton(
             new Polygon(new int[]{60, 60, 30}, new int[]{310, 410, 360}, 3)
@@ -27,9 +27,6 @@ public class CollectionSelection extends AnimatablePanel {
     );
     private final PolygonButton jacket = new PolygonButton(
             new Rectangle(360, 140, 360, 360)
-    );
-    private final PolygonButton settings = new PolygonButton(
-            new Rectangle((int) ReferenceWindow.REF_WIN_W-113, 0, 100, 100)
     );
 
     public CollectionSelection(){
@@ -87,28 +84,28 @@ public class CollectionSelection extends AnimatablePanel {
             next.setFocused(e);
         }
         jacket.setFocused(e);
-        settings.setFocused(e);
-        back.setFocused(e);
+        csb.back.setFocused(e);
+        csb.settings.setFocused(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e){
         if(!collections.isEmpty()){
-            if(next.contains(e.getPoint()) && !collections.atEnd()){
+            if(csb.moveRight.isFocused() && !collections.atEnd()){
                 collections.moveForward();
             }
-            else if(previous.contains((e.getPoint())) && !collections.atBeginning()){
+            else if(csb.moveLeft.isFocused() && !collections.atBeginning()){
                 collections.moveBackward();
             }
-            else if(jacket.contains(e.getPoint())){
+            else if(csb.jacket.isFocused()){
                 exit();
             }
         }
-        if(back.isFocused()){
+        if(csb.back.isFocused()){
             goBack = true;
             exit();
         }
-        if(settings.contains(e.getPoint())){
+        if(csb.settings.isFocused()){
             toSettings = true;
             exit();
         }
@@ -116,28 +113,24 @@ public class CollectionSelection extends AnimatablePanel {
 
     @Override
     public void resizeButtons(Dimension d){
-        previous.resize(d);
-        next.resize(d);
-        back.resize(d);
-        settings.resize(d);
-        jacket.resize(d);
+        csb.resize(d);
     }
 
     @Override
     protected void renderObjects(Graphics2D g2d){
         if(collections.isEmpty()){
-            g2d.setFont(new Font("Arial", Font.BOLD, 25));
+            g2d.setFont(new Font("Arial", Font.BOLD, 50));
             g2d.drawString("Nothing is in here QAQ\n",540, 360);
         }
         else{
             collections.drawSelectionString(g2d);
             if(!collections.atBeginning()){
-                previous.fill(g2d);
+                csb.moveLeft.render(g2d);
             }
             if(!collections.atEnd()){
-                next.fill(g2d);
+                csb.moveRight.render(g2d);
             }
-            jacket.draw(g2d);
+            csb.jacket.render(g2d);
             if(collections.getSelectionJacket()!=null){
                 g2d.drawImage(collections.getSelectionJacket(), 360, 140, 360, 360, this);
             }
@@ -146,8 +139,8 @@ public class CollectionSelection extends AnimatablePanel {
                 g2d.drawString("No jacket preview available", 450, 330);
             }
         }
-        settings.draw(g2d);
-        back.draw(g2d);
+        csb.back.render(g2d);
+        csb.settings.render(g2d);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package org.kelvinizer;
 
 import org.kelvinizer.animation.AnimatablePanel;
-import org.kelvinizer.buttons.GameButtons;
 import org.kelvinizer.constants.General;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
@@ -28,7 +27,6 @@ public class App extends JFrame {
 
     private void boot(){
         setTitle("PianoTilesPro");
-        GameButtons.init();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Insets insets = getInsets();
         ReferenceWindow.extraWidth = insets.left + insets.right;

@@ -10,5 +10,6 @@ public class General {
     public static final Color DEFAULT_COLOR = Color.WHITE;
     public static final Stroke DEFAULT_STROKE = new BasicStroke(1.0f);
     public static boolean isAutoplay = false;
+    public static boolean syncEnabled = true;
     public static int isPaused = 0;
 }

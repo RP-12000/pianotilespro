@@ -1,6 +1,6 @@
 package org.kelvinizer.buttons;
 
-import org.kelvinizer.support.BoundedString;
+import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.shapes.CRect;
 
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 public class RectangleButton extends KButton {
-    private BoundedString normalMode;
+    private BoundedString normal;
     private BoundedString onFocus;
     private BoundedString onSelection = null;
     private BufferedImage icon = null;
@@ -16,8 +16,8 @@ public class RectangleButton extends KButton {
 
     public RectangleButton(){}
 
-    public void setNormalMode(BoundedString bs) {
-        normalMode = bs;
+    public void setNormal(BoundedString bs) {
+        normal = bs;
         normalSpace = new CRect(
                 bs.getBounds().getX(),
                 bs.getBounds().getY(),
@@ -47,6 +47,18 @@ public class RectangleButton extends KButton {
                 bs.getBounds().getHeight()
         );
         selectionSpace.setOrigin(bs.getBounds().getOrigin());
+    }
+
+    public BoundedString getNormal(){
+        return normal;
+    }
+
+    public BoundedString getOnFocus(){
+        return onFocus;
+    }
+
+    public BoundedString getOnSelection(){
+        return onSelection;
     }
 
     @Override
@@ -93,10 +105,10 @@ public class RectangleButton extends KButton {
             }
             else{
                 g2d.drawImage(icon,
-                        (int)normalMode.getBounds().getX(),
-                        (int)normalMode.getBounds().getY(),
-                        (int)normalMode.getBounds().getWidth(),
-                        (int)normalMode.getBounds().getHeight(),
+                        (int) normal.getBounds().getX(),
+                        (int) normal.getBounds().getY(),
+                        (int) normal.getBounds().getWidth(),
+                        (int) normal.getBounds().getHeight(),
                         null
                 );
             }
@@ -104,15 +116,15 @@ public class RectangleButton extends KButton {
     }
 
     @Override
-    public void draw(Graphics2D g2d){
+    public void render(Graphics2D g2d){
         if(selected){
-            onSelection.draw(g2d);
+            onSelection.render(g2d);
         }
         else if(focused){
-            onFocus.draw(g2d);
+            onFocus.render(g2d);
         }
         else{
-            normalMode.draw(g2d);
+            normal.render(g2d);
         }
         drawIcon(g2d);
     }
