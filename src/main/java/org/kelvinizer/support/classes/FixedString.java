@@ -1,6 +1,6 @@
 package org.kelvinizer.support.classes;
 
-import org.kelvinizer.shapes.CRect;
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.support.interfaces.Drawable;
 
 import java.awt.*;
@@ -28,6 +28,10 @@ public class FixedString extends BoundedString implements Drawable {
     @Override
     public void render(Graphics2D g2d) {
         super.getBounds().render(g2d);
-
+        g2d.setFont(new Font(super.getFontName(), super.getFontStyle(), fixedStrSize));
+        Pair<Double, Double> p = super.getRenderPoint(g2d, super.getString());
+        g2d.drawString(super.getString(), (float)(double)p.first, (float)(double)p.second);
+        g2d.setStroke(Control.DEFAULT_STROKE);
+        g2d.setColor(Control.DEFAULT_COLOR);
     }
 }

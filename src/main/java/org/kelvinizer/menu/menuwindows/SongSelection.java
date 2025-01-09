@@ -1,9 +1,9 @@
-package org.kelvinizer.menu.guiwindows;
+package org.kelvinizer.menu.menuwindows;
 
-import org.kelvinizer.constants.General;
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.animation.AnimatablePanel;
-import org.kelvinizer.gamewindow.Song;
+import org.kelvinizer.game.gamewindow.Song;
 import org.kelvinizer.menu.menubuttons.SongSelectionButtons;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.JacketMenu;
@@ -41,12 +41,18 @@ public class SongSelection extends AnimatablePanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     songs.moveBackward();
+                    if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
+                        Selection.level = "AV";
+                    }
                 }
             });
             addKeyBinding(KeyEvent.VK_DOWN, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     songs.moveForward();
+                    if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
+                        Selection.level = "AV";
+                    }
                 }
             });
             addKeyBinding(KeyEvent.VK_ENTER, new AbstractAction() {
@@ -86,29 +92,13 @@ public class SongSelection extends AnimatablePanel {
     }
 
     @Override
-    public void resizeButtons(Dimension d){
-        ssb.resize(d);
+    public void scale(Dimension d){
+        ssb.scale(d);
     }
 
     @Override
     public void mouseMoved(MouseEvent e){
-        ssb.back.setFocused(e);
-        ssb.settings.setFocused(e);
-        if(!songs.isEmpty() && isValid){
-            ssb.play.setFocused(e);
-            ssb.basic.setFocused(e);
-            ssb.medium.setFocused(e);
-            ssb.advanced.setFocused(e);
-            if(songData.get(songs.getMenuIndex()).hasLG()){
-                ssb.legendary.setFocused(e);
-            }
-            if(!songs.atBeginning()){
-                ssb.moveUp.setFocused(e);
-            }
-            if(!songs.atEnd()){
-                ssb.moveDown.setFocused(e);
-            }
-        }
+        ssb.setFocused(e);
     }
 
     @Override
@@ -158,7 +148,7 @@ public class SongSelection extends AnimatablePanel {
     }
 
     @Override
-    protected void renderObjects(Graphics2D g2d){
+    public void render(Graphics2D g2d){
         ssb.settings.render(g2d);
         ssb.back.render(g2d);
         if(songs.isEmpty()){
@@ -196,15 +186,15 @@ public class SongSelection extends AnimatablePanel {
     public void toNextPanel(){
         Selection.songIndex.put(Selection.collectionDir, songs.getMenuIndex());
         if(goBack){
-            General.panel_index = 1;
+            Control.panel_index = 1;
             return;
         }
         if(toSettings){
-            General.panel_index += General.numPanels;
+            Control.panel_index += Control.numPanels;
         }
         else{
             Selection.songDir = songs.getSelectionString();
-            General.panel_index = 2;
+            Control.panel_index = 2;
         }
     }
 }

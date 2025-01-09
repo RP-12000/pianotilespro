@@ -1,21 +1,21 @@
 package org.kelvinizer;
 
 import org.kelvinizer.animation.AnimatablePanel;
-import org.kelvinizer.constants.General;
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
-import org.kelvinizer.gamewindow.Chart;
-import org.kelvinizer.menu.guiwindows.CollectionSelection;
-import org.kelvinizer.menu.guiwindows.Settings;
-import org.kelvinizer.menu.guiwindows.SongSelection;
-import org.kelvinizer.menu.guiwindows.WelcomePage;
+import org.kelvinizer.game.gamewindow.Chart;
+import org.kelvinizer.menu.menuwindows.CollectionSelection;
+import org.kelvinizer.menu.menuwindows.Settings;
+import org.kelvinizer.menu.menuwindows.SongSelection;
+import org.kelvinizer.menu.menuwindows.WelcomePage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.concurrent.*;
 
-import static org.kelvinizer.constants.General.*;
+import static org.kelvinizer.constants.Control.*;
 
 public class App extends JFrame {
     private AnimatablePanel display;
@@ -40,9 +40,9 @@ public class App extends JFrame {
     }
 
     private void runGame(){
-        if(lastPanel!=General.panel_index){
+        if(lastPanel!= Control.panel_index){
             remove(display);
-            switch (General.panel_index){
+            switch (Control.panel_index){
                 case 0:
                     display = new WelcomePage();break;
                 case 1:
@@ -64,6 +64,6 @@ public class App extends JFrame {
             lastPanel = panel_index;
         }
         display.setBounds(0, 0, getSize().width, getSize().height);
-        display.resizeButtons(getSize());
+        display.scale(getSize());
     }
 }

@@ -1,9 +1,10 @@
-package org.kelvinizer.menu.guiwindows;
+package org.kelvinizer.menu.menuwindows;
 
-import org.kelvinizer.constants.General;
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.menu.menubuttons.CollectionSelectionButtons;
+import org.kelvinizer.menu.menutext.CollectionSelectionText;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.JacketMenu;
 
@@ -17,6 +18,7 @@ public class CollectionSelection extends AnimatablePanel {
     private boolean toSettings = false;
 
     private final CollectionSelectionButtons csb = new CollectionSelectionButtons();
+    private final CollectionSelectionText cst = new CollectionSelectionText();
 
     public CollectionSelection(){
         super();
@@ -93,15 +95,14 @@ public class CollectionSelection extends AnimatablePanel {
     }
 
     @Override
-    public void resizeButtons(Dimension d){
-        csb.resize(d);
+    public void scale(Dimension d){
+        csb.scale(d);
     }
 
     @Override
-    protected void renderObjects(Graphics2D g2d){
+    public void render(Graphics2D g2d){
         if(collections.isEmpty()){
-            g2d.setFont(new Font("Arial", Font.BOLD, 50));
-            g2d.drawString("Nothing is in here QAQ\n",540, 360);
+            cst.emptyFolderVerdict.render(g2d);
         }
         else{
             collections.drawSelectionString(g2d);
@@ -116,8 +117,7 @@ public class CollectionSelection extends AnimatablePanel {
                 g2d.drawImage(collections.getSelectionJacket(), 360, 140, 360, 360, this);
             }
             else{
-                g2d.setFont(new Font("Arial", Font.ITALIC, 15));
-                g2d.drawString("No jacket preview available", 450, 330);
+                cst.nullJacketVerdict.render(g2d);
             }
         }
         csb.back.render(g2d);
@@ -128,14 +128,14 @@ public class CollectionSelection extends AnimatablePanel {
     public void toNextPanel() {
         Selection.collectionIndex = collections.getMenuIndex();
         if(goBack){
-            General.panel_index = 0;
+            Control.panel_index = 0;
         }
         else if(toSettings){
-            General.panel_index += General.numPanels;
+            Control.panel_index += Control.numPanels;
         }
         else{
             Selection.collectionDir = collections.getSelectionString();
-            General.panel_index = 2;
+            Control.panel_index = 2;
         }
     }
 }

@@ -1,4 +1,4 @@
-package org.kelvinizer.gamewindow;
+package org.kelvinizer.game.gamewindow;
 
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.*;
@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 
-import static org.kelvinizer.constants.General.isPaused;
+import static org.kelvinizer.constants.Control.isPaused;
 
 public class Chart extends AnimatablePanel {
     double noteCount;
@@ -185,7 +185,7 @@ public class Chart extends AnimatablePanel {
 
     @Override
     public void onActive(Graphics2D g2d){
-        renderObjects(g2d);
+        render(g2d);
     }
 
     @Override
@@ -194,7 +194,7 @@ public class Chart extends AnimatablePanel {
     }
 
     @Override
-    protected void renderObjects(Graphics2D g2d){
+    public void render(Graphics2D g2d){
         for(int i=0; i<16; i++){
             ArrayList<CRect> render = lanes[i].toRect();
             for(CRect r: render){

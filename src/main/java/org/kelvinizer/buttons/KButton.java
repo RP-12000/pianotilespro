@@ -2,7 +2,7 @@ package org.kelvinizer.buttons;
 
 import org.kelvinizer.support.interfaces.*;
 
-public abstract class KButton implements Drawable, Resizable, Focusable {
+public abstract class KButton implements Drawable, Scalable, Focusable {
     protected boolean selected = false;
     protected boolean focused = false;
 

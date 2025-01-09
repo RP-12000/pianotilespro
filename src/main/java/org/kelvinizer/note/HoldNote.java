@@ -8,7 +8,7 @@ import org.kelvinizer.shapes.CRect;
 import java.awt.*;
 
 import static org.kelvinizer.constants.GameColors.PAUSED_OPACITY;
-import static org.kelvinizer.constants.General.isPaused;
+import static org.kelvinizer.constants.Control.isPaused;
 import static org.kelvinizer.constants.ReferenceWindow.UNIT;
 
 public class HoldNote extends Note{

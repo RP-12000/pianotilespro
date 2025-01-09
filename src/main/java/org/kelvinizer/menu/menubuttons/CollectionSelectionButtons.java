@@ -6,12 +6,12 @@ import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.shapes.CTriangle;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.interfaces.Focusable;
-import org.kelvinizer.support.interfaces.Resizable;
+import org.kelvinizer.support.interfaces.Scalable;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class CollectionSelectionButtons implements Resizable, Focusable {
+public class CollectionSelectionButtons implements Scalable, Focusable {
     public final RectangleButton back = new RectangleButton();
     public final RectangleButton settings = new RectangleButton();
     public final RectangleButton jacket = new RectangleButton();
@@ -105,12 +105,12 @@ public class CollectionSelectionButtons implements Resizable, Focusable {
     }
 
     @Override
-    public void resize(Dimension d) {
-        back.resize(d);
-        settings.resize(d);
-        jacket.resize(d);
-        moveLeft.resize(d);
-        moveRight.resize(d);
+    public void scale(Dimension d) {
+        back.scale(d);
+        settings.scale(d);
+        jacket.scale(d);
+        moveLeft.scale(d);
+        moveRight.scale(d);
     }
 
     @Override

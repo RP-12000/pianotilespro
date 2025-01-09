@@ -53,7 +53,7 @@ public class TriangleButton extends KButton {
     }
 
     @Override
-    public void resize(Dimension d) {
+    public void scale(Dimension d) {
         initNormal();
         initOnFocus();
         normalSpace.scale(d);

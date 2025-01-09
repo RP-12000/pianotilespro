@@ -1,8 +1,8 @@
-package org.kelvinizer.menu.guiwindows;
+package org.kelvinizer.menu.menuwindows;
 
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.menu.menubuttons.SettingsButtons;
-import org.kelvinizer.constants.General;
+import org.kelvinizer.constants.Control;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,13 +18,13 @@ public class Settings extends AnimatablePanel {
         addKeyBinding(KeyEvent.VK_A, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                General.isAutoplay = !General.isAutoplay;
+                Control.isAutoplay = !Control.isAutoplay;
             }
         });
         addKeyBinding(KeyEvent.VK_S, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                General.syncEnabled = !General.syncEnabled;
+                Control.syncEnabled = !Control.syncEnabled;
             }
         });
         addKeyBinding(KeyEvent.VK_BACK_SPACE, new AbstractAction() {
@@ -47,16 +47,16 @@ public class Settings extends AnimatablePanel {
     @Override
     public void mouseClicked(MouseEvent e){
         if(sb.autoplayMode.isFocused()){
-            General.isAutoplay = true;
+            Control.isAutoplay = true;
         }
         else if(sb.normalMode.isFocused()){
-            General.isAutoplay = false;
+            Control.isAutoplay = false;
         }
         else if(sb.syncOn.isFocused()){
-            General.syncEnabled=true;
+            Control.syncEnabled=true;
         }
         else if(sb.syncOff.isFocused()){
-            General.syncEnabled=false;
+            Control.syncEnabled=false;
         }
         else if(sb.back.isFocused()){
             exit();
@@ -64,13 +64,13 @@ public class Settings extends AnimatablePanel {
     }
 
     @Override
-    public void resizeButtons(Dimension d){
-        sb.resize(d);
+    public void scale(Dimension d){
+        sb.scale(d);
     }
 
     @Override
-    protected void renderObjects(Graphics2D g2d){
-        if(General.isAutoplay){
+    public void render(Graphics2D g2d){
+        if(Control.isAutoplay){
             sb.normalMode.select(false);
             sb.autoplayMode.select(true);
         }
@@ -78,7 +78,7 @@ public class Settings extends AnimatablePanel {
             sb.normalMode.select(true);
             sb.autoplayMode.select(false);
         }
-        if(General.syncEnabled){
+        if(Control.syncEnabled){
             sb.syncOff.select(false);
             sb.syncOn.select(true);
         }
@@ -91,6 +91,6 @@ public class Settings extends AnimatablePanel {
 
     @Override
     public void toNextPanel(){
-        General.panel_index -= General.numPanels;
+        Control.panel_index -= Control.numPanels;
     }
 }

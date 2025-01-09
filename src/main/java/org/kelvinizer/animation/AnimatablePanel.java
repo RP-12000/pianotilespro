@@ -1,9 +1,11 @@
 package org.kelvinizer.animation;
 
-import org.kelvinizer.constants.General;
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
 import org.kelvinizer.support.classes.Triple;
+import org.kelvinizer.support.interfaces.Drawable;
+import org.kelvinizer.support.interfaces.Scalable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class AnimatablePanel extends JPanel implements Animatable, MouseMotionListener, MouseWheelListener, MouseListener{
+public class AnimatablePanel extends JPanel implements Animatable, MouseMotionListener, MouseWheelListener, MouseListener, Scalable, Drawable {
     private boolean is_start = true, is_end = false;
     private boolean has_start = false, has_end = false;
     protected long start_time, end_time;
@@ -41,8 +43,8 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
         g2d.scale((double)getWidth()/ReferenceWindow.REF_WIN_W, (double)getHeight()/ReferenceWindow.REF_WIN_H);
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0,0, (int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
-        g2d.setColor(General.DEFAULT_COLOR);
-        g2d.setStroke(General.DEFAULT_STROKE);
+        g2d.setColor(Control.DEFAULT_COLOR);
+        g2d.setStroke(Control.DEFAULT_STROKE);
         if(is_start){
             if(!has_start){
                 has_start=true;
@@ -137,7 +139,8 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
         ));
     }
 
-    protected void renderObjects(Graphics2D g2d) {}
+    @Override
+    public void render(Graphics2D g2d) {}
 
     protected void addKeyBinding(int VK_Code, boolean onRelease, Action a){
         addKeyBinding(VK_Code, onRelease, 0, a);
@@ -154,25 +157,25 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
     @Override
     public void onAppearance(Graphics2D g2d) {
         setAppearingOpacity(g2d);
-        renderObjects(g2d);
+        render(g2d);
     }
 
     @Override
     public void onActive(Graphics2D g2d) {
-        renderObjects(g2d);
+        render(g2d);
     }
 
     @Override
     public void onDisappearance(Graphics2D g2d) {
         setDisappearingOpacity(g2d);
-        renderObjects(g2d);
+        render(g2d);
     }
 
     @Override
     public void toNextPanel() {}
 
     @Override
-    public void resizeButtons(Dimension d) {}
+    public void scale(Dimension d) {}
 
     /**
      * @param e the event to be processed

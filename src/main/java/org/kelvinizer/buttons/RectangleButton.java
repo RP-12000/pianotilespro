@@ -1,6 +1,6 @@
 package org.kelvinizer.buttons;
 
-import org.kelvinizer.constants.General;
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.shapes.CRect;
 
@@ -88,7 +88,7 @@ public class RectangleButton extends KButton {
     }
 
     @Override
-    public void resize(Dimension d){
+    public void scale(Dimension d){
         initNormalSpace();
         initFocusSpace();
         normalSpace.scale(d);
@@ -135,8 +135,8 @@ public class RectangleButton extends KButton {
     public void render(Graphics2D g2d){
         if(selected){
             onSelection.render(g2d);
-            g2d.setColor(General.DEFAULT_COLOR);
-            g2d.setStroke(General.DEFAULT_STROKE);
+            g2d.setColor(Control.DEFAULT_COLOR);
+            g2d.setStroke(Control.DEFAULT_STROKE);
             g2d.draw(onSelection.getBounds().toJShape());
         }
         else if(focused){

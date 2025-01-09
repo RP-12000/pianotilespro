@@ -1,4 +1,4 @@
-package org.kelvinizer.gamewindow;
+package org.kelvinizer.game.gamewindow;
 
 import org.kelvinizer.note.HoldNote;
 import org.kelvinizer.note.Note;

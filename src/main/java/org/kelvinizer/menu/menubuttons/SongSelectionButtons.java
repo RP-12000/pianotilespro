@@ -3,16 +3,18 @@ package org.kelvinizer.menu.menubuttons;
 import org.kelvinizer.buttons.RectangleButton;
 import org.kelvinizer.buttons.TriangleButton;
 import org.kelvinizer.constants.Selection;
-import org.kelvinizer.gamewindow.Song;
+import org.kelvinizer.game.gamewindow.Song;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.shapes.CTriangle;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.classes.Pair;
-import org.kelvinizer.support.interfaces.Resizable;
+import org.kelvinizer.support.interfaces.Focusable;
+import org.kelvinizer.support.interfaces.Scalable;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
-public class SongSelectionButtons implements Resizable {
+public class SongSelectionButtons implements Scalable, Focusable {
     public final RectangleButton back = new RectangleButton();
     public final RectangleButton settings = new RectangleButton();
     public final RectangleButton play = new RectangleButton();
@@ -198,16 +200,16 @@ public class SongSelectionButtons implements Resizable {
     }
 
     @Override
-    public void resize(Dimension d) {
-        back.resize(d);
-        settings.resize(d);
-        play.resize(d);
-        basic.resize(d);
-        medium.resize(d);
-        advanced.resize(d);
-        legendary.resize(d);
-        moveUp.resize(d);
-        moveDown.resize(d);
+    public void scale(Dimension d) {
+        back.scale(d);
+        settings.scale(d);
+        play.scale(d);
+        basic.scale(d);
+        medium.scale(d);
+        advanced.scale(d);
+        legendary.scale(d);
+        moveUp.scale(d);
+        moveDown.scale(d);
     }
 
     private String levelToString(Pair<String, Double> level){
@@ -248,5 +250,18 @@ public class SongSelectionButtons implements Resizable {
         if(s.hasLG()){
             legendary.render(g2d);
         }
+    }
+
+    @Override
+    public void setFocused(MouseEvent e) {
+        back.setFocused(e);
+        settings.setFocused(e);
+        play.setFocused(e);
+        basic.setFocused(e);
+        medium.setFocused(e);
+        advanced.setFocused(e);
+        legendary.setFocused(e);
+        moveUp.setFocused(e);
+        moveDown.setFocused(e);
     }
 }

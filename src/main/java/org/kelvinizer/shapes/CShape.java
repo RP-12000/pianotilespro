@@ -1,6 +1,6 @@
 package org.kelvinizer.shapes;
 
-import org.kelvinizer.constants.General;
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.support.interfaces.Drawable;
 
 import java.awt.*;
@@ -56,8 +56,8 @@ public abstract class CShape implements Drawable {
             g2d.setColor(outlineColor);
             g2d.draw(s);
         }
-        g2d.setStroke(General.DEFAULT_STROKE);
-        g2d.setColor(General.DEFAULT_COLOR);
+        g2d.setStroke(Control.DEFAULT_STROKE);
+        g2d.setColor(Control.DEFAULT_COLOR);
     }
 
     public boolean contains(Point p){

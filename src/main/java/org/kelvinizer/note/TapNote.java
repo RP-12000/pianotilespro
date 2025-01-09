@@ -1,6 +1,6 @@
 package org.kelvinizer.note;
 
-import org.kelvinizer.constants.General;
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.JudgementLimits;
 import org.kelvinizer.constants.Time;
 import org.kelvinizer.shapes.CRect;
@@ -89,6 +89,6 @@ public class TapNote extends Note{
 
     @Override
     public CRect toBottomRect(){
-        return super.getBottomRect(TAP_NOTE_COLOR[General.isPaused]);
+        return super.getBottomRect(TAP_NOTE_COLOR[Control.isPaused]);
     }
 }

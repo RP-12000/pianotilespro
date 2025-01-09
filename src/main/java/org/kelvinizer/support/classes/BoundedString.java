@@ -1,6 +1,6 @@
 package org.kelvinizer.support.classes;
 
-import org.kelvinizer.constants.General;
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.interfaces.Drawable;
 
@@ -11,7 +11,7 @@ public class BoundedString implements Drawable {
     private String data;
     private final int maxStringSize;
     private String name = "Arial";
-    private Color stringColor = General.DEFAULT_COLOR;
+    private Color stringColor = Control.DEFAULT_COLOR;
     private int style = Font.BOLD;
     private double horizontalWhiteSpace = 3, verticalWhiteSpace = 2;
 
@@ -39,7 +39,7 @@ public class BoundedString implements Drawable {
                (bounds.getHeight() - 2 * verticalWhiteSpace > fm.getAscent() - fm.getDescent());
     }
 
-    private Pair<Double, Double> getRenderPoint(Graphics2D g2d, String d){
+    protected Pair<Double, Double> getRenderPoint(Graphics2D g2d, String d){
         FontMetrics fm = g2d.getFontMetrics();
         return new Pair<>(
                 bounds.getX() - (fm.stringWidth(d) / 2),
@@ -58,8 +58,8 @@ public class BoundedString implements Drawable {
         g2d.setColor(stringColor);
         Pair<Double, Double> p = getRenderPoint(g2d, data);
         g2d.drawString(data, (float)(double)p.first, (float)(double)p.second);
-        g2d.setStroke(General.DEFAULT_STROKE);
-        g2d.setColor(General.DEFAULT_COLOR);
+        g2d.setStroke(Control.DEFAULT_STROKE);
+        g2d.setColor(Control.DEFAULT_COLOR);
     }
 
     public void setName(String name) {
@@ -99,6 +99,14 @@ public class BoundedString implements Drawable {
     }
 
     public void setBounds(Rectangle r){
-        bounds = new CRect(r.x, r.y, r.width, r.height);
+        bounds = new CRect(r.x-r.width/2.0, r.y-r.height/2.0, r.width, r.height);
+    }
+
+    public String getFontName(){
+        return name;
+    }
+
+    public int getFontStyle(){
+        return style;
     }
 }

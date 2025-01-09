@@ -4,11 +4,11 @@ import org.kelvinizer.buttons.RectangleButton;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.interfaces.Drawable;
-import org.kelvinizer.support.interfaces.Resizable;
+import org.kelvinizer.support.interfaces.Scalable;
 
 import java.awt.*;
 
-public class SettingsButtons implements Resizable, Drawable {
+public class SettingsButtons implements Scalable, Drawable {
     public final RectangleButton back = new RectangleButton();
     public final RectangleButton normalMode = new RectangleButton();
     public final RectangleButton autoplayMode = new RectangleButton();
@@ -126,12 +126,12 @@ public class SettingsButtons implements Resizable, Drawable {
     }
 
     @Override
-    public void resize(Dimension d) {
-        back.resize(d);
-        normalMode.resize(d);
-        autoplayMode.resize(d);
-        syncOn.resize(d);
-        syncOff.resize(d);
+    public void scale(Dimension d) {
+        back.scale(d);
+        normalMode.scale(d);
+        autoplayMode.scale(d);
+        syncOn.scale(d);
+        syncOff.scale(d);
     }
 
     @Override
