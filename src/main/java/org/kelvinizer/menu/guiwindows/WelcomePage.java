@@ -1,4 +1,4 @@
-package org.kelvinizer.gui;
+package org.kelvinizer.menu.guiwindows;
 
 import org.kelvinizer.constants.General;
 import org.kelvinizer.animation.*;

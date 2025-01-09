@@ -1,5 +1,6 @@
 package org.kelvinizer.motion;
 
+import org.kelvinizer.constants.JudgementLimits;
 import org.kelvinizer.constants.Time;
 
 import java.util.ArrayList;
@@ -48,9 +49,9 @@ public class MotionManager {
 
     public double dist(double time){
         if(motionPointer == movement.size()){
-            return 0;
+            return FINAL_POS/ JudgementLimits.BAD_LIMIT * time;
         }
-        return 0;
+        return movement.get(motionPointer).dist(time);
     }
 
     public double getDuration() {

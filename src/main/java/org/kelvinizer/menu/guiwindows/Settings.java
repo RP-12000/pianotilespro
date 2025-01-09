@@ -1,12 +1,8 @@
-package org.kelvinizer.gui;
+package org.kelvinizer.menu.guiwindows;
 
 import org.kelvinizer.animation.AnimatablePanel;
-import org.kelvinizer.guibuttons.SettingsButtons;
-import org.kelvinizer.support.classes.BoundedString;
-import org.kelvinizer.shapes.CRect;
-import org.kelvinizer.buttons.PolygonButton;
+import org.kelvinizer.menu.menubuttons.SettingsButtons;
 import org.kelvinizer.constants.General;
-import org.kelvinizer.buttons.RectangleButton;
 
 import javax.swing.*;
 import java.awt.*;

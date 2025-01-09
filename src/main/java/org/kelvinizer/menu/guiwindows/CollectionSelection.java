@@ -1,12 +1,11 @@
-package org.kelvinizer.gui;
+package org.kelvinizer.menu.guiwindows;
 
 import org.kelvinizer.constants.General;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.Selection;
-import org.kelvinizer.guibuttons.CollectionSelectionButtons;
+import org.kelvinizer.menu.menubuttons.CollectionSelectionButtons;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.JacketMenu;
-import org.kelvinizer.buttons.PolygonButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,16 +17,6 @@ public class CollectionSelection extends AnimatablePanel {
     private boolean toSettings = false;
 
     private final CollectionSelectionButtons csb = new CollectionSelectionButtons();
-
-    private final PolygonButton previous = new PolygonButton(
-            new Polygon(new int[]{60, 60, 30}, new int[]{310, 410, 360}, 3)
-    );
-    private final PolygonButton next = new PolygonButton(
-            new Polygon(new int[]{1020, 1020, 1050}, new int[]{310, 410, 360}, 3)
-    );
-    private final PolygonButton jacket = new PolygonButton(
-            new Rectangle(360, 140, 360, 360)
-    );
 
     public CollectionSelection(){
         super();
@@ -77,15 +66,7 @@ public class CollectionSelection extends AnimatablePanel {
 
     @Override
     public void mouseMoved(MouseEvent e){
-        if(!collections.atBeginning()){
-            previous.setFocused(e);
-        }
-        if(!collections.atEnd()){
-            next.setFocused(e);
-        }
-        jacket.setFocused(e);
-        csb.back.setFocused(e);
-        csb.settings.setFocused(e);
+        csb.setFocused(e);
     }
 
     @Override

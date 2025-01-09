@@ -1,5 +1,6 @@
 package org.kelvinizer.buttons;
 
+import org.kelvinizer.constants.General;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.shapes.CRect;
 
@@ -16,37 +17,49 @@ public class RectangleButton extends KButton {
 
     public RectangleButton(){}
 
+    private void initNormalSpace(){
+        normalSpace = new CRect(
+                normal.getBounds().getX(),
+                normal.getBounds().getY(),
+                normal.getBounds().getWidth(),
+                normal.getBounds().getHeight()
+        );
+        normalSpace.setOrigin(normal.getBounds().getOrigin());
+    }
+
     public void setNormal(BoundedString bs) {
         normal = bs;
-        normalSpace = new CRect(
-                bs.getBounds().getX(),
-                bs.getBounds().getY(),
-                bs.getBounds().getWidth(),
-                bs.getBounds().getHeight()
+        initNormalSpace();
+    }
+
+    private void initFocusSpace(){
+        focusSpace = new CRect(
+                onFocus.getBounds().getX(),
+                onFocus.getBounds().getY(),
+                onFocus.getBounds().getWidth(),
+                onFocus.getBounds().getHeight()
         );
-        normalSpace.setOrigin(bs.getBounds().getOrigin());
+        focusSpace.setOrigin(onFocus.getBounds().getOrigin());
     }
 
     public void setOnFocus(BoundedString bs) {
         onFocus = bs;
-        focusSpace = new CRect(
-                bs.getBounds().getX(),
-                bs.getBounds().getY(),
-                bs.getBounds().getWidth(),
-                bs.getBounds().getHeight()
+        initFocusSpace();
+    }
+
+    private void initSelectionSpace(){
+        selectionSpace = new CRect(
+                onSelection.getBounds().getX(),
+                onSelection.getBounds().getY(),
+                onSelection.getBounds().getWidth(),
+                onSelection.getBounds().getHeight()
         );
-        focusSpace.setOrigin(bs.getBounds().getOrigin());
+        selectionSpace.setOrigin(onSelection.getBounds().getOrigin());
     }
 
     public void setOnSelection(BoundedString bs) {
         onSelection = bs;
-        selectionSpace = new CRect(
-                bs.getBounds().getX(),
-                bs.getBounds().getY(),
-                bs.getBounds().getWidth(),
-                bs.getBounds().getHeight()
-        );
-        selectionSpace.setOrigin(bs.getBounds().getOrigin());
+        initSelectionSpace();
     }
 
     public BoundedString getNormal(){
@@ -76,9 +89,12 @@ public class RectangleButton extends KButton {
 
     @Override
     public void resize(Dimension d){
+        initNormalSpace();
+        initFocusSpace();
         normalSpace.scale(d);
         focusSpace.scale(d);
         if(selectionSpace!=null){
+            initSelectionSpace();
             selectionSpace.scale(d);
         }
     }
@@ -119,6 +135,9 @@ public class RectangleButton extends KButton {
     public void render(Graphics2D g2d){
         if(selected){
             onSelection.render(g2d);
+            g2d.setColor(General.DEFAULT_COLOR);
+            g2d.setStroke(General.DEFAULT_STROKE);
+            g2d.draw(onSelection.getBounds().toJShape());
         }
         else if(focused){
             onFocus.render(g2d);

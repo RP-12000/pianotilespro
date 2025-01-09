@@ -10,28 +10,36 @@ public class TriangleButton extends KButton {
 
     public TriangleButton(){}
 
-    public void setNormal(CTriangle c){
-        normal = c;
+    private void initNormal(){
         normalSpace = new CTriangle(
-                c.getX1(),
-                c.getY1(),
-                c.getX2(),
-                c.getY2(),
-                c.getX3(),
-                c.getY3()
+                normal.getX1(),
+                normal.getY1(),
+                normal.getX2(),
+                normal.getY2(),
+                normal.getX3(),
+                normal.getY3()
         );
     }
 
-    public void setOnFocus(CTriangle c){
-        onFocus = c;
+    public void setNormal(CTriangle c){
+        normal = c;
+        initNormal();
+    }
+
+    private void initOnFocus(){
         focusSpace = new CTriangle(
-                c.getX1(),
-                c.getY1(),
-                c.getX2(),
-                c.getY2(),
-                c.getX3(),
-                c.getY3()
+                onFocus.getX1(),
+                onFocus.getY1(),
+                onFocus.getX2(),
+                onFocus.getY2(),
+                onFocus.getX3(),
+                onFocus.getY3()
         );
+    }
+
+    public void setOnFocus(CTriangle c) {
+        onFocus = c;
+        initOnFocus();
     }
 
     @Override
@@ -46,6 +54,8 @@ public class TriangleButton extends KButton {
 
     @Override
     public void resize(Dimension d) {
+        initNormal();
+        initOnFocus();
         normalSpace.scale(d);
         focusSpace.scale(d);
     }

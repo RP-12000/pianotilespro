@@ -5,7 +5,10 @@ import org.kelvinizer.constants.General;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
 import org.kelvinizer.gamewindow.Chart;
-import org.kelvinizer.gui.*;
+import org.kelvinizer.menu.guiwindows.CollectionSelection;
+import org.kelvinizer.menu.guiwindows.Settings;
+import org.kelvinizer.menu.guiwindows.SongSelection;
+import org.kelvinizer.menu.guiwindows.WelcomePage;
 
 import javax.swing.*;
 import java.awt.*;

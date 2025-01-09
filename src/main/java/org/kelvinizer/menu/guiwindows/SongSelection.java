@@ -1,14 +1,12 @@
-package org.kelvinizer.gui;
+package org.kelvinizer.menu.guiwindows;
 
 import org.kelvinizer.constants.General;
-import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.gamewindow.Song;
-import org.kelvinizer.guibuttons.SongSelectionButtons;
+import org.kelvinizer.menu.menubuttons.SongSelectionButtons;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.JacketMenu;
-import org.kelvinizer.buttons.PolygonButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,28 +29,6 @@ public class SongSelection extends AnimatablePanel {
     private boolean isValid;
 
     private final SongSelectionButtons ssb = new SongSelectionButtons();
-
-    private final PolygonButton play = new PolygonButton(
-            new Rectangle((int) ReferenceWindow.REF_WIN_W-113, (int) ReferenceWindow.REF_WIN_H-135, 100, 100)
-    );
-    private final PolygonButton basic = new PolygonButton(
-            new Rectangle(520, 480, 50, 50)
-    );
-    private final PolygonButton medium = new PolygonButton(
-            new Rectangle(570, 480, 50, 50)
-    );
-    private final PolygonButton advanced = new PolygonButton(
-            new Rectangle(620, 480, 50, 50)
-    );
-    private final PolygonButton legendary = new PolygonButton(
-            new Rectangle(670, 480, 50, 50)
-    );
-    private final PolygonButton moveUp = new PolygonButton(
-            new Polygon(new int[]{220, 380, 300}, new int[]{150, 150, 100}, 3)
-    );
-    private final PolygonButton moveDown = new PolygonButton(
-            new Polygon(new int[]{220, 380, 300}, new int[]{550, 550, 600}, 3)
-    );
 
     public SongSelection(){
         super();
@@ -212,20 +188,7 @@ public class SongSelection extends AnimatablePanel {
             if(!songs.atEnd()){
                 ssb.moveDown.render(g2d);
             }
-            ssb.deselectAllLevel();
-            ssb.addLevelToButtons(songData.get(songs.getMenuIndex()));
-            switch (Selection.level) {
-                case "BS" -> basic.setFocused(true);
-                case "MD" -> medium.setFocused(true);
-                case "AV" -> advanced.setFocused(true);
-                case "LG" -> legendary.setFocused(true);
-            }
-            ssb.basic.render(g2d);
-            ssb.medium.render(g2d);
-            ssb.advanced.render(g2d);
-            if(songData.get(songs.getMenuIndex()).hasLG()){
-                ssb.legendary.render(g2d);
-            }
+            ssb.renderLevels(g2d, songData.get(songs.getMenuIndex()));
         }
     }
 
