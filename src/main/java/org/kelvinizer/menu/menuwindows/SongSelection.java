@@ -5,6 +5,7 @@ import org.kelvinizer.constants.Selection;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.game.gamewindow.Song;
 import org.kelvinizer.menu.menubuttons.SongSelectionButtons;
+import org.kelvinizer.menu.menutext.SongSelectionText;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.JacketMenu;
 
@@ -22,12 +23,13 @@ public class SongSelection extends AnimatablePanel {
             "Chart/"+ Selection.collectionDir,
             Selection.songIndex.get(Selection.collectionDir),
             20
-    );
+    );;
     private final ArrayList<Song> songData = new ArrayList<>();
     private boolean goBack = false;
     private boolean toSettings = false;
 
     private final SongSelectionButtons ssb = new SongSelectionButtons();
+    private final SongSelectionText sst = new SongSelectionText();
 
     public SongSelection(){
         super();
@@ -170,23 +172,17 @@ public class SongSelection extends AnimatablePanel {
         ssb.settings.render(g2d);
         ssb.back.render(g2d);
         if(songs.isEmpty()){
-            g2d.setColor(Color.WHITE);
-            g2d.setFont(new Font("Arial", Font.BOLD, 25));
-            g2d.drawString("Nothing is in here QAQ\n", 540, 360);
+            sst.emptyFolder.render(g2d);
         }
         else if(!Selection.isValidCollection){
-            g2d.setColor(Color.WHITE);
-            g2d.setFont(new Font("Arial", Font.BOLD, 25));
-            g2d.drawString("Collection Corrupted QAQ\n", 540, 360);
+            sst.corruptedFolder.render(g2d);
         }
         else{
             if(songs.getSelectionJacket()!=null){
                 g2d.drawImage(songs.getSelectionJacket(), 520, 180, 480, 300, this);
             }
             else{
-                g2d.drawRect(520, 180, 480, 300);
-                g2d.setFont(new Font("Arial", Font.ITALIC, 15));
-                g2d.drawString("No jacket preview available", 675, 340);
+                sst.nullJacket.render(g2d);
             }
             ssb.play.render(g2d);
             songs.drawSelectionString(g2d);

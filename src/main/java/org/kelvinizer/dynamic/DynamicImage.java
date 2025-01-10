@@ -32,4 +32,8 @@ public class DynamicImage extends DynamicObject {
         }
         g2d.drawImage(bf, (int)bounds.getX(), (int)bounds.getY(), (int)bounds.getWidth(), (int)bounds.getHeight(), null);
     }
+
+    public void setBounds(CRect bounds) {
+        this.bounds = bounds;
+    }
 }
