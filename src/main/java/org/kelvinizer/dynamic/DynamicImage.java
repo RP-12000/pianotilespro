@@ -37,4 +37,8 @@ public class DynamicImage extends DynamicObject {
         Rectangle r = bounds.toJShape();
         g2d.drawImage(bf, r.x, r.y, r.width, r.height, null);
     }
+
+    public void setBounds(CRect bounds) {
+        this.bounds = bounds;
+    }
 }
