@@ -6,5 +6,4 @@ public class JudgementLimits {
     public static final double BAD_LIMIT = 0.18;
     public static final double HOLD_NOTE_END_LIMIT = 0.3;
     public static final double NOTE_LINGERING_TIME = 0.6;
-    public static double MUSIC_DIFFERENCE = 0;
 }

@@ -1,17 +1,19 @@
 package org.kelvinizer.support.classes;
 
-import org.kelvinizer.constants.Time;
-
 public class Motion {
     private final double start, end;
-    private final double a, b, c;
+    private final double exp, startPoint, constant;
 
-    public Motion(double s, double e, double sp, double ep, double acc){
+    public Motion(double s, double e, double sp, double ep, double exp){
         start = s;
         end = e;
-        a = acc/2;
-        b = -a*(e-s)+(ep-sp)/(e-s);
-        c = sp;
+        this.exp = exp;
+        constant = (ep-sp)/Math.pow(e-s, exp);
+        startPoint = sp;
+    }
+
+    public Motion(double s, double e, double sp, double ep){
+        this(s, e, sp, ep, 1);
     }
 
     public Motion(String s){
@@ -30,7 +32,7 @@ public class Motion {
 
     public double getPos(double time){
         double t = time - start;
-        return a*t*t+b*t+c;
+        return constant*Math.pow(t, exp)+startPoint;
     }
 
     public double getStart() {

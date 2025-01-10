@@ -45,10 +45,8 @@ public class App extends JFrame {
                 case 1:
                     display = new CollectionSelection();break;
                 case 2:
-                    display = new LoadingPage();break;
-                case 3:
                     display = new SongSelection();break;
-                case 4:
+                case 3:
                     try {
                         display = new Chart();
                     } catch (IOException e) {

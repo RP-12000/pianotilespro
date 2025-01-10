@@ -102,7 +102,7 @@ public class Chart extends AnimatablePanel {
     }
 
     public Chart(String songDir, String level) throws IOException, RuntimeException {
-        super(1000, 1000);
+        super(1000);
         BufferedReader chart = new BufferedReader(new FileReader(songDir+"/"+level+".txt"));
         ArrayList<Note> tempNotes = new ArrayList<>();
         noteCount = Double.parseDouble(chart.readLine());

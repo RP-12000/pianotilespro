@@ -16,8 +16,8 @@ public class DynamicCRectButton extends DynamicObject {
     }
 
     @Override
-    public void render(Graphics2D g2d) {
-        double timePassed = (double) (System.nanoTime() - start) / Time.S_TO_NS_CONVERSION_FACTOR;
+    public void render(Graphics2D g2d, long time) {
+        double timePassed = (double) (time - start) / Time.S_TO_NS_CONVERSION_FACTOR;
         for(Motion m: horizontal){
             if(m.contains(timePassed)){
                 b.getNormal().getBounds().setX(m.getPos(timePassed));

@@ -7,11 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Song {
-    private final String composer, illustration;
+    private final String songName, composer, illustration;
     private final boolean lg;
     private final Pair<String, Double> basicData, mediumData, advancedData, legendaryData;
 
     public Song(String dir) throws IOException, NullPointerException {
+        String[] splitedDir = dir.split("/");
+        songName = splitedDir[splitedDir.length-1];
         BufferedReader br = new BufferedReader(new FileReader(dir+"/credits.txt"));
         composer = br.readLine();
         illustration = br.readLine();
@@ -69,5 +71,9 @@ public class Song {
 
     public Pair<String, Double> getLegendaryData() {
         return legendaryData;
+    }
+
+    public String getSongName() {
+        return songName;
     }
 }

@@ -20,19 +20,18 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
     private boolean is_start = true, is_end = false;
     private boolean has_start = false, has_end = false;
     protected long start_time, end_time;
-    protected final long start_duration, end_duration;
+    protected long start_duration, end_duration;
     private final HashMap<Triple<Integer, Boolean, Integer>, Action> bindings = new HashMap<>();
 
-    public AnimatablePanel(long start_duration_in_ms, long end_duration_in_ms){
+    public AnimatablePanel(long start_duration_in_ms){
         start_duration=start_duration_in_ms* Time.MS_TO_NS_CONVERSION_FACTOR;
-        end_duration=end_duration_in_ms*Time.MS_TO_NS_CONVERSION_FACTOR;
         setSize((int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
         ScheduledExecutorService e = Executors.newSingleThreadScheduledExecutor();
         e.scheduleAtFixedRate(this::repaint, 0, 1000/Time.FPS, TimeUnit.MILLISECONDS);
     }
 
     public AnimatablePanel(){
-        this(Time.INTRO_TIME_IN_MS, Time.EXIT_TIME_IN_MS);
+        this(Time.INTRO_TIME_IN_MS);
     }
 
     @Override
@@ -102,7 +101,8 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
         }
     }
 
-    protected void exit(){
+    protected void exit(long end_duration_in_ms){
+        end_duration=end_duration_in_ms*Time.MS_TO_NS_CONVERSION_FACTOR;
         is_end=true;
         removeMouseListener(this);
         removeMouseMotionListener(this);
@@ -123,6 +123,10 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
                 getActionMap().remove(entry.getKey());
             }
         }
+    }
+
+    protected void exit(){
+        exit(Time.EXIT_TIME_IN_MS);
     }
 
     protected void setAppearingOpacity(Graphics2D g2d){

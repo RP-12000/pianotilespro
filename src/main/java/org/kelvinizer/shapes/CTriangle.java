@@ -36,7 +36,7 @@ public class CTriangle extends CShape{
     }
 
     @Override
-    public Shape toJShape() {
+    public Polygon toJShape() {
         return new Polygon(
                 new int[]{(int)x1, (int)x2, (int)x3},
                 new int[]{(int)y1, (int)y2, (int)y3},

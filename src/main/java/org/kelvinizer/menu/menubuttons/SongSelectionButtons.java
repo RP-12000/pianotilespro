@@ -11,8 +11,11 @@ import org.kelvinizer.support.classes.Pair;
 import org.kelvinizer.support.interfaces.Focusable;
 import org.kelvinizer.support.interfaces.Scalable;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.util.Objects;
 
 public class SongSelectionButtons implements Scalable, Focusable {
     public final CRectButton back = new CRectButton();
@@ -32,42 +35,63 @@ public class SongSelectionButtons implements Scalable, Focusable {
     private void setBack(){
         BoundedString normal = new BoundedString();
         normal.setBounds(new CRect(51, 50, 100, 100));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
-        back.setNormal(normal);
 
         BoundedString onFocus = new BoundedString();
         onFocus.setBounds(new CRect(61, 60, 120, 120));
         onFocus.getBounds().setOutlineColor(Color.BLUE);
         onFocus.getBounds().setOutlineThickness(5.0);
+
+        try {
+            back.setIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Back.jpg"))));
+        } catch (RuntimeException | IOException e) {
+            back.setIcon(null);
+            normal.getBounds().setOutlineColor(Color.WHITE);
+            normal.getBounds().setOutlineThickness(1.0);
+        }
+
+        back.setNormal(normal);
         back.setOnFocus(onFocus);
     }
 
     private void setSettings(){
         BoundedString normal = new BoundedString();
         normal.setBounds(new CRect(1015, 50, 100, 100));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
-        settings.setNormal(normal);
 
         BoundedString onFocus = new BoundedString();
         onFocus.setBounds(new CRect(1005, 60, 120, 120));
         onFocus.getBounds().setOutlineColor(Color.BLUE);
         onFocus.getBounds().setOutlineThickness(5.0);
+
+        try {
+            settings.setIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Settings.jpg"))));
+        } catch (RuntimeException | IOException e) {
+            settings.setIcon(null);
+            normal.getBounds().setOutlineColor(Color.WHITE);
+            normal.getBounds().setOutlineThickness(1.0);
+        }
+
+        settings.setNormal(normal);
         settings.setOnFocus(onFocus);
     }
 
     private void setPlay(){
         BoundedString normal = new BoundedString();
         normal.setBounds(new CRect(1015, 633, 100, 100));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
-        play.setNormal(normal);
 
         BoundedString onFocus = new BoundedString();
         onFocus.setBounds(new CRect(1005, 623, 120, 120));
         onFocus.getBounds().setOutlineColor(Color.BLUE);
         onFocus.getBounds().setOutlineThickness(5.0);
+
+        try {
+            play.setIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Play.jpg"))));
+        } catch (RuntimeException | IOException e) {
+            play.setIcon(null);
+            normal.getBounds().setOutlineColor(Color.WHITE);
+            normal.getBounds().setOutlineThickness(1.0);
+        }
+
+        play.setNormal(normal);
         play.setOnFocus(onFocus);
     }
 

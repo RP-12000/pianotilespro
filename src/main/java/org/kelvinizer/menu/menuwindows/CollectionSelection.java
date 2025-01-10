@@ -4,7 +4,6 @@ import org.kelvinizer.constants.Control;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.menu.menubuttons.CollectionSelectionButtons;
-import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.classes.JacketMenu;
 
@@ -13,19 +12,20 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class CollectionSelection extends AnimatablePanel {
-    private final JacketMenu collections = new JacketMenu("Chart", Selection.collectionIndex, 50);
+    private final JacketMenu collections = new JacketMenu("Chart", Selection.collectionIndex);
     private boolean goBack = false;
     private boolean toSettings = false;
 
     private final CollectionSelectionButtons csb = new CollectionSelectionButtons();
     private final BoundedString emptyFolder = new BoundedString("Nothing is here QAQ", 50, 540, 360);
     private final BoundedString nullJacket = new BoundedString("No jacket preview available", 15, 540, 330);
+    private final BoundedString selectionName = new BoundedString("", 0, 540, 620, 200, 50);
 
     public CollectionSelection(){
         super();
-        collections.setBounds(new CRect(540, 620, 200, 50));
-        collections.setOutlineColor(Color.WHITE);
-        collections.setOutlineThickness(2.0);
+        selectionName.getBounds().setOutlineColor(Color.WHITE);
+        selectionName.getBounds().setOutlineThickness(2.0);
+        selectionName.setMaxStringSize(50);
         nullJacket.setStyle(Font.ITALIC);
         for(int i=0; i<collections.size(); i++){
             if(!Selection.songIndex.containsKey(collections.getSelectionString(i))){
@@ -107,7 +107,8 @@ public class CollectionSelection extends AnimatablePanel {
             emptyFolder.render(g2d);
         }
         else{
-            collections.drawSelectionString(g2d);
+            selectionName.setString(collections.getSelectionString());
+            selectionName.render(g2d);
             if(!collections.atBeginning()){
                 csb.moveLeft.render(g2d);
             }

@@ -14,7 +14,7 @@ public class WelcomePage extends AnimatablePanel {
     private final DynamicString startVerdict = new DynamicString("Double click anywhere to start", 20, 540, 630);
 
     public WelcomePage(){
-        super(2000, 2000);
+        super(2000);
         startVerdict.getBoundedString().setStyle(Font.ITALIC);
     }
 
@@ -23,7 +23,7 @@ public class WelcomePage extends AnimatablePanel {
         click_count++;
         if(click_count==2){
             removeMouseListener(this);
-            exit();
+            exit(2000);
         }
         repaint();
     }

@@ -102,31 +102,16 @@ public class CRectButton extends KButton {
     private void drawIcon(Graphics2D g2d){
         if(icon != null){
             if(selected){
-                g2d.drawImage(icon,
-                        (int)onSelection.getBounds().getX(),
-                        (int)onSelection.getBounds().getY(),
-                        (int)onSelection.getBounds().getWidth(),
-                        (int)onSelection.getBounds().getHeight(),
-                        null
-                );
+                Rectangle r = onSelection.getBounds().toJShape();
+                g2d.drawImage(icon, r.x, r.y, r.width, r.height,null);
             }
             else if(focused){
-                g2d.drawImage(icon,
-                        (int)onFocus.getBounds().getX(),
-                        (int)onFocus.getBounds().getY(),
-                        (int)onFocus.getBounds().getWidth(),
-                        (int)onFocus.getBounds().getHeight(),
-                        null
-                );
+                Rectangle r = onFocus.getBounds().toJShape();
+                g2d.drawImage(icon, r.x, r.y, r.width, r.height,null);
             }
             else{
-                g2d.drawImage(icon,
-                        (int) normal.getBounds().getX(),
-                        (int) normal.getBounds().getY(),
-                        (int) normal.getBounds().getWidth(),
-                        (int) normal.getBounds().getHeight(),
-                        null
-                );
+                Rectangle r = normal.getBounds().toJShape();
+                g2d.drawImage(icon, r.x, r.y, r.width, r.height,null);
             }
         }
     }

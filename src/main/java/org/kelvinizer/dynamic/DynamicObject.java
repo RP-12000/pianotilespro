@@ -4,6 +4,7 @@ import org.kelvinizer.support.classes.Motion;
 import org.kelvinizer.support.interfaces.Activatable;
 import org.kelvinizer.support.interfaces.Drawable;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class DynamicObject implements Drawable, Activatable {
@@ -23,8 +24,19 @@ public abstract class DynamicObject implements Drawable, Activatable {
 
     @Override
     public void activate(){
+        activate(System.nanoTime());
+    }
+
+    public void activate(long time){
         if(start==-1){
-            start = System.nanoTime();
+            start = time;
         }
     }
+
+    @Override
+    public void render(Graphics2D g2d){
+        render(g2d, System.nanoTime());
+    }
+
+    public abstract void render(Graphics2D g2d, long time);
 }

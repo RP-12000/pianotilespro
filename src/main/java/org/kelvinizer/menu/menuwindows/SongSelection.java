@@ -5,7 +5,7 @@ import org.kelvinizer.constants.Selection;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.game.gamewindow.Song;
 import org.kelvinizer.menu.menubuttons.SongSelectionButtons;
-import org.kelvinizer.shapes.CRect;
+import org.kelvinizer.menu.menutext.SongSelectionText;
 import org.kelvinizer.support.classes.JacketMenu;
 
 import javax.swing.*;
@@ -19,21 +19,19 @@ import java.util.ArrayList;
 
 public class SongSelection extends AnimatablePanel {
     private final JacketMenu songs = new JacketMenu(
-            "Chart/"+ Selection.collectionDir,
-            Selection.songIndex.get(Selection.collectionDir),
-            20
+            "Chart/"+ Selection.collectionDir, Selection.songIndex.get(Selection.collectionDir)
     );
     private final ArrayList<Song> songData = new ArrayList<>();
     private boolean goBack = false;
     private boolean toSettings = false;
+    private boolean startEndScene = false;
 
     private final SongSelectionButtons ssb = new SongSelectionButtons();
+    private final SongSelectionText sst = new SongSelectionText();
 
     public SongSelection(){
         super();
-        songs.setBounds(new CRect(300, 350, 400, 60));
-        songs.setOutlineColor(Color.WHITE);
-        songs.setOutlineThickness(5.0);
+        sst.nullJacket.setStyle(Font.ITALIC);
         for(int i = 0; i< songs.size(); i++){
             try{
                 songData.add(new Song("Chart/"+ Selection.collectionDir+"/"+ songs.getSelectionString(i)));
@@ -86,7 +84,7 @@ public class SongSelection extends AnimatablePanel {
             addKeyBinding(KeyEvent.VK_ENTER, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    exit();
+                    exit(4000);
                 }
             });
         }
@@ -140,7 +138,7 @@ public class SongSelection extends AnimatablePanel {
                 }
             }
             if(ssb.play.isFocused()){
-                exit();
+                exit(4000);
             }
             else if(ssb.basic.isFocused()){
                 Selection.level = "BS";
@@ -166,35 +164,47 @@ public class SongSelection extends AnimatablePanel {
     }
 
     @Override
+    public void onDisappearance(Graphics2D g2d){
+        if(!goBack && !toSettings){
+            if(!startEndScene){
+                sst.setEndStrings(songData.get(songs.getMenuIndex()), songs.getSelectionJacket());
+                sst.dm.activate();
+                startEndScene = true;
+            }
+            sst.dm.render(g2d);
+        }
+        else{
+            super.onDisappearance(g2d);
+        }
+    }
+
+    @Override
     public void render(Graphics2D g2d){
         ssb.settings.render(g2d);
         ssb.back.render(g2d);
         if(songs.isEmpty()){
-            g2d.setColor(Color.WHITE);
-            g2d.setFont(new Font("Arial", Font.BOLD, 25));
-            g2d.drawString("Nothing is in here QAQ\n", 540, 360);
+            sst.emptyFolder.render(g2d);
         }
         else if(!Selection.isValidCollection){
-            g2d.setColor(Color.WHITE);
-            g2d.setFont(new Font("Arial", Font.BOLD, 25));
-            g2d.drawString("Collection Corrupted QAQ\n", 540, 360);
+            sst.corruptedFolder.render(g2d);
         }
         else{
             if(songs.getSelectionJacket()!=null){
                 g2d.drawImage(songs.getSelectionJacket(), 520, 180, 480, 300, this);
             }
             else{
-                g2d.drawRect(520, 180, 480, 300);
-                g2d.setFont(new Font("Arial", Font.ITALIC, 15));
-                g2d.drawString("No jacket preview available", 675, 340);
+                sst.nullJacket.render(g2d);
             }
             ssb.play.render(g2d);
-            songs.drawSelectionString(g2d);
+            sst.updateSelectionStrings(songs, songData);
+            sst.renderCurrent(g2d);
             if(!songs.atBeginning()){
                 ssb.moveUp.render(g2d);
+                sst.renderPrevious(g2d);
             }
             if(!songs.atEnd()){
                 ssb.moveDown.render(g2d);
+                sst.renderNext(g2d);
             }
             ssb.renderLevels(g2d, songData.get(songs.getMenuIndex()));
         }

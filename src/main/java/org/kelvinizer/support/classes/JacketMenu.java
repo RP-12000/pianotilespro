@@ -1,9 +1,7 @@
 package org.kelvinizer.support.classes;
 
-import org.kelvinizer.shapes.CRect;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,9 +10,8 @@ import java.util.ArrayList;
 
 public class JacketMenu{
     private final String dir;
-    private final ArrayList<Pair<BoundedString, BufferedImage>> menu = new ArrayList<>();
+    private final ArrayList<Pair<String, BufferedImage>> menu = new ArrayList<>();
     private int menuIndex;
-    private final int maxStringSize;
 
     private BufferedImage getJacket(File f){
         File[] lf = f.listFiles();
@@ -47,9 +44,7 @@ public class JacketMenu{
                     String path = thing.getCanonicalPath();
                     String[] temp = path.split("\\\\");
                     try{
-                        BoundedString bs = new BoundedString(temp[temp.length-1]);
-                        bs.setMaxStringSize(maxStringSize);
-                        menu.add(new Pair<>(bs, getJacket(thing)));
+                        menu.add(new Pair<>(temp[temp.length-1], getJacket(thing)));
                     } catch (RuntimeException e) {
                         throw new RuntimeException(e);
                     }
@@ -60,70 +55,14 @@ public class JacketMenu{
         }
     }
 
-    public JacketMenu(String dir, int mi, int maxStringSize){
+    public JacketMenu(String dir, int mi){
         this.dir = dir;
-        this.maxStringSize = maxStringSize;
         updateMenu();
         if(mi>=0 && mi<menu.size()){
             menuIndex = mi;
         }
         else{
             menuIndex = 0;
-        }
-    }
-
-    public void setBounds(CRect c){
-        for(Pair<BoundedString, BufferedImage> p: menu){
-            p.first.setBounds(c);
-        }
-    }
-
-    public void setOutlineColor(Color c){
-        for(Pair<BoundedString, BufferedImage> p: menu){
-            p.first.getBounds().setOutlineColor(c);
-        }
-    }
-
-    public void setFillColor(Color c){
-        for(Pair<BoundedString, BufferedImage> p: menu){
-            p.first.getBounds().setFillColor(c);
-        }
-    }
-
-    public void setOutlineThickness(double t){
-        for(Pair<BoundedString, BufferedImage> p: menu){
-            p.first.getBounds().setOutlineThickness(t);
-        }
-    }
-
-    public void setBounds(Rectangle c){
-        for(Pair<BoundedString, BufferedImage> p: menu){
-            p.first.setBounds(c);
-        }
-    }
-
-    public void setStringColor(Color c){
-        for(Pair<BoundedString, BufferedImage> p: menu){
-            p.first.setStringColor(c);
-        }
-    }
-
-    public void setHorizontalWhiteSpace(double d){
-        for(Pair<BoundedString, BufferedImage> p: menu){
-            p.first.setHorizontalWhiteSpace(d);
-        }
-    }
-
-    public void setVerticalWhiteSpace(double d){
-        for(Pair<BoundedString, BufferedImage> p: menu){
-            p.first.setVerticalWhiteSpace(d);
-        }
-    }
-
-    public void setFont(String name, int style){
-        for(Pair<BoundedString, BufferedImage> p: menu){
-            p.first.setFontFamily(name);
-            p.first.setStyle(style);
         }
     }
 
@@ -160,7 +99,7 @@ public class JacketMenu{
     }
 
     public String getSelectionString(int index){
-        return menu.get(index).first.getString();
+        return menu.get(index).first;
     }
 
     public String getSelectionString(){
@@ -181,9 +120,5 @@ public class JacketMenu{
 
     public boolean atBeginning(){
         return menuIndex == 0;
-    }
-
-    public void drawSelectionString(Graphics2D g2d){
-        menu.get(menuIndex).first.render(g2d);
     }
 }

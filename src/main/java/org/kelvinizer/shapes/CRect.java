@@ -70,7 +70,7 @@ public class CRect extends CShape {
     }
 
     @Override
-    public Shape toJShape(){
+    public Rectangle toJShape(){
         return new Rectangle((int)(x- origin.first), (int)(y-origin.second), (int)(width), (int)(height));
     }
 

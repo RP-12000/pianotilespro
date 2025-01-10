@@ -3,6 +3,7 @@ package org.kelvinizer.menu.menuwindows;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.menu.menubuttons.SettingsButtons;
 import org.kelvinizer.constants.Control;
+import org.kelvinizer.menu.menutext.SettingsText;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ import java.awt.event.MouseEvent;
 
 public class Settings extends AnimatablePanel {
     private final SettingsButtons sb = new SettingsButtons();
+    private final SettingsText st = new SettingsText();
 
     public Settings(){
         super();
@@ -25,6 +27,18 @@ public class Settings extends AnimatablePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Control.syncEnabled = !Control.syncEnabled;
+            }
+        });
+        addKeyBinding(KeyEvent.VK_LEFT, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                st.updateSelectionRect(-1);
+            }
+        });
+        addKeyBinding(KeyEvent.VK_RIGHT, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                st.updateSelectionRect(1);
             }
         });
         addKeyBinding(KeyEvent.VK_BACK_SPACE, new AbstractAction() {
@@ -42,6 +56,11 @@ public class Settings extends AnimatablePanel {
         sb.autoplayMode.setFocused(e);
         sb.syncOn.setFocused(e);
         sb.syncOff.setFocused(e);
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e){
+        st.moveSelectionRectByMouse(e);
     }
 
     @Override
@@ -87,6 +106,7 @@ public class Settings extends AnimatablePanel {
             sb.syncOn.select(false);
         }
         sb.render(g2d);
+        st.render(g2d);
     }
 
     @Override
