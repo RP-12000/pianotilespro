@@ -4,8 +4,6 @@ package Animation{
         + onAppearance(Graphics2D g2d): void
         + onActive(Graphics2D g2d): void
         + onDisappearance(Graphics2D g2d): void
-        + toNextPanel(): void
-        + resizeButtons(Dimension d): void
     }
 
     class AnimatablePanel{
@@ -18,7 +16,7 @@ package Animation{
         # end_time: long
         # start_duration: long
         # end_duration: long
-        + AnimatablePanel(long start_duration_in_ms, long end_duration_in_ms)
+        + AnimatablePanel(long start_duration_in_ms)
         + AnimatablePanel()
         - addListeners(): void
         # paintComponent(Graphics g): void

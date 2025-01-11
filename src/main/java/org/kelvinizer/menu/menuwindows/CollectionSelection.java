@@ -18,7 +18,7 @@ public class CollectionSelection extends AnimatablePanel {
 
     private final CollectionSelectionButtons csb = new CollectionSelectionButtons();
     private final BoundedString emptyFolder = new BoundedString("Nothing is here QAQ", 50, 540, 360);
-    private final BoundedString nullJacket = new BoundedString("No jacket preview available", 15, 540, 330);
+    private final BoundedString nullJacket = new BoundedString("No jacket preview available", 15, 540, 330, 360, 360);
     private final BoundedString selectionName = new BoundedString("", 0, 540, 620, 200, 50);
 
     public CollectionSelection(){
@@ -27,6 +27,8 @@ public class CollectionSelection extends AnimatablePanel {
         selectionName.getBounds().setOutlineThickness(2.0);
         selectionName.setMaxStringSize(50);
         nullJacket.setStyle(Font.ITALIC);
+        nullJacket.getBounds().setOutlineColor(Color.WHITE);
+        nullJacket.getBounds().setOutlineThickness(1.0);
         for(int i=0; i<collections.size(); i++){
             if(!Selection.songIndex.containsKey(collections.getSelectionString(i))){
                 Selection.songIndex.put(collections.getSelectionString(i), 0);
@@ -94,6 +96,11 @@ public class CollectionSelection extends AnimatablePanel {
             toSettings = true;
             exit();
         }
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e){
+        collections.move(e);
     }
 
     @Override

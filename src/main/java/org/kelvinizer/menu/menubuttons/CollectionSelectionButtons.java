@@ -23,12 +23,9 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
 
     private void setBack(){
         BoundedString normal = new BoundedString();
-        normal.setBounds(new CRect(51, 50, 100, 100));
-
+        normal.setBounds(new CRect(50, 50, 100, 100));
         BoundedString onFocus = new BoundedString();
-        onFocus.setBounds(new CRect(61, 60, 120, 120));
-        onFocus.getBounds().setOutlineColor(Color.BLUE);
-        onFocus.getBounds().setOutlineThickness(5.0);
+        onFocus.setBounds(new CRect(60, 60, 120, 120));
 
         try {
             back.setIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Back.jpg"))));
@@ -36,6 +33,8 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
             back.setIcon(null);
             normal.getBounds().setOutlineColor(Color.WHITE);
             normal.getBounds().setOutlineThickness(1.0);
+            onFocus.getBounds().setOutlineColor(Color.BLUE);
+            onFocus.getBounds().setOutlineThickness(5.0);
         }
 
         back.setNormal(normal);
@@ -44,12 +43,9 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
 
     private void setSettings(){
         BoundedString normal = new BoundedString();
-        normal.setBounds(new CRect(1015, 50, 100, 100));
-
+        normal.setBounds(new CRect(1030, 50, 100, 100));
         BoundedString onFocus = new BoundedString();
-        onFocus.setBounds(new CRect(1005, 60, 120, 120));
-        onFocus.getBounds().setOutlineColor(Color.BLUE);
-        onFocus.getBounds().setOutlineThickness(5.0);
+        onFocus.setBounds(new CRect(1020, 60, 120, 120));
 
         try {
             settings.setIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Settings.jpg"))));
@@ -57,6 +53,8 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
             settings.setIcon(null);
             normal.getBounds().setOutlineColor(Color.WHITE);
             normal.getBounds().setOutlineThickness(1.0);
+            onFocus.getBounds().setOutlineColor(Color.BLUE);
+            onFocus.getBounds().setOutlineThickness(5.0);
         }
 
         settings.setNormal(normal);
@@ -66,8 +64,6 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
     private void setJacket(){
         BoundedString normal = new BoundedString();
         normal.setBounds(new CRect(540, 320, 360, 360));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
         jacket.setNormal(normal);
 
         BoundedString onFocus = new BoundedString();

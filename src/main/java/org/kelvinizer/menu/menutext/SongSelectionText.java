@@ -158,6 +158,7 @@ public class SongSelectionText {
     private void setDm(){
         dm.addDynamicObject(selectedSong);
         dm.addDynamicObject(selectedSongDifficulty);
+        dm.addDynamicObject(selectedLevel);
         dm.addDynamicObject(selectedSongComposer);
         dm.addDynamicObject(charterVerdict);
         dm.addDynamicObject(charter);

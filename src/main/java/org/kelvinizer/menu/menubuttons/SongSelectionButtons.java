@@ -34,12 +34,9 @@ public class SongSelectionButtons implements Scalable, Focusable {
 
     private void setBack(){
         BoundedString normal = new BoundedString();
-        normal.setBounds(new CRect(51, 50, 100, 100));
-
+        normal.setBounds(new CRect(50, 50, 100, 100));
         BoundedString onFocus = new BoundedString();
-        onFocus.setBounds(new CRect(61, 60, 120, 120));
-        onFocus.getBounds().setOutlineColor(Color.BLUE);
-        onFocus.getBounds().setOutlineThickness(5.0);
+        onFocus.setBounds(new CRect(60, 60, 120, 120));
 
         try {
             back.setIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Back.jpg"))));
@@ -47,6 +44,8 @@ public class SongSelectionButtons implements Scalable, Focusable {
             back.setIcon(null);
             normal.getBounds().setOutlineColor(Color.WHITE);
             normal.getBounds().setOutlineThickness(1.0);
+            onFocus.getBounds().setOutlineColor(Color.BLUE);
+            onFocus.getBounds().setOutlineThickness(5.0);
         }
 
         back.setNormal(normal);
@@ -55,12 +54,9 @@ public class SongSelectionButtons implements Scalable, Focusable {
 
     private void setSettings(){
         BoundedString normal = new BoundedString();
-        normal.setBounds(new CRect(1015, 50, 100, 100));
-
+        normal.setBounds(new CRect(1030, 50, 100, 100));
         BoundedString onFocus = new BoundedString();
-        onFocus.setBounds(new CRect(1005, 60, 120, 120));
-        onFocus.getBounds().setOutlineColor(Color.BLUE);
-        onFocus.getBounds().setOutlineThickness(5.0);
+        onFocus.setBounds(new CRect(1020, 60, 120, 120));
 
         try {
             settings.setIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Settings.jpg"))));
@@ -68,6 +64,8 @@ public class SongSelectionButtons implements Scalable, Focusable {
             settings.setIcon(null);
             normal.getBounds().setOutlineColor(Color.WHITE);
             normal.getBounds().setOutlineThickness(1.0);
+            onFocus.getBounds().setOutlineColor(Color.BLUE);
+            onFocus.getBounds().setOutlineThickness(5.0);
         }
 
         settings.setNormal(normal);
@@ -76,12 +74,9 @@ public class SongSelectionButtons implements Scalable, Focusable {
 
     private void setPlay(){
         BoundedString normal = new BoundedString();
-        normal.setBounds(new CRect(1015, 633, 100, 100));
-
+        normal.setBounds(new CRect(1030, 670, 100, 100));
         BoundedString onFocus = new BoundedString();
-        onFocus.setBounds(new CRect(1005, 623, 120, 120));
-        onFocus.getBounds().setOutlineColor(Color.BLUE);
-        onFocus.getBounds().setOutlineThickness(5.0);
+        onFocus.setBounds(new CRect(1020, 660, 120, 120));
 
         try {
             play.setIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Play.jpg"))));
@@ -89,6 +84,8 @@ public class SongSelectionButtons implements Scalable, Focusable {
             play.setIcon(null);
             normal.getBounds().setOutlineColor(Color.WHITE);
             normal.getBounds().setOutlineThickness(1.0);
+            onFocus.getBounds().setOutlineColor(Color.BLUE);
+            onFocus.getBounds().setOutlineThickness(5.0);
         }
 
         play.setNormal(normal);

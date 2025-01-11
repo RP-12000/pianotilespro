@@ -8,7 +8,6 @@ import org.kelvinizer.game.gamewindow.Chart;
 import org.kelvinizer.menu.menuwindows.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.util.concurrent.*;
 
@@ -28,10 +27,10 @@ public class App extends JFrame {
     private void boot(){
         setTitle("PianoTilesPro");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Insets insets = getInsets();
-        ReferenceWindow.extraWidth = insets.left + insets.right;
-        ReferenceWindow.extraHeight = insets.top + insets.bottom;
-        setSize((int) ReferenceWindow.REF_WIN_W+ReferenceWindow.extraWidth, (int) ReferenceWindow.REF_WIN_H+ReferenceWindow.extraHeight);
+        setBounds(0, 0,
+                (int) ReferenceWindow.REF_WIN_W+ReferenceWindow.extraWidth,
+                (int) ReferenceWindow.REF_WIN_H+ReferenceWindow.extraHeight
+        );
         display = new WelcomePage();
         add(display);
     }
@@ -40,27 +39,32 @@ public class App extends JFrame {
         if(lastPanel!= Control.panel_index){
             remove(display);
             switch (Control.panel_index){
-                case 0:
-                    display = new WelcomePage();break;
-                case 1:
-                    display = new CollectionSelection();break;
-                case 2:
-                    display = new SongSelection();break;
-                case 3:
+                case 0 -> display = new WelcomePage();
+                case 1 -> display = new CollectionSelection();
+                case 2 -> display = new SongSelection();
+                case 3 ->{
                     try {
                         display = new Chart();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    break;
-                default:
-                    display = new Settings();break;
+                }
+                default -> display = new Settings();
             }
+            display.setBounds(0, 0,
+                    getSize().width-ReferenceWindow.extraWidth,
+                    getSize().height-ReferenceWindow.extraHeight
+            );
             add(display);
             revalidate();
             lastPanel = panel_index;
         }
-        display.setBounds(0, 0, getSize().width, getSize().height);
+        else{
+            display.setBounds(0, 0,
+                    getSize().width-ReferenceWindow.extraWidth,
+                    getSize().height-ReferenceWindow.extraHeight
+            );
+        }
         display.scale(getSize());
     }
 }

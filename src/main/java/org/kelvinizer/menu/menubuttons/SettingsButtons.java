@@ -6,7 +6,10 @@ import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.interfaces.Drawable;
 import org.kelvinizer.support.interfaces.Scalable;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.IOException;
+import java.util.Objects;
 
 public class SettingsButtons implements Scalable, Drawable {
     public final CRectButton back = new CRectButton();
@@ -17,15 +20,21 @@ public class SettingsButtons implements Scalable, Drawable {
 
     private void setBack(){
         BoundedString normal = new BoundedString();
-        normal.setBounds(new CRect(51, 50, 100, 100));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
-        back.setNormal(normal);
-
+        normal.setBounds(new CRect(50, 50, 100, 100));
         BoundedString onFocus = new BoundedString();
-        onFocus.setBounds(new CRect(61, 60, 120, 120));
-        onFocus.getBounds().setOutlineColor(Color.BLUE);
-        onFocus.getBounds().setOutlineThickness(5.0);
+        onFocus.setBounds(new CRect(60, 60, 120, 120));
+
+        try {
+            back.setIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Back.jpg"))));
+        } catch (RuntimeException | IOException e) {
+            back.setIcon(null);
+            normal.getBounds().setOutlineColor(Color.WHITE);
+            normal.getBounds().setOutlineThickness(1.0);
+            onFocus.getBounds().setOutlineColor(Color.BLUE);
+            onFocus.getBounds().setOutlineThickness(5.0);
+        }
+
+        back.setNormal(normal);
         back.setOnFocus(onFocus);
     }
 

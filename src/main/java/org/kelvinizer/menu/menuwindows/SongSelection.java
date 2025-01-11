@@ -222,6 +222,7 @@ public class SongSelection extends AnimatablePanel {
         }
         else{
             Selection.songDir = songs.getSelectionString();
+            Selection.songJacket = songs.getSelectionJacket();
             Control.panel_index = 3;
         }
     }
