@@ -8,6 +8,7 @@ import org.kelvinizer.game.gamewindow.Chart;
 import org.kelvinizer.menu.menuwindows.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.concurrent.*;
 
@@ -65,6 +66,9 @@ public class App extends JFrame {
                     getSize().height-ReferenceWindow.extraHeight
             );
         }
-        display.scale(getSize());
+        display.scale(new Dimension(
+                getSize().width-ReferenceWindow.extraWidth,
+                getSize().height-ReferenceWindow.extraHeight
+        ));
     }
 }

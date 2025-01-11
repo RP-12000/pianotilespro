@@ -9,6 +9,7 @@ import java.awt.*;
 
 import static org.kelvinizer.constants.GameColors.PAUSED_OPACITY;
 import static org.kelvinizer.constants.Control.isPaused;
+import static org.kelvinizer.constants.ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS;
 import static org.kelvinizer.constants.ReferenceWindow.UNIT;
 
 public class HoldNote extends Note{
@@ -40,10 +41,16 @@ public class HoldNote extends Note{
 
     @Override
     public CRect toBottomRect(){
-        return super.getBottomRect(HOLD_NOTE_COLOR[isPaused]);
+        CRect cr = super.getBottomRect(HOLD_NOTE_COLOR[isPaused]);
+        if(Time.CURRENT_TIME>perfect_hit_time){
+            cr.setY(HORIZONTAL_JUDGEMENT_LINE_POS[lane_num / 8]);
+            cr.setOutlineColor(null);
+            cr.setFillColor(null);
+        }
+        return cr;
     }
 
-    public CRect toDurationRect(){
+    public CRect toDurationRect(CRect bottomRect){
         CRect r = new CRect();
         r.setSize(
                 HOLD_NOTE_WIDTH,
@@ -61,10 +68,18 @@ public class HoldNote extends Note{
         else {
             r.setOrigin(r.getWidth() / 2.0f, 0);
         }
-        r.setPosition(
-                ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[lane_num % 8] + ReferenceWindow.VERTICAL_JUDGEMENT_SPACING / 2,
-                movement.dist(Time.CURRENT_TIME - startTime)
-        );
+        r.setX(ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[lane_num % 8] + ReferenceWindow.VERTICAL_JUDGEMENT_SPACING / 2);
+        if(Time.CURRENT_TIME>perfect_hit_time){
+            r.setY(HORIZONTAL_JUDGEMENT_LINE_POS[lane_num / 8]);
+        }
+        else{
+            r.setY(movement.dist(Time.CURRENT_TIME - startTime));
+        }
+        Rectangle br = bottomRect.toJShape();
+        Rectangle dr = r.toJShape();
+        if(br.y+br.height != dr.y+dr.height){
+            r.setY(r.getY()-(dr.y+dr.height)+(br.y+br.height));
+        }
         return r;
     }
 

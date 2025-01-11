@@ -177,9 +177,6 @@ public class Chart extends AnimatablePanel {
                 lanes[i].autoplay();
             }
             ArrayList<CRect> render = lanes[i].toRect();
-            if(i==10 && !render.isEmpty()){
-                System.out.println("OKOKOK");
-            }
             for(CRect r: render){
                 r.render(g2d);
             }
@@ -207,6 +204,6 @@ public class Chart extends AnimatablePanel {
                     (int)ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[i/8]
             );
         }
-        Time.CURRENT_TIME += 1.0/Time.FPS;
+        Time.CURRENT_TIME += 1.0 / Time.FPS;
     }
 }

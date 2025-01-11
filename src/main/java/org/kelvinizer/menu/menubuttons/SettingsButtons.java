@@ -1,22 +1,27 @@
 package org.kelvinizer.menu.menubuttons;
 
 import org.kelvinizer.buttons.CRectButton;
+import org.kelvinizer.buttons.SlidingButton;
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.interfaces.Drawable;
+import org.kelvinizer.support.interfaces.Focusable;
 import org.kelvinizer.support.interfaces.Scalable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Objects;
 
-public class SettingsButtons implements Scalable, Drawable {
+public class SettingsButtons implements Scalable, Drawable, Focusable {
     public final CRectButton back = new CRectButton();
     public final CRectButton normalMode = new CRectButton();
     public final CRectButton autoplayMode = new CRectButton();
     public final CRectButton syncOn = new CRectButton();
     public final CRectButton syncOff = new CRectButton();
+    public final SlidingButton musicDelay = new SlidingButton(-600, 600, Control.MUSIC_DIFFERENCE);
 
     private void setBack(){
         BoundedString normal = new BoundedString();
@@ -126,12 +131,36 @@ public class SettingsButtons implements Scalable, Drawable {
         syncOff.setOnSelection(onSelection);
     }
 
+    private void setMusicDelay(){
+        CRectButton slider = new CRectButton();
+
+        BoundedString normal = new BoundedString("", 0);
+        normal.setBounds(new CRect(50, 50));
+        normal.getBounds().setFillColor(Color.CYAN);
+        slider.setNormal(normal);
+
+        BoundedString onFocus = new BoundedString("", 0);
+        onFocus.setBounds(new CRect(50, 50));
+        onFocus.getBounds().setFillColor(Color.CYAN);
+        onFocus.getBounds().setOutlineColor(Color.YELLOW);
+        onFocus.getBounds().setOutlineThickness(5.0);
+        slider.setOnFocus(onFocus);
+
+        CRect base = new CRect(640, 590, 400, 50);
+        base.setFillColor(Color.WHITE);
+        BoundedString verdict = new BoundedString("", 25, 640, 530);
+
+        musicDelay.setBaseAndSlider(base, slider);
+        musicDelay.setVerdict(verdict);
+    }
+
     public SettingsButtons(){
         setBack();
         setNormalMode();
         setAutoplayMode();
         setSyncOn();
         setSyncOff();
+        setMusicDelay();
     }
 
     @Override
@@ -141,6 +170,7 @@ public class SettingsButtons implements Scalable, Drawable {
         autoplayMode.scale(d);
         syncOn.scale(d);
         syncOff.scale(d);
+        musicDelay.scale(d);
     }
 
     @Override
@@ -150,5 +180,17 @@ public class SettingsButtons implements Scalable, Drawable {
         autoplayMode.render(g2d);
         syncOn.render(g2d);
         syncOff.render(g2d);
+        musicDelay.setVerdictString((int)musicDelay.getCurrentVal() +" ms");
+        musicDelay.render(g2d);
+    }
+
+    @Override
+    public void setFocused(MouseEvent e) {
+        back.setFocused(e);
+        normalMode.setFocused(e);
+        autoplayMode.setFocused(e);
+        syncOn.setFocused(e);
+        syncOff.setFocused(e);
+        musicDelay.setFocused(e);
     }
 }

@@ -79,9 +79,14 @@ public class Lane {
         ArrayList<CRect> render_notes = new ArrayList<>();
         for (int i = left_pointer; i < right_pointer; i++) {
             if (renderOrder.get(i).hasRect()) {
-                render_notes.add(renderOrder.get(i).toBottomRect());
                 if (renderOrder.get(i) instanceof HoldNote h) {
-                    render_notes.add(h.toDurationRect());
+                    CRect br = renderOrder.get(i).toBottomRect();
+                    CRect dr = h.toDurationRect(br);
+                    render_notes.add(br);
+                    render_notes.add(dr);
+                }
+                else{
+                    render_notes.add(renderOrder.get(i).toBottomRect());
                 }
             }
             if (renderOrder.get(i).hasParticle()) {

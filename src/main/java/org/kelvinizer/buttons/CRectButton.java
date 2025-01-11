@@ -90,9 +90,11 @@ public class CRectButton extends KButton {
     @Override
     public void scale(Dimension d){
         initNormalSpace();
-        initFocusSpace();
         normalSpace.scale(d);
-        focusSpace.scale(d);
+        if(focusSpace!=null){
+            initFocusSpace();
+            focusSpace.scale(d);
+        }
         if(selectionSpace!=null){
             initSelectionSpace();
             selectionSpace.scale(d);

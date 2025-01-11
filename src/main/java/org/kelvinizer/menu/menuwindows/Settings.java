@@ -32,13 +32,13 @@ public class Settings extends AnimatablePanel {
         addKeyBinding(KeyEvent.VK_LEFT, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                st.updateSelectionRect(-1);
+                sb.musicDelay.moveSlider(-1);
             }
         });
         addKeyBinding(KeyEvent.VK_RIGHT, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                st.updateSelectionRect(1);
+                sb.musicDelay.moveSlider(1);
             }
         });
         addKeyBinding(KeyEvent.VK_BACK_SPACE, new AbstractAction() {
@@ -51,16 +51,12 @@ public class Settings extends AnimatablePanel {
 
     @Override
     public void mouseMoved(MouseEvent e){
-        sb.back.setFocused(e);
-        sb.normalMode.setFocused(e);
-        sb.autoplayMode.setFocused(e);
-        sb.syncOn.setFocused(e);
-        sb.syncOff.setFocused(e);
+        sb.setFocused(e);
     }
 
     @Override
     public void mouseDragged(MouseEvent e){
-        st.moveSelectionRectByMouse(e);
+        sb.musicDelay.moveSlider(e);
     }
 
     @Override
@@ -111,6 +107,7 @@ public class Settings extends AnimatablePanel {
 
     @Override
     public void toNextPanel(){
+        Control.MUSIC_DIFFERENCE = (int) sb.musicDelay.getCurrentVal();
         Control.panel_index -= Control.numPanels;
     }
 }

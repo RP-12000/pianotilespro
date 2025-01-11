@@ -84,6 +84,7 @@ public class CRect extends CShape {
         this.y = y;
     }
 
+    @Override
     public void scale(Dimension d){
         x = x / ReferenceWindow.REF_WIN_W * d.width;
         y = y / ReferenceWindow.REF_WIN_H * d.height;

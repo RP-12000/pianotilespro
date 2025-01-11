@@ -38,17 +38,17 @@ public class MotionManager {
     private double getPos(double time){
         for(Motion m: movement){
             if(m.contains(time)){
-                return UNIT - m.getPos(time)*UNIT;
+                return m.getPos(time)*UNIT;
             }
         }
-        return UNIT - FINAL_POS/ JudgementLimits.BAD_LIMIT * (time - duration) * UNIT;
+        return FINAL_POS/ JudgementLimits.BAD_LIMIT * (time - duration) * UNIT;
     }
 
     public double dist(double time){
         if(laneNum>=8){
-            return ReferenceWindow.REF_WIN_H - getPos(time)*UNIT;
+            return ReferenceWindow.REF_WIN_H - UNIT + getPos(time);
         }
-        return getPos(time);
+        return UNIT - getPos(time);
     }
 
     public double getDuration() {
