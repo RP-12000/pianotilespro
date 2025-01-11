@@ -5,7 +5,6 @@ import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.Motion;
 
 import java.awt.*;
-import java.lang.reflect.GenericArrayType;
 
 import static org.kelvinizer.constants.GameColors.PAUSED_OPACITY;
 import static org.kelvinizer.constants.GameColors.setColorAlpha;
@@ -35,6 +34,7 @@ public abstract class Note implements Comparable<Note>{
     };
 
     protected final int lane_num;
+    protected final double startTime;
     protected final double perfect_hit_time;
     protected boolean is_sync = false;
     protected double actual_hit_time = -1;
@@ -43,7 +43,8 @@ public abstract class Note implements Comparable<Note>{
     public Note(int lane_num, double perfect_hit_time, double duration){
         this.lane_num=lane_num;
         this.perfect_hit_time=perfect_hit_time;
-        movement = new MotionManager(duration);
+        movement = new MotionManager(lane_num, duration);
+        startTime = perfect_hit_time - duration;
     }
 
     private CRect getParticleCRect(double current_time, double actual_hit_time, int status) {
@@ -101,6 +102,10 @@ public abstract class Note implements Comparable<Note>{
         return perfect_hit_time;
     }
 
+    public double getStartTime(){
+        return startTime;
+    }
+
     public double getStrikeTimeDifference() {
         return perfect_hit_time - actual_hit_time;
     }
@@ -123,7 +128,7 @@ public abstract class Note implements Comparable<Note>{
         if (status == 2) {
             r.setPosition(
                     ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[lane_num % 8] + ReferenceWindow.VERTICAL_JUDGEMENT_SPACING / 2,
-                    movement.dist(actual_hit_time)
+                    movement.dist(actual_hit_time - startTime)
             );
         }
         else {
@@ -168,7 +173,7 @@ public abstract class Note implements Comparable<Note>{
         }
         r.setPosition(
                 ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[lane_num % 8] + ReferenceWindow.VERTICAL_JUDGEMENT_SPACING / 2,
-                movement.dist(Time.CURRENT_TIME)
+                movement.dist(Time.CURRENT_TIME - startTime)
         );
         return r;
     }

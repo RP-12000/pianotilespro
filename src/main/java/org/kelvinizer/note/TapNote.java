@@ -71,7 +71,7 @@ public class TapNote extends Note{
     public int visibilityStatus() {
         if (
                 (status == 3 || status == 4) &&
-                (Time.CURRENT_TIME >= perfect_hit_time - getTotalMovementTime()) &&
+                (Time.CURRENT_TIME >= startTime) &&
                 (Time.CURRENT_TIME <= perfect_hit_time + JudgementLimits.BAD_LIMIT) &&
                 (isActive() || (!isActive() && hasParticle()))
         ) {

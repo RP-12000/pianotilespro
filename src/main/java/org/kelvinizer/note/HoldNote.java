@@ -21,7 +21,7 @@ public class HoldNote extends Note{
             new Color(255,255,255, PAUSED_OPACITY)
     };
 
-    public HoldNote(int lane_num, double perfect_hit_time, double duration, double last, double noteHeight){
+    public HoldNote(int lane_num, double perfect_hit_time, double duration, double noteHeight, double last){
         super(lane_num, perfect_hit_time, duration);
         this.noteHeight = noteHeight;
         this.duration = last;
@@ -63,7 +63,7 @@ public class HoldNote extends Note{
         }
         r.setPosition(
                 ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[lane_num % 8] + ReferenceWindow.VERTICAL_JUDGEMENT_SPACING / 2,
-                movement.dist(Time.CURRENT_TIME)
+                movement.dist(Time.CURRENT_TIME - startTime)
         );
         return r;
     }
@@ -101,7 +101,6 @@ public class HoldNote extends Note{
                         (status == 0 || status == 1) &&
                         (perfect_hit_time + duration - Time.CURRENT_TIME > JudgementLimits.HOLD_NOTE_END_LIMIT)
                 );
-
     }
 
     @Override
@@ -117,12 +116,12 @@ public class HoldNote extends Note{
     @Override
     public int visibilityStatus() {
         if (
-                (Time.CURRENT_TIME >= perfect_hit_time - getTotalMovementTime()) &&
+                (Time.CURRENT_TIME >= startTime) &&
                 (Time.CURRENT_TIME <= perfect_hit_time + duration)
         ) {
             return 1;
         }
-        else if (Time.CURRENT_TIME < perfect_hit_time - getTotalMovementTime()) { return 0; }
+        else if (Time.CURRENT_TIME < startTime) { return 0; }
         else { return 2; }
     }
 }

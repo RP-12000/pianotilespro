@@ -25,6 +25,6 @@ public class GameColors {
     };
 
     public static Color setColorAlpha(Color c, int opacity){
-        return new Color(c.getRed(), c.getBlue(), c.getGreen(), opacity);
+        return new Color(c.getRed(), c.getGreen(), c.getBlue(), opacity);
     }
 }

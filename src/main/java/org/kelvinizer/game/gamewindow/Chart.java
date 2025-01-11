@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
 
+import static org.kelvinizer.constants.Control.isAutoplay;
 import static org.kelvinizer.constants.Control.isPaused;
 
 public class Chart extends AnimatablePanel {
@@ -94,7 +95,7 @@ public class Chart extends AnimatablePanel {
                 throw new RuntimeException("Invalid Note detected");
             }
         }
-        tempNotes.sort(Note::compareTo);
+        tempNotes.sort((Note a, Note b) -> (int)( (a.getStartTime()-b.getStartTime())));
         for(int i=0; i<tempNotes.size()-1; i++){
             if(tempNotes.get(i).equals(tempNotes.get(i+1))){
                 tempNotes.get(i).sync();
@@ -107,6 +108,9 @@ public class Chart extends AnimatablePanel {
         }
         for (Note tempNote : tempNotes) {
             lanes[tempNote.getLaneNum()].addNote(tempNote);
+        }
+        for(int i=0; i<16; i++){
+            lanes[i].sort();
         }
         for(int i=0; i<16; i++){
             int finalI = i;
@@ -163,16 +167,23 @@ public class Chart extends AnimatablePanel {
     @Override
     public void render(Graphics2D g2d){
         for(int i=0; i<16; i++){
+            if(!isAutoplay){
+                lanes[i].update(signal[i]);
+                if(signal[i]!=0){
+                    signal[i] = 0;
+                }
+            }
+            else{
+                lanes[i].autoplay();
+            }
             ArrayList<CRect> render = lanes[i].toRect();
+            if(i==10 && !render.isEmpty()){
+                System.out.println("OKOKOK");
+            }
             for(CRect r: render){
                 r.render(g2d);
             }
-            lanes[i].update(signal[i]);
-            if(signal[i]!=0){
-                signal[i] = 0;
-            }
         }
-        Time.CURRENT_TIME += 1.0/Time.FPS;
         if(Lane.bad+Lane.good+Lane.miss == 0){
             g2d.setColor(GameColors.JUDGEMENT_LINE_COLOR[isPaused][0]);
         }
@@ -196,5 +207,6 @@ public class Chart extends AnimatablePanel {
                     (int)ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[i/8]
             );
         }
+        Time.CURRENT_TIME += 1.0/Time.FPS;
     }
 }

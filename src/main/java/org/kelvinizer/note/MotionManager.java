@@ -1,6 +1,7 @@
 package org.kelvinizer.note;
 
 import org.kelvinizer.constants.JudgementLimits;
+import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.support.classes.Motion;
 
 import java.util.ArrayList;
@@ -10,9 +11,11 @@ import static org.kelvinizer.constants.ReferenceWindow.UNIT;
 public class MotionManager {
     private final ArrayList<Motion> movement = new ArrayList<>();
     private final double duration;
+    private final int laneNum;
     private static final double FINAL_POS = -0.1;
 
-    public MotionManager(double duration){
+    public MotionManager(int laneNum, double duration){
+        this.laneNum = laneNum;
         this.duration = duration;
     }
 
@@ -29,16 +32,23 @@ public class MotionManager {
                 return false;
             }
         }
-        return movement.getLast().getEnd()<=duration;
+        return movement.getLast().getEnd()==duration;
+    }
+
+    private double getPos(double time){
+        for(Motion m: movement){
+            if(m.contains(time)){
+                return UNIT - m.getPos(time)*UNIT;
+            }
+        }
+        return UNIT - FINAL_POS/ JudgementLimits.BAD_LIMIT * (time - duration) * UNIT;
     }
 
     public double dist(double time){
-        for(Motion m: movement){
-            if(m.contains(time)){
-                return m.getPos(time)*UNIT;
-            }
+        if(laneNum>=8){
+            return ReferenceWindow.REF_WIN_H - getPos(time)*UNIT;
         }
-        return FINAL_POS/ JudgementLimits.BAD_LIMIT * time * UNIT;
+        return getPos(time);
     }
 
     public double getDuration() {
