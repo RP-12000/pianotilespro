@@ -10,16 +10,18 @@ public class Lane {
     private final ArrayList<Note> renderOrder = new ArrayList<>();
     private final ArrayList<Note> judgementOrder = new ArrayList<>();
     private int left_pointer = 0, right_pointer = 0, active_note_pointer = 0;
-    public static double miss, bad, good, perfect, early, late, total;
+    public static double miss, bad, good, perfect, early, late, worstHit, currentCombo, maxCombo, total;
 
     private void update_pointers() {
         if (active_note_pointer < judgementOrder.size()) {
             if (!judgementOrder.get(active_note_pointer).isActive()) {
                 if (judgementOrder.get(active_note_pointer).getStatus() == 0) {
                     perfect++;
+                    currentCombo++;
                 }
                 else if (judgementOrder.get(active_note_pointer).getStatus() == 1) {
                     good++;
+                    currentCombo++;
                     if((judgementOrder.get(active_note_pointer).getStrikeTimeDifference() < 0)){
                         early++;
                     }
@@ -29,10 +31,14 @@ public class Lane {
                 }
                 else if (judgementOrder.get(active_note_pointer).getStatus() == 2) {
                     bad++;
+                    currentCombo = 0;
                 }
                 else if (judgementOrder.get(active_note_pointer).getStatus() == 3) {
                     miss++;
+                    currentCombo = 0;
                 }
+                maxCombo = Math.max(maxCombo, currentCombo);
+                worstHit = Math.max(worstHit, Math.abs(judgementOrder.get(active_note_pointer).getStrikeTimeDifference()));
                 active_note_pointer++;
             }
         }
@@ -106,6 +112,10 @@ public class Lane {
         perfect = 0.0;
         early = 0.0;
         late = 0.0;
+        currentCombo = 0.0;
+        maxCombo = 0.0;
+        worstHit = 0.0;
+        total = 0.0;
         for (Note n : judgementOrder){
             n.reset();
         }

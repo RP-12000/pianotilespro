@@ -223,6 +223,12 @@ public class SongSelection extends AnimatablePanel {
         else{
             Selection.songDir = songs.getSelectionString();
             Selection.songJacket = songs.getSelectionJacket();
+            switch (Selection.level){
+                case "BS" -> Selection.chartConstant = songData.get(songs.getMenuIndex()).getBasicData().second;
+                case "MD" -> Selection.chartConstant = songData.get(songs.getMenuIndex()).getMediumData().second;
+                case "AV" -> Selection.chartConstant = songData.get(songs.getMenuIndex()).getAdvancedData().second;
+                case "LG" -> Selection.chartConstant = songData.get(songs.getMenuIndex()).getLegendaryData().second;
+            }
             Control.panel_index = 3;
         }
     }

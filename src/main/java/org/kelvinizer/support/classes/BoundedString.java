@@ -18,6 +18,7 @@ public class BoundedString implements Drawable {
     private double horizontalWhiteSpace = 3, verticalWhiteSpace = 2;
     private int maxStringSize = -1;
     private double relativeX = 0.5, relativeY = 0.5;
+    private Pair<Double, Double> stringOrigin = new Pair<>(0.5, 0.5);
 
     public BoundedString(String d, int stringSize, double x, double y, double width ,double height){
         string = d;
@@ -52,8 +53,9 @@ public class BoundedString implements Drawable {
     protected Pair<Double, Double> getRenderPoint(Graphics2D g2d, String d){
         FontMetrics fm = g2d.getFontMetrics();
         return new Pair<>(
-                bounds.getX() - bounds.getOrigin().first + bounds.getWidth()*relativeX - (fm.stringWidth(d) / 2),
-                bounds.getY() - bounds.getOrigin().second + bounds.getHeight()*relativeY + ((fm.getAscent() - fm.getDescent()) / 2)
+                bounds.getX() - bounds.getOrigin().first + bounds.getWidth()*relativeX - fm.stringWidth(d) * stringOrigin.first,
+                bounds.getY() - bounds.getOrigin().second + bounds.getHeight()*relativeY -
+                        (fm.getAscent() + fm.getDescent())*stringOrigin.second + fm.getAscent()
         );
     }
 
@@ -137,5 +139,21 @@ public class BoundedString implements Drawable {
 
     public void setRelativeY(double y){
         relativeY = y;
+    }
+
+    public void setStringOrigin(Pair<Double, Double> p){
+        stringOrigin = p;
+    }
+
+    public void setStringOrigin(double x, double y){
+        setStringOrigin(new Pair<>(x, y));
+    }
+
+    public void setStringOriginX(double x){
+        stringOrigin.first = x;
+    }
+
+    public void setStringOriginY(double y){
+        stringOrigin.second = y;
     }
 }

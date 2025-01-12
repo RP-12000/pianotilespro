@@ -2,6 +2,7 @@ package org.kelvinizer.game.gamewindow;
 
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.*;
+import org.kelvinizer.game.gametext.ChartText;
 import org.kelvinizer.note.HoldNote;
 import org.kelvinizer.note.Note;
 import org.kelvinizer.note.TapNote;
@@ -19,7 +20,9 @@ import static org.kelvinizer.constants.Control.isAutoplay;
 import static org.kelvinizer.constants.Control.isPaused;
 
 public class Chart extends AnimatablePanel {
-    double noteCount;
+    public static double noteCount;
+    private String songName, level;
+    private final ChartText ct = new ChartText();
     Lane[] lanes = new Lane[16];
     private final double STATIC_TIMER;
     int[] activation = {
@@ -75,6 +78,9 @@ public class Chart extends AnimatablePanel {
         BufferedReader chart = new BufferedReader(new FileReader(songDir+"/"+level+".txt"));
         ArrayList<Note> tempNotes = new ArrayList<>();
         noteCount = Double.parseDouble(chart.readLine());
+        if(noteCount==0){
+            throw new RuntimeException("Zero-note chart detected");
+        }
         for(int i=0; i<(int)noteCount; i++){
             String[] s = chart.readLine().split(" ");
             int numMotions = Integer.parseInt(s[1]);
@@ -205,5 +211,7 @@ public class Chart extends AnimatablePanel {
             );
         }
         Time.CURRENT_TIME += 1.0 / Time.FPS;
+        ct.updateText();
+        ct.drawRegularText(g2d);
     }
 }

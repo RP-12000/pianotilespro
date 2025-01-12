@@ -10,5 +10,6 @@ public class Selection {
     public static String collectionDir = "";
     public static String songDir = "";
     public static String level = "BS";
+    public static double chartConstant = 0;
     public static BufferedImage songJacket = null;
 }
