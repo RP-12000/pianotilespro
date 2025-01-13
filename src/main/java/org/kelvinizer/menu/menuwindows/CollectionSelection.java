@@ -124,7 +124,7 @@ public class CollectionSelection extends AnimatablePanel {
             }
             csb.jacket.render(g2d);
             if(collections.getSelectionJacket()!=null){
-                g2d.drawImage(collections.getSelectionJacket(), 360, 140, 360, 360, this);
+                g2d.drawImage(collections.getSelectionJacket(), 360, 150, 360, 360, this);
             }
             else{
                 nullJacket.render(g2d);

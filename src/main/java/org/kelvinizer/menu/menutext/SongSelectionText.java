@@ -25,6 +25,7 @@ public class SongSelectionText {
     private final DynamicString illustrator = new DynamicString();
     private final DynamicString charterVerdict = new DynamicString();
     private final DynamicString charter = new DynamicString();
+    public final DynamicString nullJacket = new DynamicString("No jacket preview available", 15, 675, 340);
     private final DynamicImage jacket = new DynamicImage();
 
     private final BoundedString previousSong = new BoundedString();
@@ -36,7 +37,6 @@ public class SongSelectionText {
 
     public final BoundedString emptyFolder = new BoundedString("Nothing is in here QAQ", 50, 540, 360);
     public final BoundedString corruptedFolder = new BoundedString("Collection corrupted QAQ", 50, 540, 360);
-    public final BoundedString nullJacket = new BoundedString("No jacket preview available", 15, 675, 340);
 
     private final float adjacentOpacity = 0.25f;
 
@@ -169,6 +169,7 @@ public class SongSelectionText {
     }
 
     public SongSelectionText(){
+        nullJacket.getBoundedString().setStyle(Font.ITALIC);
         setSelectedSong();
         setSelectedLevel();
         setCharterVerdict();
@@ -260,7 +261,12 @@ public class SongSelectionText {
                 selectedSongDifficulty.getBoundedString().setString(levelToString(s.getLegendaryData()));
             }
         }
-        jacket.setImage(bf);
+        if(bf!=null){
+            jacket.setImage(bf);
+        }
+        else{
+            dm.addDynamicObject(nullJacket);
+        }
     }
 
     public void renderCurrent(Graphics2D g2d){

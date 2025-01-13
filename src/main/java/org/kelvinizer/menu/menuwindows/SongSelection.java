@@ -31,7 +31,6 @@ public class SongSelection extends AnimatablePanel {
 
     public SongSelection(){
         super();
-        sst.nullJacket.setStyle(Font.ITALIC);
         for(int i = 0; i< songs.size(); i++){
             try{
                 songData.add(new Song("Chart/"+ Selection.collectionDir+"/"+ songs.getSelectionString(i)));

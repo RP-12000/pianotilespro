@@ -155,4 +155,8 @@ public class BoundedString implements Drawable {
     public void setStringOriginY(double y){
         stringOrigin.second = y;
     }
+
+    public Color getStringColor() {
+        return stringColor;
+    }
 }

@@ -38,6 +38,11 @@ public class ResultPage extends AnimatablePanel {
     }
 
     @Override
+    public void mouseMoved(MouseEvent e){
+        rpb.setFocused(e);
+    }
+
+    @Override
     public void mouseClicked(MouseEvent e){
         if(rpb.restart.getCRectButton().isFocused()){
             exit();

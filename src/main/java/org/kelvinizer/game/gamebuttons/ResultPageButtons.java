@@ -5,10 +5,12 @@ import org.kelvinizer.dynamic.DynamicCRectButton;
 import org.kelvinizer.dynamic.DynamicMotionManager;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.classes.Motion;
+import org.kelvinizer.support.interfaces.Focusable;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
-public class ResultPageButtons {
+public class ResultPageButtons implements Focusable {
     public final DynamicCRectButton back = new DynamicCRectButton();
     public final DynamicCRectButton restart = new DynamicCRectButton();
 
@@ -34,8 +36,8 @@ public class ResultPageButtons {
     private void initRestart(){
         CRectButton button = new CRectButton();
 
-        BoundedString normal = new BoundedString("", 0, 1030, 670, 100, 100);
-        BoundedString onFocus = new BoundedString("", 0, 1020, 660, 120, 120);
+        BoundedString normal = new BoundedString("", 0, 1030, 50, 100, 100);
+        BoundedString onFocus = new BoundedString("", 0, 1020, 60, 120, 120);
 
         if(!button.setIcon("Restart.jpg")) {
             normal.getBounds().setOutlineColor(Color.WHITE);
@@ -55,5 +57,11 @@ public class ResultPageButtons {
         initRestart();
         dmm.addDynamicObject(back);
         dmm.addDynamicObject(restart);
+    }
+
+    @Override
+    public void setFocused(MouseEvent e) {
+        back.setFocused(e);
+        restart.setFocused(e);
     }
 }

@@ -1,5 +1,6 @@
 package org.kelvinizer.game.gametext;
 
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.dynamic.DynamicImage;
@@ -30,196 +31,73 @@ public class ResultPageText {
     public final DynamicString bestAccuracy = new DynamicString("", 15);
 
     public final DynamicString perfect = new DynamicString("", 15);
-    public final DynamicString perfectVerdict = new DynamicString("Perfect", 10);
     public final DynamicString good = new DynamicString("", 15);
-    public final DynamicString goodVerdict = new DynamicString("Good", 10);
     public final DynamicString bad = new DynamicString("", 15);
-    public final DynamicString badVerdict = new DynamicString("Bad", 10);
     public final DynamicString miss = new DynamicString("", 15);
-    public final DynamicString missVerdict = new DynamicString("Miss", 10);
     public final DynamicString early = new DynamicString("", 8);
-    public final DynamicString earlyVerdict = new DynamicString("Early", 12);
     public final DynamicString late = new DynamicString("", 8);
-    public final DynamicString lateVerdict = new DynamicString("Early", 12);
 
-    public final DynamicString scoreBounds = new DynamicString("", 0);
-    public final DynamicString accBounds = new DynamicString("", 0);
-    public final DynamicString noteBounds = new DynamicString("", 0);
+    public final DynamicString scoreBounds = new DynamicString("", 0, 540, 175, 1000, 150);
+    public final DynamicString accBounds = new DynamicString("", 0, 810, 375, 480, 150);
+    public final DynamicString noteBounds = new DynamicString("", 0, 810, 585, 480, 150);
 
-    public final DynamicImage jacket = new DynamicImage(new CRect(300, 360, 480, 300));
+    public final DynamicString songName = new DynamicString(Selection.songDir, 15, 136, 630, 192, 60);
+    public final DynamicString level = new DynamicString(Selection.level+" "+Selection.chartConstant, 15, 270, 630, 96, 60);
+    public final DynamicString userName = new DynamicString(Control.userName, 15, 414, 630, 192, 60);
 
-    private void addMotion(){
-        double introTime = 3.0;
-        double acc = 0.3;
-        jacket.addHorizontalMotion(new Motion(0, introTime, -780, 300, acc));
+    public final DynamicImage jacket = new DynamicImage(new CRect(280, 450, 480, 300));
 
-        scoreText.addHorizontalMotion(new Motion(
-                0, introTime,
+    private void addMotion(DynamicString ds){
+        ds.addHorizontalMotion(new Motion(
+                0, 3.0,
                 scoreText.getBoundedString().getBounds().getX()- ReferenceWindow.REF_WIN_W,
                 scoreText.getBoundedString().getBounds().getX(),
-                acc
+                0.3
         ));
+    }
 
-        newBestScore.addHorizontalMotion(new Motion(
-                0, introTime,
-                newBestScore.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                newBestScore.getBoundedString().getBounds().getX(),
-                acc
-        ));
+    private void initMotion(){
+        double introTime = 3.0;
+        double acc = 0.3;
+        jacket.addHorizontalMotion(new Motion(0, introTime, -800, 280, acc));
+        addMotion(scoreText);
+        addMotion(newBestScore);
+        addMotion(grade);
 
-        grade.addHorizontalMotion(new Motion(
-                0, introTime,
-                grade.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                grade.getBoundedString().getBounds().getX(),
-                acc
-        ));
+        addMotion(maxCombo);
+        addMotion(maxComboVerdict);
+        addMotion(bestMaxCombo);
+        addMotion(worstHit);
+        addMotion(worstHitVerdict);
+        addMotion(bestWorstHit);
+        addMotion(accuracy);
+        addMotion(accuracyVerdict);
+        addMotion(bestAccuracy);
 
-        maxCombo.addHorizontalMotion(new Motion(
-                0, introTime,
-                maxCombo.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                maxCombo.getBoundedString().getBounds().getX(),
-                acc
-        ));
+        addMotion(perfect);
+        addMotion(good);
+        addMotion(bad);
+        addMotion(miss);
+        addMotion(early);
+        addMotion(late);
 
-        maxComboVerdict.addHorizontalMotion(new Motion(
-                0, introTime,
-                maxComboVerdict.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                maxComboVerdict.getBoundedString().getBounds().getX(),
-                acc
-        ));
+        addMotion(scoreBounds);
+        addMotion(accBounds);
+        addMotion(noteBounds);
 
-        bestMaxCombo.addHorizontalMotion(new Motion(
-                0, introTime,
-                bestMaxCombo.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                bestMaxCombo.getBoundedString().getBounds().getX(),
-                acc
-        ));
+        addMotion(songName);
+        addMotion(level);
+        addMotion(userName);
+    }
 
-        worstHit.addHorizontalMotion(new Motion(
-                0, introTime,
-                worstHit.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                worstHit.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        worstHitVerdict.addHorizontalMotion(new Motion(
-                0, introTime,
-                worstHitVerdict.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                worstHitVerdict.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        bestWorstHit.addHorizontalMotion(new Motion(
-                0, introTime,
-                bestWorstHit.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                bestWorstHit.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        accuracy.addHorizontalMotion(new Motion(
-                0, introTime,
-                accuracy.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                accuracy.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        accuracyVerdict.addHorizontalMotion(new Motion(
-                0, introTime,
-                accuracyVerdict.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                accuracyVerdict.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        bestAccuracy.addHorizontalMotion(new Motion(
-                0, introTime,
-                bestAccuracy.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                bestAccuracy.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        perfect.addHorizontalMotion(new Motion(
-                0, introTime,
-                perfect.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                perfect.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        perfectVerdict.addHorizontalMotion(new Motion(
-                0, introTime,
-                perfectVerdict.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                perfectVerdict.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        good.addHorizontalMotion(new Motion(
-                0, introTime,
-                good.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                good.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        goodVerdict.addHorizontalMotion(new Motion(
-                0, introTime,
-                goodVerdict.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                goodVerdict.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        bad.addHorizontalMotion(new Motion(
-                0, introTime,
-                bad.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                bad.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        badVerdict.addHorizontalMotion(new Motion(
-                0, introTime,
-                badVerdict.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                badVerdict.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        miss.addHorizontalMotion(new Motion(
-                0, introTime,
-                miss.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                miss.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        missVerdict.addHorizontalMotion(new Motion(
-                0, introTime,
-                missVerdict.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                missVerdict.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        early.addHorizontalMotion(new Motion(
-                0, introTime,
-                early.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                early.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        earlyVerdict.addHorizontalMotion(new Motion(
-                0, introTime,
-                earlyVerdict.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                earlyVerdict.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        late.addHorizontalMotion(new Motion(
-                0, introTime,
-                late.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                late.getBoundedString().getBounds().getX(),
-                acc
-        ));
-
-        lateVerdict.addHorizontalMotion(new Motion(
-                0, introTime,
-                lateVerdict.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
-                lateVerdict.getBoundedString().getBounds().getX(),
-                acc
-        ));
+    private void initBounds(){
+        scoreBounds.getBoundedString().getBounds().setOutlineColor(grade.getBoundedString().getStringColor());
+        accBounds.getBoundedString().getBounds().setOutlineColor(grade.getBoundedString().getStringColor());
+        noteBounds.getBoundedString().getBounds().setOutlineColor(grade.getBoundedString().getStringColor());
+        scoreBounds.getBoundedString().getBounds().setOutlineThickness(3.0f);
+        accBounds.getBoundedString().getBounds().setOutlineThickness(3.0f);
+        noteBounds.getBoundedString().getBounds().setOutlineThickness(3.0f);
+        songName.getBoundedString().getBounds().setOutlineColor(grade.getBoundedString().getStringColor());
     }
 
     private void calculateGrade(int score){
@@ -263,6 +141,7 @@ public class ResultPageText {
                         Lane.maxCombo/ Chart.noteCount*maxScore*comboScorePercentage
         );
         calculateGrade(currentScore);
+        initBounds();
         int zeroCount = 0;
         int tempScore = currentScore;
         StringBuilder prefix = new StringBuilder();
@@ -272,19 +151,19 @@ public class ResultPageText {
             tempScore=tempScore*10;
         }
         scoreText.getBoundedString().setString(prefix.toString()+currentScore);
-        perfect.getBoundedString().setString(String.valueOf((int) Lane.perfect));
-        good.getBoundedString().setString(String.valueOf((int) Lane.good));
-        bad.getBoundedString().setString(String.valueOf((int) Lane.bad));
-        miss.getBoundedString().setString(String.valueOf((int) Lane.miss));
-        early.getBoundedString().setString(String.valueOf((int) Lane.early));
-        late.getBoundedString().setString(String.valueOf((int) Lane.late));
-        maxCombo.getBoundedString().setString(String.valueOf((int) Lane.maxCombo));
-        worstHit.getBoundedString().setString((Lane.worstHit * 1000) + " ms");
+        perfect.getBoundedString().setString("Perfect: "+ (int)Lane.perfect);
+        good.getBoundedString().setString("Good: "+(int)Lane.good);
+        bad.getBoundedString().setString("Bad "+(int)Lane.bad);
+        miss.getBoundedString().setString("Miss: "+(int)Lane.miss);
+        early.getBoundedString().setString("Early: "+(int)Lane.early);
+        late.getBoundedString().setString("Late: "+(int)Lane.late);
+        maxCombo.getBoundedString().setString("Max Combo: "+(int)Lane.maxCombo);
+        worstHit.getBoundedString().setString("Worst Hit: "+String.format("%.2f", Lane.worstHit*1000)+" ms");
     }
 
     public ResultPageText(DynamicMotionManager dmm){
         setText();
-        addMotion();
+        initMotion();
         jacket.setImage(Selection.songJacket);
         dmm.addDynamicObject(scoreText);
         dmm.addDynamicObject(newBestScore);
@@ -301,17 +180,11 @@ public class ResultPageText {
         dmm.addDynamicObject(bestAccuracy);
 
         dmm.addDynamicObject(perfect);
-        dmm.addDynamicObject(perfectVerdict);
         dmm.addDynamicObject(good);
-        dmm.addDynamicObject(goodVerdict);
         dmm.addDynamicObject(bad);
-        dmm.addDynamicObject(badVerdict);
         dmm.addDynamicObject(miss);
-        dmm.addDynamicObject(missVerdict);
         dmm.addDynamicObject(early);
-        dmm.addDynamicObject(earlyVerdict);
         dmm.addDynamicObject(late);
-        dmm.addDynamicObject(lateVerdict);
 
         dmm.addDynamicObject(scoreBounds);
         dmm.addDynamicObject(accBounds);

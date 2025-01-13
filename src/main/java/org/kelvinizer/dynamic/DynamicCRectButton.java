@@ -2,11 +2,13 @@ package org.kelvinizer.dynamic;
 
 import org.kelvinizer.buttons.CRectButton;
 import org.kelvinizer.support.classes.Motion;
+import org.kelvinizer.support.interfaces.Focusable;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.Objects;
 
-public class DynamicCRectButton extends DynamicObject {
+public class DynamicCRectButton extends DynamicObject implements Focusable {
     private CRectButton b;
 
     public DynamicCRectButton(){}
@@ -41,5 +43,10 @@ public class DynamicCRectButton extends DynamicObject {
 
     public CRectButton getCRectButton(){
         return b;
+    }
+
+    @Override
+    public void setFocused(MouseEvent e) {
+        b.setFocused(e);
     }
 }

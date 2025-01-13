@@ -50,11 +50,11 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
 
     private void setJacket(){
         BoundedString normal = new BoundedString();
-        normal.setBounds(new CRect(540, 320, 360, 360));
+        normal.setBounds(new CRect(540, 330, 360, 360));
         jacket.setNormal(normal);
 
         BoundedString onFocus = new BoundedString();
-        onFocus.setBounds(new CRect(540, 320, 360, 360));
+        onFocus.setBounds(new CRect(540, 330, 360, 360));
         onFocus.getBounds().setOutlineColor(Color.BLUE);
         onFocus.getBounds().setOutlineThickness(5.0);
         jacket.setOnFocus(onFocus);
