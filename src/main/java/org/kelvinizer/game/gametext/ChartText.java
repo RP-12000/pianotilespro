@@ -9,6 +9,8 @@ import org.kelvinizer.support.interfaces.Drawable;
 
 import java.awt.*;
 
+import static org.kelvinizer.constants.JudgementLimits.*;
+
 public class ChartText implements Drawable {
     public final BoundedString score = new BoundedString("0000000", 30, 990, 108);
     public final BoundedString songName = new BoundedString(Selection.songDir, 20, 90, 660, 140, 150);
@@ -25,11 +27,6 @@ public class ChartText implements Drawable {
     public final BoundedString late = new BoundedString("", 18, 990, 340, 140, 30);
     public final BoundedString maxCombo = new BoundedString("", 18, 990, 380, 140, 30);
     public final BoundedString worstHit = new BoundedString("", 18, 990, 420, 140, 30);
-
-    private final double minVisibleCombo = 3;
-    private final double goodPercentage = 0.65;
-    private final double comboScorePercentage = 0.1;
-    private final int maxScore = 1000000;
 
     private void setMaxStringSizes(){
         songName.setMaxStringSize(20);
@@ -56,7 +53,8 @@ public class ChartText implements Drawable {
         else{
             acc.setString("N/A %");
         }
-        if(Lane.currentCombo>=minVisibleCombo){
+        double minVisibleCombo = 3;
+        if(Lane.currentCombo>= minVisibleCombo){
             combo.setString((int)Lane.currentCombo+" COMBO");
         }
         else{

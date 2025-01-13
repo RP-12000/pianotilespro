@@ -10,7 +10,13 @@ public class DynamicImage extends DynamicObject {
     private BufferedImage bf;
     private CRect bounds;
 
-    public DynamicImage(){}
+    public DynamicImage(CRect bounds){
+        this.bounds = bounds;
+    }
+
+    public DynamicImage(){
+        this(new CRect());
+    }
 
     public void setImage(BufferedImage bf){
         this.bf = bf;

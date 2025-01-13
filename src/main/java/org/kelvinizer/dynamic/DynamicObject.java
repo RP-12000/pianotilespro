@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public abstract class DynamicObject implements Drawable, Activatable {
     long start = -1;
-    protected static final long S_TO_NS_CONVERSION_FACTOR = 1000000000;
+    protected static final double S_TO_NS_CONVERSION_FACTOR = 1e9;
     ArrayList<Motion> horizontal = new ArrayList<>();
     ArrayList<Motion> vertical = new ArrayList<>();
 
