@@ -18,7 +18,7 @@ public class SettingsButtons implements Scalable, Drawable, Focusable {
     public final CRectButton autoplayMode = new CRectButton();
     public final CRectButton syncOn = new CRectButton();
     public final CRectButton syncOff = new CRectButton();
-    public final SlidingButton musicDelay = new SlidingButton(-600, 600, Control.MUSIC_DIFFERENCE+1000);
+    public final SlidingButton musicDelay = new SlidingButton(-2000, 2000, Control.MUSIC_DIFFERENCE);
 
     private void setBack(){
         BoundedString normal = new BoundedString("", 0, 50, 50, 100, 100);

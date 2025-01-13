@@ -104,6 +104,16 @@ public class Chart extends AnimatablePanel {
         }
     }
 
+    private void staggerStart(){
+        music.start();
+        try {
+            Thread.sleep(511);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Error when loading music");
+        }
+        music.stop();
+    }
+
     public Chart(String songDir, String level) throws IOException, RuntimeException, LineUnavailableException {
         super(3000);
         getMusic(new File(songDir));
@@ -203,6 +213,7 @@ public class Chart extends AnimatablePanel {
 
     public Chart() throws IOException, LineUnavailableException {
         this("Chart/"+Selection.collectionDir+"/"+Selection.songDir, Selection.level);
+        staggerStart();
     }
 
     public static boolean isValidChart(String dir, String songLevel){
