@@ -6,32 +6,14 @@ import org.kelvinizer.support.classes.Motion;
 
 import java.awt.*;
 
-import static org.kelvinizer.constants.GameColors.PAUSED_OPACITY;
-import static org.kelvinizer.constants.GameColors.setColorAlpha;
-import static org.kelvinizer.constants.Control.isPaused;
-
 public abstract class Note implements Comparable<Note>{
     protected final MotionManager movement;
 
-    private static final double NOTE_WIDTH = 48.0;
-    private static final double TAP_NOTE_HEIGHT = 5.0;
-    private static final double NOTE_OUTLINE_THICKNESS = 1.0;
-    private static final Color[] SYNC_COLOR = {
-            new Color(223,197,123),
-            new Color(223,197,123,PAUSED_OPACITY)
-    };
-    private static final Color[][] PARTICLE_COLOR = {
-            {
-                    new Color(0,255,0),
-                    new Color(0,0,255),
-                    new Color(255,0,0)
-            },
-            {
-                    new Color(0,255,0,PAUSED_OPACITY),
-                    new Color(0,0,255,PAUSED_OPACITY),
-                    new Color(255,0,0,PAUSED_OPACITY)
-            }
-    };
+    private static final double NOTE_WIDTH = 60.0;
+    private static final double TAP_NOTE_HEIGHT = 10.0;
+    private static final double NOTE_OUTLINE_THICKNESS = 4.0;
+    private static final Color SYNC_COLOR = Color.YELLOW;
+    private static final Color[] PARTICLE_COLOR = {Color.GREEN, Color.BLUE, Color.RED};
 
     protected final int lane_num;
     protected final double startTime;
@@ -47,6 +29,10 @@ public abstract class Note implements Comparable<Note>{
         startTime = perfect_hit_time - duration;
     }
 
+    private Color setColorAlpha(Color c, int opacity){
+        return new Color(c.getRed(), c.getGreen(), c.getBlue(), opacity);
+    }
+
     private CRect getParticleCRect(double current_time, double actual_hit_time, int status) {
         double current_width = NOTE_WIDTH + (
                 (ReferenceWindow.VERTICAL_JUDGEMENT_SPACING - NOTE_WIDTH) *
@@ -57,17 +43,14 @@ public abstract class Note implements Comparable<Note>{
                 TAP_NOTE_HEIGHT * current_width / NOTE_WIDTH
         );
         r.setOutlineColor(setColorAlpha(
-                PARTICLE_COLOR[isPaused][status],
+                PARTICLE_COLOR[status],
                 (int)(
-                        PARTICLE_COLOR[isPaused][status].getAlpha() / JudgementLimits.NOTE_LINGERING_TIME *
-                                (JudgementLimits.NOTE_LINGERING_TIME - current_time + actual_hit_time)
+                        PARTICLE_COLOR[status].getAlpha() / JudgementLimits.NOTE_LINGERING_TIME *
+                        (JudgementLimits.NOTE_LINGERING_TIME - current_time + actual_hit_time)
                 )
         ));
         r.setOutlineThickness(NOTE_OUTLINE_THICKNESS);
-        r.setOrigin(
-                r.getWidth() / 2.0f,
-                r.getHeight() / 2.0f
-        );
+        r.setOrigin(r.getWidth() / 2.0f, r.getHeight() / 2.0f);
         return r;
     }
 
@@ -154,11 +137,11 @@ public abstract class Note implements Comparable<Note>{
                 ))
         ));
         r.setOutlineColor(setColorAlpha(
-                SYNC_COLOR[isPaused],
+                SYNC_COLOR,
                 (int)(Math.max(
                         0.0,
-                        SYNC_COLOR[isPaused].getAlpha() - Math.max(
-                                0.0, SYNC_COLOR[isPaused].getAlpha() / JudgementLimits.GOOD_LIMIT * (Time.CURRENT_TIME - perfect_hit_time)
+                        SYNC_COLOR.getAlpha() - Math.max(
+                                0.0, SYNC_COLOR.getAlpha() / JudgementLimits.GOOD_LIMIT * (Time.CURRENT_TIME - perfect_hit_time)
                         )
                 ))
         ));

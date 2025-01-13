@@ -18,17 +18,16 @@ public class JacketMenu{
         if(lf == null){
             return null;
         }
+        BufferedImage bf = null;
         for(File thing: lf){
             try{
-                String path = thing.getCanonicalPath();
-                if(path.endsWith(".jpg")||path.endsWith(".png")){
-                    return ImageIO.read(thing);
+                bf = ImageIO.read(thing);
+                if(bf!=null){
+                    return bf;
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            } catch (IOException ignored) {}
         }
-        return null;
+        return bf;
     }
 
     private void updateMenu() {

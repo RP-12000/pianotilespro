@@ -5,11 +5,14 @@ import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
 import org.kelvinizer.game.gamewindow.Chart;
+import org.kelvinizer.game.gamewindow.ResultPage;
 import org.kelvinizer.menu.menuwindows.*;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
+import java.io.*;
+import java.util.Objects;
 import java.util.concurrent.*;
 
 import static org.kelvinizer.constants.Control.*;
@@ -25,6 +28,23 @@ public class App extends JFrame {
         setVisible(true);
     }
 
+    private void getUserName(){
+        try {
+            BufferedReader userInfo = new BufferedReader(new FileReader("Chart/user.txt"));
+            userName = Objects.requireNonNull(userInfo.readLine());
+            userInfo.close();
+        } catch (IOException | RuntimeException e){
+            try {
+                PrintWriter newInfo = new PrintWriter(new FileWriter("Chart/user.txt"));
+                userName = "User"+(int)(Math.random()*1e10);
+                newInfo.println(userName);
+                newInfo.close();
+            } catch (IOException ex) {
+                throw new RuntimeException("Unable to load game");
+            }
+        }
+    }
+
     private void boot(){
         setTitle("PianoTilesPro");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,6 +52,7 @@ public class App extends JFrame {
                 (int) ReferenceWindow.REF_WIN_W+ReferenceWindow.extraWidth,
                 (int) ReferenceWindow.REF_WIN_H+ReferenceWindow.extraHeight
         );
+        getUserName();
         display = new WelcomePage();
         add(display);
     }
@@ -46,10 +67,11 @@ public class App extends JFrame {
                 case 3 ->{
                     try {
                         display = new Chart();
-                    } catch (IOException e) {
+                    } catch (IOException | LineUnavailableException e) {
                         throw new RuntimeException(e);
                     }
                 }
+                case 4 -> display = new ResultPage();
                 default -> display = new Settings();
             }
             display.setBounds(0, 0,

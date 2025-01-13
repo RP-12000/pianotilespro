@@ -218,7 +218,7 @@ public class SongSelection extends AnimatablePanel {
             return;
         }
         if(toSettings){
-            Control.panel_index += Control.numPanels;
+            Control.panel_index = -Control.panel_index;
         }
         else{
             Selection.songDir = songs.getSelectionString();

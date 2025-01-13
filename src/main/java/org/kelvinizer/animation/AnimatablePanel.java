@@ -1,6 +1,5 @@
 package org.kelvinizer.animation;
 
-import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
 import org.kelvinizer.support.classes.Triple;
@@ -20,18 +19,19 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
     private boolean is_start = true, is_end = false;
     private boolean has_start = false, has_end = false;
     protected long start_time, end_time;
-    protected long start_duration, end_duration;
+    protected final long start_duration;
+    protected long end_duration;
     private final HashMap<Triple<Integer, Boolean, Integer>, Action> bindings = new HashMap<>();
 
     public AnimatablePanel(long start_duration_in_ms){
-        start_duration=start_duration_in_ms* Time.MS_TO_NS_CONVERSION_FACTOR;
+        start_duration = (long) (start_duration_in_ms*1e6);
         setSize((int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
         ScheduledExecutorService e = Executors.newSingleThreadScheduledExecutor();
         e.scheduleAtFixedRate(this::repaint, 0, 1000/Time.FPS, TimeUnit.MILLISECONDS);
     }
 
     public AnimatablePanel(){
-        this(Time.INTRO_TIME_IN_MS);
+        this(500);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
         g2d.scale((double)getWidth()/ReferenceWindow.REF_WIN_W, (double)getHeight()/ReferenceWindow.REF_WIN_H);
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0,0, (int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
-        g2d.setColor(Control.DEFAULT_COLOR);
-        g2d.setStroke(Control.DEFAULT_STROKE);
+        g2d.setColor(Color.WHITE);
+        g2d.setStroke(new BasicStroke(1.0f));
         if(is_start){
             if(!has_start){
                 has_start=true;
@@ -102,7 +102,7 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
     }
 
     protected void exit(long end_duration_in_ms){
-        end_duration=end_duration_in_ms*Time.MS_TO_NS_CONVERSION_FACTOR;
+        end_duration=(long) (end_duration_in_ms*1e6);
         is_end=true;
         removeMouseListener(this);
         removeMouseMotionListener(this);
@@ -126,21 +126,19 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
     }
 
     protected void exit(){
-        exit(Time.EXIT_TIME_IN_MS);
+        exit(500);
     }
 
     protected void setAppearingOpacity(Graphics2D g2d){
-        g2d.setComposite(AlphaComposite.getInstance(
-                AlphaComposite.SRC_OVER,
-                Math.min(1.0f, 1.0f*(System.nanoTime()-start_time)/start_duration)
-        ));
+        setGlobalOpacity(g2d, 1.0f*(System.nanoTime()-start_time)/start_duration);
     }
 
     protected void setDisappearingOpacity(Graphics2D g2d){
-        g2d.setComposite(AlphaComposite.getInstance(
-                AlphaComposite.SRC_OVER,
-                Math.max(0.0f, 1.0f-1.0f*(System.nanoTime()-end_time)/end_duration)
-        ));
+        setGlobalOpacity(g2d, 1.0f-1.0f*(System.nanoTime()-end_time)/end_duration);
+    }
+
+    protected void setGlobalOpacity(Graphics2D g2d, float ratio){
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, ratio));
     }
 
     @Override

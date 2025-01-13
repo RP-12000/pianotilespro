@@ -141,7 +141,7 @@ public class CollectionSelection extends AnimatablePanel {
             Control.panel_index = 0;
         }
         else if(toSettings){
-            Control.panel_index += Control.numPanels;
+            Control.panel_index = -Control.panel_index;
         }
         else{
             Selection.collectionDir = collections.getSelectionString();

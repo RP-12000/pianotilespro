@@ -1,6 +1,5 @@
 package org.kelvinizer.menu.menutext;
 
-import org.kelvinizer.constants.GameColors;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.dynamic.DynamicImage;
 import org.kelvinizer.dynamic.DynamicMotionManager;
@@ -38,6 +37,8 @@ public class SongSelectionText {
     public final BoundedString emptyFolder = new BoundedString("Nothing is in here QAQ", 50, 540, 360);
     public final BoundedString corruptedFolder = new BoundedString("Collection corrupted QAQ", 50, 540, 360);
     public final BoundedString nullJacket = new BoundedString("No jacket preview available", 15, 675, 340);
+
+    private final float adjacentOpacity = 0.25f;
 
     private void setSelectedSong(){
         selectedSong.getBoundedString().setMaxStringSize(35);
@@ -112,8 +113,8 @@ public class SongSelectionText {
     private void setPreviousSong(){
         previousSong.setMaxStringSize(30);
         previousSong.setBounds(new CRect(250, 230, 300, 100));
-        previousSong.setStringColor(new Color(255, 255, 255, GameColors.PAUSED_OPACITY));
-        previousSong.getBounds().setOutlineColor(new Color(255, 255, 255, GameColors.PAUSED_OPACITY));
+        previousSong.setStringColor(new Color(1, 1, 1, adjacentOpacity));
+        previousSong.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
         previousSong.getBounds().setOutlineThickness(5.0);
         previousSong.setRelativeY(0.4);
     }
@@ -121,22 +122,22 @@ public class SongSelectionText {
     private void setPreviousSongLevel(){
         previousSongLevel.setStringSize(50);
         previousSongLevel.setBounds(new CRect(450, 230, 100, 100));
-        previousSongLevel.setStringColor(new Color(255, 255, 255, GameColors.PAUSED_OPACITY));
-        previousSongLevel.getBounds().setOutlineColor(new Color(255, 255, 255, GameColors.PAUSED_OPACITY));
+        previousSongLevel.setStringColor(new Color(1, 1, 1, adjacentOpacity));
+        previousSongLevel.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
         previousSongLevel.getBounds().setOutlineThickness(5.0);
     }
 
     private void setPreviousSongComposer(){
         previousSongComposer.setMaxStringSize(15);
         previousSongComposer.setBounds(new CRect(250, 260, 300, 40));
-        previousSongComposer.setStringColor(new Color(255, 255, 255, GameColors.PAUSED_OPACITY));
+        previousSongComposer.setStringColor(new Color(1, 1, 1, adjacentOpacity));
     }
 
     private void setNextSong(){
         nextSong.setMaxStringSize(30);
         nextSong.setBounds(new CRect(250, 470, 300, 100));
-        nextSong.setStringColor(new Color(255, 255, 255, GameColors.PAUSED_OPACITY));
-        nextSong.getBounds().setOutlineColor(new Color(255, 255, 255, GameColors.PAUSED_OPACITY));
+        nextSong.setStringColor(new Color(1, 1, 1, adjacentOpacity));
+        nextSong.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
         nextSong.getBounds().setOutlineThickness(5.0);
         nextSong.setRelativeY(0.4);
     }
@@ -144,15 +145,15 @@ public class SongSelectionText {
     private void setNextSongLevel(){
         nextSongLevel.setStringSize(50);
         nextSongLevel.setBounds(new CRect(450, 470, 100, 100));
-        nextSongLevel.setStringColor(new Color(255, 255, 255, GameColors.PAUSED_OPACITY));
-        nextSongLevel.getBounds().setOutlineColor(new Color(255, 255, 255, GameColors.PAUSED_OPACITY));
+        nextSongLevel.setStringColor(new Color(1, 1, 1, adjacentOpacity));
+        nextSongLevel.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
         nextSongLevel.getBounds().setOutlineThickness(5.0);
     }
 
     private void setNextSongComposer(){
         nextSongComposer.setMaxStringSize(15);
         nextSongComposer.setBounds(new CRect(250, 500, 300, 40));
-        nextSongComposer.setStringColor(new Color(255, 255, 255, GameColors.PAUSED_OPACITY));
+        nextSongComposer.setStringColor(new Color(1, 1, 1, adjacentOpacity));
     }
 
     private void setDm(){

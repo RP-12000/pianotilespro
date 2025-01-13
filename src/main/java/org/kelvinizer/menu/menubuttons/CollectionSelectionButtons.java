@@ -8,11 +8,8 @@ import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.interfaces.Focusable;
 import org.kelvinizer.support.interfaces.Scalable;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.util.Objects;
 
 public class CollectionSelectionButtons implements Scalable, Focusable {
     public final CRectButton back = new CRectButton();
@@ -22,15 +19,10 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
     public final CTriangleButton moveRight = new CTriangleButton();
 
     private void setBack(){
-        BoundedString normal = new BoundedString();
-        normal.setBounds(new CRect(50, 50, 100, 100));
-        BoundedString onFocus = new BoundedString();
-        onFocus.setBounds(new CRect(60, 60, 120, 120));
+        BoundedString normal = new BoundedString("", 0, 50, 50, 100, 100);
+        BoundedString onFocus = new BoundedString("", 0, 60, 60, 120, 120);
 
-        try {
-            back.setIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Back.jpg"))));
-        } catch (RuntimeException | IOException e) {
-            back.setIcon(null);
+        if(!back.setIcon("Back.jpg")) {
             normal.getBounds().setOutlineColor(Color.WHITE);
             normal.getBounds().setOutlineThickness(1.0);
             onFocus.getBounds().setOutlineColor(Color.BLUE);
@@ -42,15 +34,10 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
     }
 
     private void setSettings(){
-        BoundedString normal = new BoundedString();
-        normal.setBounds(new CRect(1030, 50, 100, 100));
-        BoundedString onFocus = new BoundedString();
-        onFocus.setBounds(new CRect(1020, 60, 120, 120));
+        BoundedString normal = new BoundedString("", 0, 1030, 50, 100, 100);
+        BoundedString onFocus = new BoundedString("", 0, 1020, 60, 120, 120);
 
-        try {
-            settings.setIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Settings.jpg"))));
-        } catch (RuntimeException | IOException e) {
-            settings.setIcon(null);
+        if(!settings.setIcon("Settings.jpg")) {
             normal.getBounds().setOutlineColor(Color.WHITE);
             normal.getBounds().setOutlineThickness(1.0);
             onFocus.getBounds().setOutlineColor(Color.BLUE);

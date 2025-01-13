@@ -1,7 +1,6 @@
 package org.kelvinizer.dynamic;
 
 import org.kelvinizer.buttons.CRectButton;
-import org.kelvinizer.constants.Time;
 import org.kelvinizer.support.classes.Motion;
 
 import java.awt.*;
@@ -17,7 +16,7 @@ public class DynamicCRectButton extends DynamicObject {
 
     @Override
     public void render(Graphics2D g2d, long time) {
-        double timePassed = (double) (time - start) / Time.S_TO_NS_CONVERSION_FACTOR;
+        double timePassed = (double) (time - start) / S_TO_NS_CONVERSION_FACTOR;
         for(Motion m: horizontal){
             if(m.contains(timePassed)){
                 b.getNormal().getBounds().setX(m.getPos(timePassed));

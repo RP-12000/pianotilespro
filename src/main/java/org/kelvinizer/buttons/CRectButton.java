@@ -1,12 +1,14 @@
 package org.kelvinizer.buttons;
 
-import org.kelvinizer.constants.Control;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.shapes.CRect;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class CRectButton extends KButton {
     private BoundedString normal;
@@ -122,8 +124,6 @@ public class CRectButton extends KButton {
     public void render(Graphics2D g2d){
         if(selected){
             onSelection.render(g2d);
-            g2d.setColor(Control.DEFAULT_COLOR);
-            g2d.setStroke(Control.DEFAULT_STROKE);
             g2d.draw(onSelection.getBounds().toJShape());
         }
         else if(focused){
@@ -135,7 +135,13 @@ public class CRectButton extends KButton {
         drawIcon(g2d);
     }
 
-    public void setIcon(BufferedImage bf){
-        icon = bf;
+    public boolean setIcon(String iconPath){
+        try {
+            icon = ImageIO.read(Objects.requireNonNull(getClass().getResource("/"+iconPath)));
+            return true;
+        } catch (RuntimeException | IOException e) {
+            icon = null;
+            return false;
+        }
     }
 }

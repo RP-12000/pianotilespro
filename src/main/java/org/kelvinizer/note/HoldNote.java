@@ -7,8 +7,6 @@ import org.kelvinizer.shapes.CRect;
 
 import java.awt.*;
 
-import static org.kelvinizer.constants.GameColors.PAUSED_OPACITY;
-import static org.kelvinizer.constants.Control.isPaused;
 import static org.kelvinizer.constants.ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS;
 import static org.kelvinizer.constants.ReferenceWindow.UNIT;
 
@@ -16,11 +14,6 @@ public class HoldNote extends Note{
     private final double noteHeight;
     private final double duration;
     private static final double HOLD_NOTE_WIDTH = 10.0;
-
-    private static final Color[] HOLD_NOTE_COLOR = {
-            new Color(255,255,255) ,
-            new Color(255,255,255, PAUSED_OPACITY)
-    };
 
     public HoldNote(int lane_num, double perfect_hit_time, double duration, double noteHeight, double last){
         super(lane_num, perfect_hit_time, duration);
@@ -41,7 +34,7 @@ public class HoldNote extends Note{
 
     @Override
     public CRect toBottomRect(){
-        CRect cr = super.getBottomRect(HOLD_NOTE_COLOR[isPaused]);
+        CRect cr = super.getBottomRect(Color.WHITE);
         if(Time.CURRENT_TIME>perfect_hit_time){
             cr.setY(HORIZONTAL_JUDGEMENT_LINE_POS[lane_num / 8]);
             cr.setOutlineColor(null);
@@ -57,10 +50,10 @@ public class HoldNote extends Note{
                 UNIT*(noteHeight - Math.max(0.0, noteHeight / duration * (Time.CURRENT_TIME - perfect_hit_time)))
         );
         if (status == 3) {
-            r.setFillColor(HOLD_NOTE_COLOR[1]);
+            r.setFillColor(new Color(1, 1, 1, 0.25f));
         }
         else {
-            r.setFillColor(HOLD_NOTE_COLOR[isPaused]);
+            r.setFillColor(Color.WHITE);
         }
         if (lane_num < 8) {
             r.setOrigin(r.getWidth() / 2.0f, r.getHeight());
@@ -77,8 +70,15 @@ public class HoldNote extends Note{
         }
         Rectangle br = bottomRect.toJShape();
         Rectangle dr = r.toJShape();
-        if(br.y+br.height != dr.y+dr.height){
-            r.setY(r.getY()-(dr.y+dr.height)+(br.y+br.height));
+        if(lane_num<8){
+            if(br.y+br.height != dr.y+dr.height){
+                r.setY(r.getY()-(dr.y+dr.height)+(br.y+br.height));
+            }
+        }
+        else{
+            if(br.y != dr.y){
+                r.setY(r.getY()-dr.y+br.y);
+            }
         }
         return r;
     }

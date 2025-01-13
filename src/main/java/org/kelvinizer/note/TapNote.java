@@ -1,19 +1,12 @@
 package org.kelvinizer.note;
 
-import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.JudgementLimits;
 import org.kelvinizer.constants.Time;
 import org.kelvinizer.shapes.CRect;
 
 import java.awt.*;
 
-import static org.kelvinizer.constants.GameColors.PAUSED_OPACITY;
-
 public class TapNote extends Note{
-    private static final Color[] TAP_NOTE_COLOR = {
-            new Color(130,222,250),
-            new Color(130,222,250,PAUSED_OPACITY)
-    };
 
     public TapNote(int lane_num, double perfect_hit_time, double duration){
         super(lane_num, perfect_hit_time, duration);
@@ -89,6 +82,6 @@ public class TapNote extends Note{
 
     @Override
     public CRect toBottomRect(){
-        return super.getBottomRect(TAP_NOTE_COLOR[Control.isPaused]);
+        return super.getBottomRect(new Color(130,222,250));
     }
 }

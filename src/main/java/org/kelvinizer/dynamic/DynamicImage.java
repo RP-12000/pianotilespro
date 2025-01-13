@@ -1,6 +1,5 @@
 package org.kelvinizer.dynamic;
 
-import org.kelvinizer.constants.Time;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.Motion;
 
@@ -23,7 +22,7 @@ public class DynamicImage extends DynamicObject {
 
     @Override
     public void render(Graphics2D g2d, long time) {
-        double timePassed = (double) (System.nanoTime() - start) / Time.S_TO_NS_CONVERSION_FACTOR;
+        double timePassed = (double) (System.nanoTime() - start) / S_TO_NS_CONVERSION_FACTOR;
         for(Motion m: horizontal){
             if(m.contains(timePassed)){
                 bounds.setX(m.getPos(timePassed));

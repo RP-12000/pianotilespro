@@ -1,6 +1,5 @@
 package org.kelvinizer.support.classes;
 
-import org.kelvinizer.constants.Control;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.interfaces.Drawable;
 
@@ -14,7 +13,7 @@ public class BoundedString implements Drawable {
     private int style = Font.BOLD;
     private int stringSize;
 
-    private Color stringColor = Control.DEFAULT_COLOR;
+    private Color stringColor = Color.WHITE;
     private double horizontalWhiteSpace = 3, verticalWhiteSpace = 2;
     private int maxStringSize = -1;
     private double relativeX = 0.5, relativeY = 0.5;
@@ -73,8 +72,8 @@ public class BoundedString implements Drawable {
         g2d.setColor(stringColor);
         Pair<Double, Double> p = getRenderPoint(g2d, string);
         g2d.drawString(string, (float)(double)p.first, (float)(double)p.second);
-        g2d.setStroke(Control.DEFAULT_STROKE);
-        g2d.setColor(Control.DEFAULT_COLOR);
+        g2d.setColor(Color.WHITE);
+        g2d.setStroke(new BasicStroke(1.0f));
     }
 
     public void setFontFamily(String fontFamily) {

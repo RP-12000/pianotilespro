@@ -107,7 +107,7 @@ public class Settings extends AnimatablePanel {
 
     @Override
     public void toNextPanel(){
-        Control.MUSIC_DIFFERENCE = (int) sb.musicDelay.getCurrentVal();
-        Control.panel_index -= Control.numPanels;
+        Control.MUSIC_DIFFERENCE = (int) sb.musicDelay.getCurrentVal() - 1000;
+        Control.panel_index = -Control.panel_index;
     }
 }

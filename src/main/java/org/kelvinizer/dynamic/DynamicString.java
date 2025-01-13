@@ -1,6 +1,5 @@
 package org.kelvinizer.dynamic;
 
-import org.kelvinizer.constants.Time;
 import org.kelvinizer.support.classes.Motion;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.interfaces.Drawable;
@@ -36,7 +35,7 @@ public class DynamicString extends DynamicObject implements Drawable {
 
     @Override
     public void render(Graphics2D g2d, long time) {
-        double timePassed = (double) (time - start) / Time.S_TO_NS_CONVERSION_FACTOR;
+        double timePassed = (double) (time - start) / S_TO_NS_CONVERSION_FACTOR;
         for(Motion m: horizontal){
             if(m.contains(timePassed)){
                 bs.getBounds().setX(m.getPos(timePassed));
