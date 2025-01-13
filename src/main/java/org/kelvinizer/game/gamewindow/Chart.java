@@ -31,6 +31,7 @@ public class Chart extends AnimatablePanel {
 
     private AudioInputStream inputStream = null;
     private Clip music = null;
+    public static double duration;
     private static boolean firstInit = true;
 
     private final CRect progressBar = new CRect(0, 10);
@@ -103,7 +104,11 @@ public class Chart extends AnimatablePanel {
         if(inputStream!=null){
             music = AudioSystem.getClip();
             music.open(inputStream);
+            duration = music.getMicrosecondLength()/1e3;
         }
+//        else{
+//            throw new RuntimeException("No audio detected");
+//        }
     }
 
     private void staggerStart(){

@@ -19,9 +19,9 @@ public class ResultPage extends AnimatablePanel {
     boolean goBack = false;
 
     public ResultPage(){
-        super(3000);
+        super(1500);
         new ResultPageText(dmm);
-        addKeyBinding(KeyEvent.VK_R, true, KeyEvent.SHIFT_DOWN_MASK, new AbstractAction() {
+        addKeyBinding(KeyEvent.VK_R, true, KeyEvent.CTRL_DOWN_MASK, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 exit();

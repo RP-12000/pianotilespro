@@ -16,50 +16,48 @@ import java.awt.*;
 import static org.kelvinizer.constants.JudgementLimits.*;
 
 public class ResultPageText {
-    public final DynamicString scoreText = new DynamicString("", 50);
+    public final DynamicString scoreText = new DynamicString("", 80, 280, 175);
     public final DynamicString newBestScore = new DynamicString("", 15);
-    public final DynamicString grade = new DynamicString("", 100);
+    public final DynamicString grade = new DynamicString("", 120, 860, 175);
 
-    public final DynamicString maxCombo = new DynamicString("", 30);
-    public final DynamicString maxComboVerdict = new DynamicString("Max Combo", 15);
+    public final DynamicString maxCombo = new DynamicString("", 20, 650, 340, 120, 50);
+    public final DynamicString maxComboVerdict = new DynamicString("Max Combo", 15, 650, 420);
     public final DynamicString bestMaxCombo = new DynamicString("", 15);
-    public final DynamicString worstHit = new DynamicString("", 30);
-    public final DynamicString worstHitVerdict = new DynamicString("Worst Hit", 15);
+    public final DynamicString worstHit = new DynamicString("", 30, 800, 340, 120, 50);
+    public final DynamicString worstHitVerdict = new DynamicString("Worst Hit", 15, 800, 420);
     public final DynamicString bestWorstHit = new DynamicString("", 15);
-    public final DynamicString accuracy = new DynamicString("", 30);
-    public final DynamicString accuracyVerdict = new DynamicString("Accuracy", 15);
+    public final DynamicString accuracy = new DynamicString("", 30, 950, 340, 120, 50);
+    public final DynamicString accuracyVerdict = new DynamicString("Accuracy", 15, 950, 420);
     public final DynamicString bestAccuracy = new DynamicString("", 15);
 
-    public final DynamicString perfect = new DynamicString("", 15);
-    public final DynamicString good = new DynamicString("", 15);
-    public final DynamicString bad = new DynamicString("", 15);
-    public final DynamicString miss = new DynamicString("", 15);
-    public final DynamicString early = new DynamicString("", 8);
-    public final DynamicString late = new DynamicString("", 8);
+    public final DynamicString perfect = new DynamicString("", 15, 695, 540, 150, 30);
+    public final DynamicString bad = new DynamicString("", 15, 695, 585, 150, 30);
+    public final DynamicString miss = new DynamicString("", 15, 695, 630, 150, 30);
+    public final DynamicString good = new DynamicString("", 15, 905, 540, 150, 30);
+    public final DynamicString early = new DynamicString("", 15, 905, 585, 150, 30);
+    public final DynamicString late = new DynamicString("", 15, 905, 630, 150, 30);
 
     public final DynamicString scoreBounds = new DynamicString("", 0, 540, 175, 1000, 150);
     public final DynamicString accBounds = new DynamicString("", 0, 810, 375, 480, 150);
     public final DynamicString noteBounds = new DynamicString("", 0, 810, 585, 480, 150);
 
     public final DynamicString songName = new DynamicString(Selection.songDir, 15, 136, 630, 192, 60);
-    public final DynamicString level = new DynamicString(Selection.level+" "+Selection.chartConstant, 15, 270, 630, 96, 60);
-    public final DynamicString userName = new DynamicString(Control.userName, 15, 414, 630, 192, 60);
+    public final DynamicString level = new DynamicString(Selection.level+" "+Selection.chartConstant, 15, 280, 630, 96, 60);
+    public final DynamicString userName = new DynamicString(Control.userName, 15, 424, 630, 192, 60);
 
     public final DynamicImage jacket = new DynamicImage(new CRect(280, 450, 480, 300));
 
     private void addMotion(DynamicString ds){
         ds.addHorizontalMotion(new Motion(
-                0, 3.0,
-                scoreText.getBoundedString().getBounds().getX()- ReferenceWindow.REF_WIN_W,
-                scoreText.getBoundedString().getBounds().getX(),
-                0.3
+                0, 1.5,
+                ds.getBoundedString().getBounds().getX()- ReferenceWindow.REF_WIN_W,
+                ds.getBoundedString().getBounds().getX(),
+                0.5
         ));
     }
 
     private void initMotion(){
-        double introTime = 3.0;
-        double acc = 0.3;
-        jacket.addHorizontalMotion(new Motion(0, introTime, -800, 280, acc));
+        jacket.addHorizontalMotion(new Motion(0, 1.5, -800, 280, 0.5));
         addMotion(scoreText);
         addMotion(newBestScore);
         addMotion(grade);
@@ -90,14 +88,36 @@ public class ResultPageText {
         addMotion(userName);
     }
 
+    private void initBound(DynamicString ds){
+        ds.getBoundedString().getBounds().setOutlineColor(grade.getBoundedString().getStringColor());
+        ds.getBoundedString().getBounds().setOutlineThickness(3.0f);
+    }
+
     private void initBounds(){
-        scoreBounds.getBoundedString().getBounds().setOutlineColor(grade.getBoundedString().getStringColor());
-        accBounds.getBoundedString().getBounds().setOutlineColor(grade.getBoundedString().getStringColor());
-        noteBounds.getBoundedString().getBounds().setOutlineColor(grade.getBoundedString().getStringColor());
-        scoreBounds.getBoundedString().getBounds().setOutlineThickness(3.0f);
-        accBounds.getBoundedString().getBounds().setOutlineThickness(3.0f);
-        noteBounds.getBoundedString().getBounds().setOutlineThickness(3.0f);
-        songName.getBoundedString().getBounds().setOutlineColor(grade.getBoundedString().getStringColor());
+        initBound(songName);
+        initBound(level);
+        initBound(userName);
+        initBound(scoreBounds);
+        initBound(accBounds);
+        initBound(noteBounds);
+        if(Control.isAutoplay){
+            userName.getBoundedString().setStringColor(Color.GREEN);
+        }
+    }
+
+    private void initMaxStringSize(){
+        songName.getBoundedString().setMaxStringSize(20);
+        userName.getBoundedString().setMaxStringSize(20);
+        level.getBoundedString().setMaxStringSize(20);
+        perfect.getBoundedString().setMaxStringSize(30);
+        good.getBoundedString().setMaxStringSize(30);
+        bad.getBoundedString().setMaxStringSize(30);
+        miss.getBoundedString().setMaxStringSize(30);
+        early.getBoundedString().setMaxStringSize(30);
+        late.getBoundedString().setMaxStringSize(30);
+        maxCombo.getBoundedString().setMaxStringSize(30);
+        worstHit.getBoundedString().setMaxStringSize(30);
+        accuracy.getBoundedString().setMaxStringSize(30);
     }
 
     private void calculateGrade(int score){
@@ -157,13 +177,14 @@ public class ResultPageText {
         miss.getBoundedString().setString("Miss: "+(int)Lane.miss);
         early.getBoundedString().setString("Early: "+(int)Lane.early);
         late.getBoundedString().setString("Late: "+(int)Lane.late);
-        maxCombo.getBoundedString().setString("Max Combo: "+(int)Lane.maxCombo);
-        worstHit.getBoundedString().setString("Worst Hit: "+String.format("%.2f", Lane.worstHit*1000)+" ms");
+        maxCombo.getBoundedString().setString(String.valueOf((int)Lane.maxCombo));
+        worstHit.getBoundedString().setString(String.format("%.2f", Lane.worstHit*1000)+" ms");
     }
 
     public ResultPageText(DynamicMotionManager dmm){
         setText();
         initMotion();
+        initMaxStringSize();
         jacket.setImage(Selection.songJacket);
         dmm.addDynamicObject(scoreText);
         dmm.addDynamicObject(newBestScore);
@@ -189,6 +210,10 @@ public class ResultPageText {
         dmm.addDynamicObject(scoreBounds);
         dmm.addDynamicObject(accBounds);
         dmm.addDynamicObject(noteBounds);
+
+        dmm.addDynamicObject(songName);
+        dmm.addDynamicObject(level);
+        dmm.addDynamicObject(userName);
 
         dmm.addDynamicObject(jacket);
     }

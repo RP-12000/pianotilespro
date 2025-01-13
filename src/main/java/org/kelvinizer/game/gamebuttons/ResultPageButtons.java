@@ -17,8 +17,8 @@ public class ResultPageButtons implements Focusable {
     private void initBack(){
         CRectButton button = new CRectButton();
 
-        BoundedString normal = new BoundedString("", 0, 50, 50, 100, 100);
-        BoundedString onFocus = new BoundedString("", 0, 60, 60, 120, 120);
+        BoundedString normal = new BoundedString("", 0, 36, 36, 72, 72);
+        BoundedString onFocus = new BoundedString("", 0, 42, 42, 84, 84);
 
         if(!button.setIcon("Back.jpg")) {
             normal.getBounds().setOutlineColor(Color.WHITE);
@@ -30,14 +30,14 @@ public class ResultPageButtons implements Focusable {
         button.setNormal(normal);
         button.setOnFocus(onFocus);
         back.setCRectButton(button);
-        back.addHorizontalMotion(new Motion(0, 3, -1030, 50, 0.3));
+        back.addHorizontalMotion(new Motion(0, 1.5, -36, 36, 1));
     }
 
     private void initRestart(){
         CRectButton button = new CRectButton();
 
-        BoundedString normal = new BoundedString("", 0, 1030, 50, 100, 100);
-        BoundedString onFocus = new BoundedString("", 0, 1020, 60, 120, 120);
+        BoundedString normal = new BoundedString("", 0, 1044, 36, 72, 72);
+        BoundedString onFocus = new BoundedString("", 0, 1032, 48, 84, 84);
 
         if(!button.setIcon("Restart.jpg")) {
             normal.getBounds().setOutlineColor(Color.WHITE);
@@ -49,7 +49,7 @@ public class ResultPageButtons implements Focusable {
         button.setNormal(normal);
         button.setOnFocus(onFocus);
         restart.setCRectButton(button);
-        restart.addHorizontalMotion(new Motion(0, 3, -50, 1030, 0.3));
+        restart.addHorizontalMotion(new Motion(0, 1.5, 1116, 1044, 1));
     }
 
     public ResultPageButtons(DynamicMotionManager dmm){
