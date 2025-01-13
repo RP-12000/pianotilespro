@@ -74,7 +74,7 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
             }
         }
         else{
-            onActive(g2d);
+            render(g2d);
         }
     }
 
@@ -130,15 +130,15 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
     }
 
     protected void setAppearingOpacity(Graphics2D g2d){
-        setGlobalOpacity(g2d, 1.0f*(System.nanoTime()-start_time)/start_duration);
+        setGlobalOpacity(g2d, 1.0*(System.nanoTime()-start_time)/start_duration);
     }
 
     protected void setDisappearingOpacity(Graphics2D g2d){
-        setGlobalOpacity(g2d, 1.0f-1.0f*(System.nanoTime()-end_time)/end_duration);
+        setGlobalOpacity(g2d, 1.0-1.0*(System.nanoTime()-end_time)/end_duration);
     }
 
-    protected void setGlobalOpacity(Graphics2D g2d, float ratio){
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Math.clamp(ratio, 0.0f, 1.0f)));
+    protected void setGlobalOpacity(Graphics2D g2d, double ratio){
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Math.clamp((float) ratio, 0.0f, 1.0f)));
     }
 
     @Override
@@ -159,11 +159,6 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
     @Override
     public void onAppearance(Graphics2D g2d) {
         setAppearingOpacity(g2d);
-        render(g2d);
-    }
-
-    @Override
-    public void onActive(Graphics2D g2d) {
         render(g2d);
     }
 

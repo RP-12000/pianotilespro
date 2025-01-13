@@ -31,11 +31,13 @@ public class Chart extends AnimatablePanel {
 
     private AudioInputStream inputStream = null;
     private Clip music = null;
+    private static boolean firstInit = true;
 
     private final CRect progressBar = new CRect(0, 10);
 
     private boolean goBack = false;
     private boolean isPaused = false;
+    private double timePoint;
 
     int[] keyboardActivation = {
             KeyEvent.VK_A,
@@ -213,7 +215,10 @@ public class Chart extends AnimatablePanel {
 
     public Chart() throws IOException, LineUnavailableException {
         this("Chart/"+Selection.collectionDir+"/"+Selection.songDir, Selection.level);
-        staggerStart();
+        if(firstInit){
+            staggerStart();
+            firstInit=false;
+        }
     }
 
     public static boolean isValidChart(String dir, String songLevel){
@@ -249,18 +254,28 @@ public class Chart extends AnimatablePanel {
         }
     }
 
+    private void setJudgementLineColor(Graphics2D g2d){
+        if(Lane.bad+Lane.good+Lane.miss == 0){
+            g2d.setColor(Color.GREEN);
+        }
+        else if(Lane.bad+Lane.miss == 0){
+            g2d.setColor(Color.BLUE);
+        }
+        else{
+            g2d.setColor(Color.WHITE);
+        }
+        g2d.setStroke(new BasicStroke(3.0f));
+    }
+
     @Override
     public void onAppearance(Graphics2D g2d){
-        setGlobalOpacity(g2d, (float) (1.0/1e9*(System.nanoTime()-start_time)));
+        timePoint = (System.nanoTime() - start_time)/1e9;
+        setGlobalOpacity(g2d, timePoint);
         ct.updateText();
         ct.render(g2d);
         setGlobalOpacity(g2d, 1);
-        int distFromMiddle = (int) (
-                (ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]-ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[0])
-                /1e9*Math.min(System.nanoTime()-start_time, 1e9)
-        );
-        g2d.setColor(Color.GREEN);
-        g2d.setStroke(new BasicStroke(3.0f));
+        int distFromMiddle = (int) (ReferenceWindow.VERTICAL_JUDGEMENT_SPACING*4*Math.min(timePoint, 1));
+        setJudgementLineColor(g2d);
         g2d.drawLine(
                 (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]-distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[0],
                 (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]+distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[0]
@@ -283,11 +298,39 @@ public class Chart extends AnimatablePanel {
 
     @Override
     public void onDisappearance(Graphics2D g2d){
+        timePoint = (System.nanoTime()-end_time)/1e9;
         if(goBack){
-            super.onDisappearance(g2d);
+            render(g2d);
         }
         else{
-
+            if(timePoint<1){
+                setGlobalOpacity(g2d, 1.0-timePoint);
+                ct.updateText();
+                ct.render(g2d);
+                setGlobalOpacity(g2d, 1);
+                int distFromMiddle = (int) (ReferenceWindow.VERTICAL_JUDGEMENT_SPACING*4*(1-timePoint));
+                setJudgementLineColor(g2d);
+                g2d.drawLine(
+                        (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]-distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[0],
+                        (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]+distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[0]
+                );
+                g2d.drawLine(
+                        (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]-distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[1],
+                        (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]+distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[1]
+                );
+                for(int i=0; i<distFromMiddle/ReferenceWindow.VERTICAL_JUDGEMENT_SPACING; i++){
+                    g2d.drawLine(
+                            (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4-i], -1,
+                            (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4-i], (int) ReferenceWindow.REF_WIN_H+1
+                    );
+                    g2d.drawLine(
+                            (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4+i], -1,
+                            (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4+i], (int) ReferenceWindow.REF_WIN_H+1
+                    );
+                }
+                progressBar.setY(-progressBar.getHeight()*timePoint);
+                progressBar.render(g2d);
+            }
         }
     }
 
@@ -300,10 +343,18 @@ public class Chart extends AnimatablePanel {
             music.stop();
         }
         if(isPaused){
+            if (goBack) {
+                setGlobalOpacity(g2d, 1-timePoint);
+            }
             cb.play.render(g2d);
             cb.restart.render(g2d);
             cb.back.render(g2d);
-            setGlobalOpacity(g2d, 0.25f);
+            if(goBack){
+                setGlobalOpacity(g2d, 0.25*(1-timePoint));
+            }
+            else{
+                setGlobalOpacity(g2d, 0.25);
+            }
         }
         for(int i=0; i<16; i++){
             if(!isAutoplay){
@@ -320,16 +371,7 @@ public class Chart extends AnimatablePanel {
                 r.render(g2d);
             }
         }
-        g2d.setStroke(new BasicStroke(3.0f));
-        if(Lane.bad+Lane.good+Lane.miss == 0){
-            g2d.setColor(Color.GREEN);
-        }
-        else if(Lane.bad+Lane.miss == 0){
-            g2d.setColor(Color.BLUE);
-        }
-        else{
-            g2d.setColor(Color.WHITE);
-        }
+        setJudgementLineColor(g2d);
         for(int i=0; i<9; i++){
             g2d.drawLine(
                     (int)ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[i], -1,
@@ -352,6 +394,9 @@ public class Chart extends AnimatablePanel {
         if(!isPaused){
             cb.pause.render(g2d);
             Time.CURRENT_TIME += 1.0 / Time.FPS;
+        }
+        if(progressBar.getWidth() >= ReferenceWindow.REF_WIN_W){
+            exit(2000);
         }
     }
 
