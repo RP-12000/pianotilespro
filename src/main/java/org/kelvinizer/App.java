@@ -22,6 +22,7 @@ public class App extends JFrame {
 
     public App(){
         boot();
+        initSettings();
         ScheduledExecutorService gameLoop = Executors.newSingleThreadScheduledExecutor();
         gameLoop.scheduleAtFixedRate(this::runGame, 0, 1000/Time.FPS, TimeUnit.MILLISECONDS);
         setVisible(true);
@@ -38,9 +39,31 @@ public class App extends JFrame {
         add(display);
     }
 
+    private void initSettings(){
+        try {
+            BufferedReader userInfo = new BufferedReader(new FileReader(getResourcePathName("Chart/settings.txt")));
+            userName = userInfo.readLine();
+            isAutoplay = Boolean.parseBoolean(userInfo.readLine());
+            syncEnabled = Boolean.parseBoolean(userInfo.readLine());
+            userInfo.close();
+        } catch (IOException | RuntimeException e){
+            try {
+                PrintWriter newInfo = new PrintWriter(new FileWriter(getResourcePathName("")+"settings.txt"));
+                userName = "User"+(int)(Math.random()*1e10);
+                newInfo.println(userName);
+                newInfo.println(true);
+                newInfo.println(true);
+                newInfo.close();
+            } catch (IOException ex) {
+                throw new RuntimeException("Unable to load game");
+            }
+        }
+    }
+
     private void runGame(){
         if(lastPanel!= Control.panel_index){
             remove(display);
+            display = null;//Java Garbage Collector
             switch (Control.panel_index){
                 case 0 -> display = new WelcomePage();
                 case 1 -> display = new CollectionSelection();

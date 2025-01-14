@@ -13,12 +13,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.io.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
-import static org.kelvinizer.constants.Control.getResourcePathName;
-import static org.kelvinizer.constants.Control.userName;
 import static org.kelvinizer.constants.Selection.*;
 import static org.kelvinizer.constants.Selection.collections;
 
@@ -34,7 +30,7 @@ public class WelcomePage extends AnimatablePanel {
     private static boolean success = false;
 
     public WelcomePage(){
-        super(1000);
+        super(2000);
         enter.setStyle(Font.ITALIC);
         loading.setStringColor(Color.GREEN);
         loading.getBounds().setOutlineColor(new Color(255,255,255,200));
@@ -90,23 +86,9 @@ public class WelcomePage extends AnimatablePanel {
     }
 
     private void errorCheck(){
-        try {
-            BufferedReader userInfo = new BufferedReader(new FileReader(getResourcePathName("Chart/user.txt")));
-            userName = Objects.requireNonNull(userInfo.readLine());
-            userInfo.close();
-        } catch (IOException | RuntimeException e){
-            try {
-                PrintWriter newInfo = new PrintWriter(new FileWriter(getResourcePathName("Chart/user.txt")));
-                userName = "User"+(int)(Math.random()*1e10);
-                newInfo.println(userName);
-                newInfo.close();
-            } catch (IOException ex) {
-                throw new RuntimeException("Unable to load game");
-            }
-        }
         try{
             collections = new JacketMenu("Chart", 0);
-            int totalSongs = 0;
+            int totalSongs = -1;
             for(int i=0; i<collections.size(); i++){
                 JacketMenu jm = new JacketMenu("Chart/"+collections.getSelectionString(i), 0);
                 totalSongs+=jm.size();
@@ -125,7 +107,7 @@ public class WelcomePage extends AnimatablePanel {
             }
             collectionDir = collections.getSelectionString(0);
             success=true;
-        } catch (IOException | RuntimeException e) {
+        } catch (RuntimeException e) {
             loading.setString("Error when loading this: ");
             bar.setFillColor(Color.DARK_GRAY);
             loading.setStringColor(Color.RED);
@@ -143,7 +125,7 @@ public class WelcomePage extends AnimatablePanel {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(success && play.isFocused()){
-            exit(2000);
+            exit();
         }
     }
 

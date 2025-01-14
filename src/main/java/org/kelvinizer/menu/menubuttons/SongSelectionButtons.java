@@ -368,19 +368,19 @@ public class SongSelectionButtons implements Scalable, Focusable {
             }
         }
 
-        basic.getNormal().setString(levelToString(s.getBasicData()));
-        basic.getOnFocus().setString(levelToString(s.getBasicData()));
-        basic.getOnSelection().setString(levelToString(s.getBasicData()));
-        medium.getNormal().setString(levelToString(s.getMediumData()));
-        medium.getOnFocus().setString(levelToString(s.getMediumData()));
-        medium.getOnSelection().setString(levelToString(s.getMediumData()));
-        advanced.getNormal().setString(levelToString(s.getAdvancedData()));
-        advanced.getOnFocus().setString(levelToString(s.getAdvancedData()));
-        advanced.getOnSelection().setString(levelToString(s.getAdvancedData()));
+        basic.getNormal().setString(levelToString(s.getCharterData("BS")));
+        basic.getOnFocus().setString(levelToString(s.getCharterData("BS")));
+        basic.getOnSelection().setString(levelToString(s.getCharterData("BS")));
+        medium.getNormal().setString(levelToString(s.getCharterData("MD")));
+        medium.getOnFocus().setString(levelToString(s.getCharterData("MD")));
+        medium.getOnSelection().setString(levelToString(s.getCharterData("MD")));
+        advanced.getNormal().setString(levelToString(s.getCharterData("AV")));
+        advanced.getOnFocus().setString(levelToString(s.getCharterData("AV")));
+        advanced.getOnSelection().setString(levelToString(s.getCharterData("AV")));
         if(s.hasLG()){
-            legendary.getNormal().setString(levelToString(s.getLegendaryData()));
-            legendary.getOnFocus().setString(levelToString(s.getLegendaryData()));
-            legendary.getOnSelection().setString(levelToString(s.getLegendaryData()));
+            legendary.getNormal().setString(levelToString(s.getCharterData("LG")));
+            legendary.getOnFocus().setString(levelToString(s.getCharterData("LG")));
+            legendary.getOnSelection().setString(levelToString(s.getCharterData("LG")));
         }
 
         basic.render(g2d);

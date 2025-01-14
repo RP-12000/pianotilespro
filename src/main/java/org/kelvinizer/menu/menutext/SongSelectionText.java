@@ -35,10 +35,16 @@ public class SongSelectionText {
     private final BoundedString nextSongLevel = new BoundedString();
     private final BoundedString nextSongComposer = new BoundedString();
 
+    private final BoundedString bestScore = new BoundedString("", 30, 875, 505, 250, 50);
+    private final BoundedString bestAcc = new BoundedString("", 10, 915, 515);
+    private final BoundedString bestGrade = new BoundedString("", 40, 960, 505);
+    private final BoundedString newSong = new BoundedString("NEW", 15, 960, 505);
+
     public final BoundedString emptyFolder = new BoundedString("Nothing is in here QAQ", 50, 540, 360);
     public final BoundedString corruptedFolder = new BoundedString("Collection corrupted QAQ", 50, 540, 360);
 
     private final float adjacentOpacity = 0.25f;
+    private boolean isNewSong = false;
 
     private void setSelectedSong(){
         selectedSong.getBoundedString().setMaxStringSize(35);
@@ -163,6 +169,11 @@ public class SongSelectionText {
         nullJacket.addHorizontalMotion(new Motion(2.8, 4.0, 760, 1840, 3.5));
     }
 
+    private void setBestScore(){
+        bestScore.setRelativeX(0.3);
+        bestScore.getBounds().setOutlineThickness(1.0);
+    }
+
     private void setDm(){
         dm.addDynamicObject(selectedSong);
         dm.addDynamicObject(selectedSongDifficulty);
@@ -191,10 +202,14 @@ public class SongSelectionText {
         setNextSongLevel();
         setNextSongComposer();
         setNullJacket();
+        setBestScore();
         setDm();
     }
 
     private String levelToString(Pair<String, Double> level){
+        if(level==null){
+            return "";
+        }
         return ((Integer)(int)(double)(level.second)).toString();
     }
 
@@ -202,45 +217,21 @@ public class SongSelectionText {
         selectedSong.getBoundedString().setString(jm.getSelectionString().replace('_', ' '));
         selectedSongComposer.getBoundedString().setString(sd.get(jm.getMenuIndex()).getComposer());
         selectedLevel.getBoundedString().setString(Selection.level);
-        switch (Selection.level){
-            case "BS" -> selectedSongDifficulty.getBoundedString().setString(levelToString(sd.get(jm.getMenuIndex()).getBasicData()));
-            case "MD" -> selectedSongDifficulty.getBoundedString().setString(levelToString(sd.get(jm.getMenuIndex()).getMediumData()));
-            case "AV" -> selectedSongDifficulty.getBoundedString().setString(levelToString(sd.get(jm.getMenuIndex()).getAdvancedData()));
-            case "LG" -> selectedSongDifficulty.getBoundedString().setString(levelToString(sd.get(jm.getMenuIndex()).getLegendaryData()));
-        }
+        selectedSongDifficulty.getBoundedString().setString(levelToString(sd.get(jm.getMenuIndex()).getCharterData()));
+        bestScore.setString(sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).getScoreString());
+        bestAcc.setString(sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).getAccuracyString());
+        sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).setGradeString(bestGrade);
+        bestScore.getBounds().setOutlineColor(bestGrade.getStringColor());
+        isNewSong = sd.get(jm.getMenuIndex()).isNewSong();
         if(!jm.atBeginning()){
             previousSong.setString(jm.getSelectionString(jm.getMenuIndex()-1));
             previousSongComposer.setString(sd.get(jm.getMenuIndex()-1).getComposer());
-            switch (Selection.level){
-                case "BS" -> previousSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()-1).getBasicData()));
-                case "MD" -> previousSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()-1).getMediumData()));
-                case "AV" -> previousSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()-1).getAdvancedData()));
-                case "LG" -> {
-                    if(sd.get(jm.getMenuIndex()-1).hasLG()){
-                        previousSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()-1).getLegendaryData()));
-                    }
-                    else{
-                        previousSongLevel.setString("");
-                    }
-                }
-            }
+            previousSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()).getCharterData()));
         }
         if(!jm.atEnd()){
             nextSong.setString(jm.getSelectionString(jm.getMenuIndex()+1));
             nextSongComposer.setString(sd.get(jm.getMenuIndex()+1).getComposer());
-            switch (Selection.level){
-                case "BS" -> nextSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()+1).getBasicData()));
-                case "MD" -> nextSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()+1).getMediumData()));
-                case "AV" -> nextSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()+1).getAdvancedData()));
-                case "LG" -> {
-                    if(sd.get(jm.getMenuIndex()+1).hasLG()){
-                        nextSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()+1).getLegendaryData()));
-                    }
-                    else{
-                        nextSongLevel.setString("");
-                    }
-                }
-            }
+            nextSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()).getCharterData()));
         }
     }
 
@@ -249,24 +240,8 @@ public class SongSelectionText {
         selectedSongComposer.getBoundedString().setString(s.getComposer());
         illustrator.getBoundedString().setString(s.getIllustration());
         selectedLevel.getBoundedString().setString(Selection.level);
-        switch (Selection.level){
-            case "BS" ->{
-                charter.getBoundedString().setString(s.getBasicData().first);
-                selectedSongDifficulty.getBoundedString().setString(levelToString(s.getBasicData()));
-            }
-            case "MD" ->{
-                charter.getBoundedString().setString(s.getMediumData().first);
-                selectedSongDifficulty.getBoundedString().setString(levelToString(s.getMediumData()));
-            }
-            case "AV" ->{
-                charter.getBoundedString().setString(s.getAdvancedData().first);
-                selectedSongDifficulty.getBoundedString().setString(levelToString(s.getAdvancedData()));
-            }
-            case "LG" ->{
-                charter.getBoundedString().setString(s.getLegendaryData().first);
-                selectedSongDifficulty.getBoundedString().setString(levelToString(s.getLegendaryData()));
-            }
-        }
+        charter.getBoundedString().setString(s.getCharterData().first);
+        selectedSongDifficulty.getBoundedString().setString(levelToString(s.getCharterData()));
         if(bf!=null){
             dm.addDynamicObject(jacket);
             jacket.setImage(bf);
@@ -281,6 +256,14 @@ public class SongSelectionText {
         selectedSongDifficulty.render(g2d);
         selectedSongComposer.render(g2d);
         selectedLevel.render(g2d);
+        bestScore.render(g2d);
+        bestAcc.render(g2d);
+        if(isNewSong){
+            newSong.render(g2d);
+        }
+        else{
+            bestGrade.render(g2d);
+        }
     }
 
     public void renderPrevious(Graphics2D g2d){
