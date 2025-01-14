@@ -24,11 +24,28 @@ public class WelcomePage extends AnimatablePanel {
     private final BoundedString gameVersion = new BoundedString("v0.0.0-a", 27, 540, 590);
     private final BoundedString startVerdict = new BoundedString("Double click anywhere to start", 20, 540, 630);
     private final CRectButton play = new CRectButton();
+    private final BoundedString loading = new BoundedString("", 15, 540, 630, 540, 20);
+    private Rectangle bar = new Rectangle(270, 620, 0, 20);
+    private boolean startCheck = false;
+    private boolean finishCheck = false;
     private boolean success = false;
 
     public WelcomePage(){
-        super(2000);
+        super(10000);
         startVerdict.setStyle(Font.ITALIC);
+        loading.setStringColor(Color.GREEN);
+        BoundedString normal = new BoundedString("", 0, 540, 600, 200, 200);
+        BoundedString onFocus = new BoundedString("", 0, 540, 600, 240, 240);
+
+        if(!play.setIcon("Play.jpg")) {
+            normal.getBounds().setOutlineColor(Color.WHITE);
+            normal.getBounds().setOutlineThickness(1.0);
+            onFocus.getBounds().setOutlineColor(Color.BLUE);
+            onFocus.getBounds().setOutlineThickness(5.0);
+        }
+
+        play.setNormal(normal);
+        play.setOnFocus(onFocus);
     }
 
     @Override
@@ -41,7 +58,9 @@ public class WelcomePage extends AnimatablePanel {
         if(timePassed>=1 && !t.isAlive()){
             t.start();
         }
-
+        loading.render(g2d);
+        g2d.setColor(Color.WHITE);
+        g2d.fill(bar);
     }
 
     private void errorCheck(){
@@ -66,15 +85,19 @@ public class WelcomePage extends AnimatablePanel {
                 songs.put(collections.getSelectionString(i), new JacketMenu("Chart/"+collections.getSelectionString(i), 0));
                 songData.put(collections.getSelectionString(i), new ArrayList<>());
                 for(int j=0; j<songs.get(collections.getSelectionString(i)).size(); j++){
+                    loading.setString(collections.getSelectionString(i)+"->"+songs.get(collections.getSelectionString(i)).getSelectionString(j));
                     songData.get(collections.getSelectionString(i)).add(
                             new Song("Chart/"+collections.getSelectionString(i)+"/"+songs.get(collections.getSelectionString(i)).getSelectionString(j))
                     );
+                    bar.width += (int) (loading.getBounds().getWidth()/i/j);
                 }
             }
             collectionDir = collections.getSelectionString(0);
+            success=true;
         } catch (IOException | RuntimeException e) {
-
+            loading.setStringColor(Color.RED);
         }
+        finishCheck = true;
     }
 
     @Override
@@ -89,9 +112,7 @@ public class WelcomePage extends AnimatablePanel {
 
     @Override
     public void render(Graphics2D g2d){
-        gameName.render(g2d);
-        gameVersion.render(g2d);
-        startVerdict.render(g2d);
+
     }
 
     @Override
