@@ -30,12 +30,12 @@ public class App extends JFrame {
 
     private void getUserName(){
         try {
-            BufferedReader userInfo = new BufferedReader(new FileReader("Chart/user.txt"));
+            BufferedReader userInfo = new BufferedReader(new FileReader(getResourcePathName("Chart/user.txt")));
             userName = Objects.requireNonNull(userInfo.readLine());
             userInfo.close();
         } catch (IOException | RuntimeException e){
             try {
-                PrintWriter newInfo = new PrintWriter(new FileWriter("Chart/user.txt"));
+                PrintWriter newInfo = new PrintWriter(new FileWriter(getResourcePathName("Chart/user.txt")));
                 userName = "User"+(int)(Math.random()*1e10);
                 newInfo.println(userName);
                 newInfo.close();

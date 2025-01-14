@@ -17,9 +17,11 @@ import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static org.kelvinizer.constants.Control.getResourcePathName;
+
 public class SongSelection extends AnimatablePanel {
     private final JacketMenu songs = new JacketMenu(
-            "Chart/"+ Selection.collectionDir, Selection.songIndex.get(Selection.collectionDir)
+            getResourcePathName("Chart/"+ Selection.collectionDir), Selection.songIndex.get(Selection.collectionDir)
     );
     private final ArrayList<Song> songData = new ArrayList<>();
     private boolean goBack = false;
@@ -33,7 +35,7 @@ public class SongSelection extends AnimatablePanel {
         super();
         for(int i = 0; i< songs.size(); i++){
             try{
-                songData.add(new Song("Chart/"+ Selection.collectionDir+"/"+ songs.getSelectionString(i)));
+                songData.add(new Song(getResourcePathName("Chart/"+ Selection.collectionDir+"/"+ songs.getSelectionString(i))));
             } catch (RuntimeException | IOException e) {
                 Selection.isValidCollection=false;
             }

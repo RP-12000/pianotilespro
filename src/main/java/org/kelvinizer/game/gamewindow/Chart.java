@@ -20,6 +20,7 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.ArrayList;
 
+import static org.kelvinizer.constants.Control.getResourcePathName;
 import static org.kelvinizer.constants.Control.isAutoplay;
 
 public class Chart extends AnimatablePanel {
@@ -219,7 +220,7 @@ public class Chart extends AnimatablePanel {
     }
 
     public Chart() throws IOException, LineUnavailableException {
-        this("Chart/"+Selection.collectionDir+"/"+Selection.songDir, Selection.level);
+        this(getResourcePathName("Chart/"+Selection.collectionDir+"/"+Selection.songDir), Selection.level);
         if(firstInit){
             staggerStart();
             firstInit=false;

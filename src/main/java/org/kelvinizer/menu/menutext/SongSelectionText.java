@@ -199,7 +199,7 @@ public class SongSelectionText {
     }
 
     public void updateSelectionStrings(JacketMenu jm, ArrayList<Song> sd){
-        selectedSong.getBoundedString().setString(jm.getSelectionString());
+        selectedSong.getBoundedString().setString(jm.getSelectionString().replace('_', ' '));
         selectedSongComposer.getBoundedString().setString(sd.get(jm.getMenuIndex()).getComposer());
         selectedLevel.getBoundedString().setString(Selection.level);
         switch (Selection.level){
@@ -245,7 +245,7 @@ public class SongSelectionText {
     }
 
     public void setEndStrings(Song s, BufferedImage bf){
-        selectedSong.getBoundedString().setString(s.getSongName());
+        selectedSong.getBoundedString().setString(s.getSongName().replace('_', ' '));
         selectedSongComposer.getBoundedString().setString(s.getComposer());
         illustrator.getBoundedString().setString(s.getIllustration());
         selectedLevel.getBoundedString().setString(Selection.level);

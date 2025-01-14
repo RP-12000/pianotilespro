@@ -11,8 +11,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import static org.kelvinizer.constants.Control.getResourcePathName;
+
 public class CollectionSelection extends AnimatablePanel {
-    private final JacketMenu collections = new JacketMenu("Chart", Selection.collectionIndex);
+    private final JacketMenu collections = new JacketMenu(getResourcePathName("Chart"), Selection.collectionIndex);
     private boolean goBack = false;
     private boolean toSettings = false;
 
@@ -114,7 +116,7 @@ public class CollectionSelection extends AnimatablePanel {
             emptyFolder.render(g2d);
         }
         else{
-            selectionName.setString(collections.getSelectionString());
+            selectionName.setString(collections.getSelectionString().replace('_', ' '));
             selectionName.render(g2d);
             if(!collections.atBeginning()){
                 csb.moveLeft.render(g2d);

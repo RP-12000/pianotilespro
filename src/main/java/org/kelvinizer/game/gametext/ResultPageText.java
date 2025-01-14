@@ -41,7 +41,7 @@ public class ResultPageText {
     public final DynamicString accBounds = new DynamicString("", 0, 810, 375, 480, 150);
     public final DynamicString noteBounds = new DynamicString("", 0, 810, 585, 480, 150);
 
-    public final DynamicString songName = new DynamicString(Selection.songDir, 15, 136, 630, 192, 60);
+    public final DynamicString songName = new DynamicString(Selection.songDir.replace('_', ' '), 15, 136, 630, 192, 60);
     public final DynamicString level = new DynamicString(Selection.level+" "+Selection.chartConstant, 15, 280, 630, 96, 60);
     public final DynamicString userName = new DynamicString(Control.userName, 15, 424, 630, 192, 60);
 

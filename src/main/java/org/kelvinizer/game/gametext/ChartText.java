@@ -13,7 +13,7 @@ import static org.kelvinizer.constants.JudgementLimits.*;
 
 public class ChartText implements Drawable {
     public final BoundedString score = new BoundedString("0000000", 30, 990, 108);
-    public final BoundedString songName = new BoundedString(Selection.songDir, 20, 90, 660, 140, 150);
+    public final BoundedString songName = new BoundedString(Selection.songDir.replace('_', ' '), 20, 90, 660, 140, 150);
     public final BoundedString level = new BoundedString(Selection.level+" "+Selection.chartConstant, 20, 990, 660);
     public final BoundedString combo = new BoundedString("", 30, 90, 108, 140, 150);
     public final BoundedString acc = new BoundedString("", 15, 990, 144);
