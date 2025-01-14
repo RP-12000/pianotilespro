@@ -25,7 +25,7 @@ public class SongSelectionText {
     private final DynamicString illustrator = new DynamicString();
     private final DynamicString charterVerdict = new DynamicString();
     private final DynamicString charter = new DynamicString();
-    public final DynamicString nullJacket = new DynamicString("No jacket preview available", 15, 675, 340);
+    public final DynamicString nullJacket = new DynamicString("No jacket preview available", 15, 760, 330, 480, 300);
     private final DynamicImage jacket = new DynamicImage();
 
     private final BoundedString previousSong = new BoundedString();
@@ -156,6 +156,13 @@ public class SongSelectionText {
         nextSongComposer.setStringColor(new Color(1, 1, 1, adjacentOpacity));
     }
 
+    private void setNullJacket(){
+        nullJacket.getBoundedString().setStyle(Font.ITALIC);
+        nullJacket.getBoundedString().getBounds().setOutlineColor(Color.WHITE);
+        nullJacket.getBoundedString().getBounds().setOutlineThickness(1.0f);
+        nullJacket.addHorizontalMotion(new Motion(2.8, 4.0, 760, 1840, 3.5));
+    }
+
     private void setDm(){
         dm.addDynamicObject(selectedSong);
         dm.addDynamicObject(selectedSongDifficulty);
@@ -165,11 +172,9 @@ public class SongSelectionText {
         dm.addDynamicObject(charter);
         dm.addDynamicObject(illustratorVerdict);
         dm.addDynamicObject(illustrator);
-        dm.addDynamicObject(jacket);
     }
 
     public SongSelectionText(){
-        nullJacket.getBoundedString().setStyle(Font.ITALIC);
         setSelectedSong();
         setSelectedLevel();
         setCharterVerdict();
@@ -185,6 +190,7 @@ public class SongSelectionText {
         setNextSong();
         setNextSongLevel();
         setNextSongComposer();
+        setNullJacket();
         setDm();
     }
 
@@ -262,6 +268,7 @@ public class SongSelectionText {
             }
         }
         if(bf!=null){
+            dm.addDynamicObject(jacket);
             jacket.setImage(bf);
         }
         else{
