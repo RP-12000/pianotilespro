@@ -6,15 +6,17 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static org.kelvinizer.constants.Control.getResourcePathName;
+
 public class Song {
     private final String songName, composer, illustration;
     private final boolean lg;
     private final Pair<String, Double> basicData, mediumData, advancedData, legendaryData;
 
-    public Song(String dir) throws IOException, NullPointerException {
+    public Song(String dir) throws IOException, RuntimeException {
         String[] splitedDir = dir.split("/");
         songName = splitedDir[splitedDir.length-1];
-        BufferedReader br = new BufferedReader(new FileReader(dir+"/credits.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(getResourcePathName(dir+"/credits.txt")));
         composer = br.readLine();
         illustration = br.readLine();
         lg = Boolean.parseBoolean(br.readLine());
@@ -38,10 +40,10 @@ public class Song {
             throw new RuntimeException("Broken MD Chart");
         }
         else if(!Chart.isValidChart(dir, "AV")){
-            throw new RuntimeException("Broken AV Chart");
+            throw new RuntimeException("Broken MD Chart");
         }
         else if(lg && !Chart.isValidChart(dir, "LG")){
-            throw new RuntimeException("Broken LG Chart");
+            throw new RuntimeException("Broken MD Chart");
         }
     }
 

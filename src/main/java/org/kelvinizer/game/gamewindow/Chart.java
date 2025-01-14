@@ -117,16 +117,16 @@ public class Chart extends AnimatablePanel {
         try {
             Thread.sleep(511);
         } catch (InterruptedException e) {
-            throw new RuntimeException("Error when loading music");
+            throw new RuntimeException("Error when stagger starting audio clip");
         }
         music.stop();
     }
 
     public Chart(String songDir, String level) throws IOException, RuntimeException, LineUnavailableException {
         super(2000);
-        getMusic(new File(songDir));
+        getMusic(new File(getResourcePathName(songDir)));
 
-        BufferedReader chart = new BufferedReader(new FileReader(songDir+"/"+level+".txt"));
+        BufferedReader chart = new BufferedReader(new FileReader(getResourcePathName(songDir+"/"+level+".txt")));
         ArrayList<Note> tempNotes = new ArrayList<>();
         noteCount = Double.parseDouble(chart.readLine());
         if(noteCount==0){
@@ -150,7 +150,7 @@ public class Chart extends AnimatablePanel {
                 tempNotes.add(n);
             }
             else{
-                throw new RuntimeException("Invalid Note detected");
+                throw new RuntimeException("Invalid Note detected at Note No."+i);
             }
         }
         tempNotes.sort((Note a, Note b) -> (int)( (a.getStartTime()-b.getStartTime())));
@@ -220,20 +220,20 @@ public class Chart extends AnimatablePanel {
     }
 
     public Chart() throws IOException, LineUnavailableException {
-        this(getResourcePathName("Chart/"+Selection.collectionDir+"/"+Selection.songDir), Selection.level);
+        this("Chart/"+Selection.collectionDir+"/"+Selection.songDir, Selection.level);
         if(firstInit){
             staggerStart();
             firstInit=false;
         }
     }
 
-    public static boolean isValidChart(String dir, String songLevel){
+    public static boolean isValidChart(String songDir, String level){
         try{
-            new Chart(dir, songLevel);
-        } catch (RuntimeException | IOException | LineUnavailableException e) {
+            new Chart(songDir, level);
+            return true;
+        } catch (IOException | RuntimeException | LineUnavailableException e){
             return false;
         }
-        return true;
     }
 
     @Override

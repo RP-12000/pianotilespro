@@ -5,16 +5,14 @@ import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.menu.menubuttons.CollectionSelectionButtons;
 import org.kelvinizer.support.classes.BoundedString;
-import org.kelvinizer.support.classes.JacketMenu;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static org.kelvinizer.constants.Control.getResourcePathName;
+import static org.kelvinizer.constants.Selection.collections;
 
 public class CollectionSelection extends AnimatablePanel {
-    private final JacketMenu collections = new JacketMenu(getResourcePathName("Chart"), Selection.collectionIndex);
     private boolean goBack = false;
     private boolean toSettings = false;
 

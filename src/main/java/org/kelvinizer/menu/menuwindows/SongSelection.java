@@ -3,10 +3,8 @@ package org.kelvinizer.menu.menuwindows;
 import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.animation.AnimatablePanel;
-import org.kelvinizer.game.gamewindow.Song;
 import org.kelvinizer.menu.menubuttons.SongSelectionButtons;
 import org.kelvinizer.menu.menutext.SongSelectionText;
-import org.kelvinizer.support.classes.JacketMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,16 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.io.IOException;
-import java.util.ArrayList;
 
-import static org.kelvinizer.constants.Control.getResourcePathName;
+import static org.kelvinizer.constants.Selection.*;
 
 public class SongSelection extends AnimatablePanel {
-    private final JacketMenu songs = new JacketMenu(
-            getResourcePathName("Chart/"+ Selection.collectionDir), Selection.songIndex.get(Selection.collectionDir)
-    );
-    private final ArrayList<Song> songData = new ArrayList<>();
     private boolean goBack = false;
     private boolean toSettings = false;
     private boolean startEndScene = false;
@@ -33,62 +25,53 @@ public class SongSelection extends AnimatablePanel {
 
     public SongSelection(){
         super();
-        for(int i = 0; i< songs.size(); i++){
-            try{
-                songData.add(new Song(getResourcePathName("Chart/"+ Selection.collectionDir+"/"+ songs.getSelectionString(i))));
-            } catch (RuntimeException | IOException e) {
-                Selection.isValidCollection=false;
+        addKeyBinding(KeyEvent.VK_UP, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                songs.get(collectionDir).moveBackward();
+                if(!getSongData().hasLG() && Selection.level.equals("LG")){
+                    Selection.level = "AV";
+                }
             }
-        }
-        if(!songs.isEmpty() && Selection.isValidCollection){
-            addKeyBinding(KeyEvent.VK_UP, new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    songs.moveBackward();
-                    if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
-                        Selection.level = "AV";
-                    }
+        });
+        addKeyBinding(KeyEvent.VK_DOWN, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                songs.get(collectionDir).moveForward();
+                if(!getSongData().hasLG() && Selection.level.equals("LG")){
+                    Selection.level = "AV";
                 }
-            });
-            addKeyBinding(KeyEvent.VK_DOWN, new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    songs.moveForward();
-                    if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
-                        Selection.level = "AV";
-                    }
+            }
+        });
+        addKeyBinding(KeyEvent.VK_RIGHT, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (Selection.level){
+                    case "BS" -> Selection.level = "MD";
+                    case "MD" -> Selection.level = "AV";
+                    case "AV" -> Selection.level = "LG";
                 }
-            });
-            addKeyBinding(KeyEvent.VK_RIGHT, new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    switch (Selection.level){
-                        case "BS" -> Selection.level = "MD";
-                        case "MD" -> Selection.level = "AV";
-                        case "AV" -> Selection.level = "LG";
-                    }
-                    if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
-                        Selection.level = "AV";
-                    }
+                if(!getSongData().hasLG() && Selection.level.equals("LG")){
+                    Selection.level = "AV";
                 }
-            });
-            addKeyBinding(KeyEvent.VK_LEFT, new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    switch (Selection.level){
-                        case "LG" -> Selection.level = "AV";
-                        case "AV" -> Selection.level = "MD";
-                        case "MD" -> Selection.level = "BS";
-                    }
+            }
+        });
+        addKeyBinding(KeyEvent.VK_LEFT, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (Selection.level){
+                    case "LG" -> Selection.level = "AV";
+                    case "AV" -> Selection.level = "MD";
+                    case "MD" -> Selection.level = "BS";
                 }
-            });
-            addKeyBinding(KeyEvent.VK_ENTER, new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    exit(4000);
-                }
-            });
-        }
+            }
+        });
+        addKeyBinding(KeyEvent.VK_ENTER, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exit(4000);
+            }
+        });
         addKeyBinding(KeyEvent.VK_BACK_SPACE, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -127,14 +110,14 @@ public class SongSelection extends AnimatablePanel {
         }
         if(!songs.isEmpty() && Selection.isValidCollection){
             if(ssb.moveUp.isFocused()){
-                songs.moveBackward();
-                if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
+                songs.get(collectionDir).moveBackward();
+                if(!getSongData().hasLG() && Selection.level.equals("LG")){
                     Selection.level = "AV";
                 }
             }
             if(ssb.moveDown.isFocused()){
-                songs.moveForward();
-                if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
+                songs.get(collectionDir).moveForward();
+                if(!getSongData().hasLG() && Selection.level.equals("LG")){
                     Selection.level = "AV";
                 }
             }
@@ -150,7 +133,7 @@ public class SongSelection extends AnimatablePanel {
             else if(ssb.advanced.isFocused()){
                 Selection.level = "AV";
             }
-            else if(songData.get(songs.getMenuIndex()).hasLG() && ssb.legendary.isFocused()){
+            else if(getSongData().hasLG() && ssb.legendary.isFocused()){
                 Selection.level = "LG";
             }
         }
@@ -158,8 +141,8 @@ public class SongSelection extends AnimatablePanel {
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e){
-        songs.move(e);
-        if(!songData.get(songs.getMenuIndex()).hasLG() && Selection.level.equals("LG")){
+        songs.get(collectionDir).move(e);
+        if(!getSongData().hasLG() && Selection.level.equals("LG")){
             Selection.level = "AV";
         }
     }
@@ -168,7 +151,7 @@ public class SongSelection extends AnimatablePanel {
     public void onDisappearance(Graphics2D g2d){
         if(!goBack && !toSettings){
             if(!startEndScene){
-                sst.setEndStrings(songData.get(songs.getMenuIndex()), songs.getSelectionJacket());
+                sst.setEndStrings(getSongData(), songs.get(collectionDir).getSelectionJacket());
                 sst.dm.activate();
                 startEndScene = true;
             }
@@ -190,30 +173,30 @@ public class SongSelection extends AnimatablePanel {
             sst.corruptedFolder.render(g2d);
         }
         else{
-            if(songs.getSelectionJacket()!=null){
-                g2d.drawImage(songs.getSelectionJacket(), 520, 180, 480, 300, this);
+            if(songs.get(collectionDir).getSelectionJacket()!=null){
+                g2d.drawImage(songs.get(collectionDir).getSelectionJacket(), 520, 180, 480, 300, this);
             }
             else{
                 sst.nullJacket.render(g2d);
             }
             ssb.play.render(g2d);
-            sst.updateSelectionStrings(songs, songData);
+            sst.updateSelectionStrings(songs.get(collectionDir), songData.get(collectionDir));
             sst.renderCurrent(g2d);
-            if(!songs.atBeginning()){
+            if(!songs.get(collectionDir).atBeginning()){
                 ssb.moveUp.render(g2d);
                 sst.renderPrevious(g2d);
             }
-            if(!songs.atEnd()){
+            if(!songs.get(collectionDir).atEnd()){
                 ssb.moveDown.render(g2d);
                 sst.renderNext(g2d);
             }
-            ssb.renderLevels(g2d, songData.get(songs.getMenuIndex()));
+            ssb.renderLevels(g2d, getSongData());
         }
     }
 
     @Override
     public void toNextPanel(){
-        Selection.songIndex.put(Selection.collectionDir, songs.getMenuIndex());
+        Selection.songIndex.put(Selection.collectionDir, songs.get(collectionDir).getMenuIndex());
         if(goBack){
             Control.panel_index = 1;
             return;
@@ -222,13 +205,13 @@ public class SongSelection extends AnimatablePanel {
             Control.panel_index = -Control.panel_index;
         }
         else{
-            Selection.songDir = songs.getSelectionString();
-            Selection.songJacket = songs.getSelectionJacket();
+            Selection.songDir = songs.get(collectionDir).getSelectionString();
+            Selection.songJacket = songs.get(collectionDir).getSelectionJacket();
             switch (Selection.level){
-                case "BS" -> Selection.chartConstant = songData.get(songs.getMenuIndex()).getBasicData().second;
-                case "MD" -> Selection.chartConstant = songData.get(songs.getMenuIndex()).getMediumData().second;
-                case "AV" -> Selection.chartConstant = songData.get(songs.getMenuIndex()).getAdvancedData().second;
-                case "LG" -> Selection.chartConstant = songData.get(songs.getMenuIndex()).getLegendaryData().second;
+                case "BS" -> Selection.chartConstant = getSongData().getBasicData().second;
+                case "MD" -> Selection.chartConstant = getSongData().getMediumData().second;
+                case "AV" -> Selection.chartConstant = getSongData().getAdvancedData().second;
+                case "LG" -> Selection.chartConstant = getSongData().getLegendaryData().second;
             }
             Control.panel_index = 3;
         }
