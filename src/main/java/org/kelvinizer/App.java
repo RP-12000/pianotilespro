@@ -8,7 +8,7 @@ import org.kelvinizer.game.gamewindow.ResultPage;
 import org.kelvinizer.game.gamewindow.Song;
 import org.kelvinizer.menu.WelcomePage;
 import org.kelvinizer.menu.collectionselection.CollectionSelection;
-import org.kelvinizer.menu.settingspage.Settings;
+import org.kelvinizer.menu.settingpage.Settings;
 import org.kelvinizer.menu.songselection.SongSelection;
 
 import javax.sound.sampled.LineUnavailableException;

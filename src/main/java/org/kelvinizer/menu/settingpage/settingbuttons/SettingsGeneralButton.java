@@ -1,4 +1,4 @@
-package org.kelvinizer.menu.settingspage;
+package org.kelvinizer.menu.settingpage.settingbuttons;
 
 import org.kelvinizer.buttons.CRectButton;
 import org.kelvinizer.buttons.CTriangleButton;
