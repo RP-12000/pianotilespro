@@ -6,11 +6,12 @@ import org.kelvinizer.dynamic.DynamicMotionManager;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.classes.Motion;
 import org.kelvinizer.support.interfaces.Focusable;
+import org.kelvinizer.support.interfaces.Scalable;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class ResultPageButtons implements Focusable {
+public class ResultPageButtons implements Scalable, Focusable {
     public final DynamicCRectButton back = new DynamicCRectButton();
     public final DynamicCRectButton restart = new DynamicCRectButton();
 
@@ -63,5 +64,11 @@ public class ResultPageButtons implements Focusable {
     public void setFocused(MouseEvent e) {
         back.setFocused(e);
         restart.setFocused(e);
+    }
+
+    @Override
+    public void scale(Dimension d) {
+        back.scale(d);
+        restart.scale(d);
     }
 }

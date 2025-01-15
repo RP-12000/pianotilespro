@@ -3,11 +3,12 @@ package org.kelvinizer.game.gamebuttons;
 import org.kelvinizer.buttons.CRectButton;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.interfaces.Focusable;
+import org.kelvinizer.support.interfaces.Scalable;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class ChartButtons implements Focusable {
+public class ChartButtons implements Scalable, Focusable {
     public final CRectButton pause = new CRectButton();
     public final CRectButton play = new CRectButton();
     public final CRectButton restart = new CRectButton();
@@ -86,5 +87,13 @@ public class ChartButtons implements Focusable {
         play.setFocused(e);
         pause.setFocused(e);
         restart.setFocused(e);
+    }
+
+    @Override
+    public void scale(Dimension d) {
+        back.scale(d);
+        play.scale(d);
+        pause.scale(d);
+        restart.scale(d);
     }
 }

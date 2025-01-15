@@ -221,6 +221,11 @@ public class Chart extends AnimatablePanel {
     }
 
     @Override
+    public void scale(Dimension d){
+        cb.scale(d);
+    }
+
+    @Override
     public void mouseMoved(MouseEvent e){
         cb.setFocused(e);
     }

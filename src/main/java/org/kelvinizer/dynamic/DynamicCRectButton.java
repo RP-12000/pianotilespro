@@ -3,12 +3,13 @@ package org.kelvinizer.dynamic;
 import org.kelvinizer.buttons.CRectButton;
 import org.kelvinizer.support.classes.Motion;
 import org.kelvinizer.support.interfaces.Focusable;
+import org.kelvinizer.support.interfaces.Scalable;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 
-public class DynamicCRectButton extends DynamicObject implements Focusable {
+public class DynamicCRectButton extends DynamicObject implements Scalable, Focusable {
     private CRectButton b;
 
     public DynamicCRectButton(){}
@@ -48,5 +49,10 @@ public class DynamicCRectButton extends DynamicObject implements Focusable {
     @Override
     public void setFocused(MouseEvent e) {
         b.setFocused(e);
+    }
+
+    @Override
+    public void scale(Dimension d) {
+        b.scale(d);
     }
 }

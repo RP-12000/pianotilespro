@@ -60,6 +60,11 @@ public class WelcomePage extends AnimatablePanel {
     }
 
     @Override
+    public void scale(Dimension d){
+        play.scale(d);
+    }
+
+    @Override
     public void onAppearance(Graphics2D g2d){
         setAppearingOpacity(g2d);
         gameName.render(g2d);

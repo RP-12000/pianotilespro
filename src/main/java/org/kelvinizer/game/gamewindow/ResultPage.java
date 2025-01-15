@@ -38,6 +38,11 @@ public class ResultPage extends AnimatablePanel {
     }
 
     @Override
+    public void scale(Dimension d){
+        rpb.scale(d);
+    }
+
+    @Override
     public void mouseMoved(MouseEvent e){
         rpb.setFocused(e);
     }
