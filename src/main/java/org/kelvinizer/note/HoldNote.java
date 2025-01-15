@@ -2,7 +2,6 @@ package org.kelvinizer.note;
 
 import org.kelvinizer.constants.JudgementLimits;
 import org.kelvinizer.constants.ReferenceWindow;
-import org.kelvinizer.constants.Time;
 import org.kelvinizer.game.gamewindow.Chart;
 import org.kelvinizer.shapes.CRect;
 
@@ -36,7 +35,7 @@ public class HoldNote extends Note{
     @Override
     public CRect toBottomRect(){
         CRect cr = super.getBottomRect(Color.WHITE);
-        if(Time.CURRENT_TIME>perfect_hit_time){
+        if(Chart.CURRENT_TIME>perfect_hit_time){
             cr.setY(HORIZONTAL_JUDGEMENT_LINE_POS[lane_num / 8]);
             cr.setOutlineColor(null);
             cr.setFillColor(null);
@@ -48,7 +47,7 @@ public class HoldNote extends Note{
         CRect r = new CRect();
         r.setSize(
                 HOLD_NOTE_WIDTH,
-                UNIT*(noteHeight - Math.max(0.0, noteHeight / duration * (Time.CURRENT_TIME - perfect_hit_time)))
+                UNIT*(noteHeight - Math.max(0.0, noteHeight / duration * (Chart.CURRENT_TIME - perfect_hit_time)))
         );
         if (status == 3) {
             r.setFillColor(new Color(1, 1, 1, 0.25f));
@@ -63,11 +62,11 @@ public class HoldNote extends Note{
             r.setOrigin(r.getWidth() / 2.0f, 0);
         }
         r.setX(ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[lane_num % 8] + ReferenceWindow.VERTICAL_JUDGEMENT_SPACING / 2);
-        if(Time.CURRENT_TIME>perfect_hit_time){
+        if(Chart.CURRENT_TIME>perfect_hit_time){
             r.setY(HORIZONTAL_JUDGEMENT_LINE_POS[lane_num / 8]);
         }
         else{
-            r.setY(movement.dist(Time.CURRENT_TIME - startTime));
+            r.setY(movement.dist(Chart.CURRENT_TIME - startTime));
         }
         Rectangle br = bottomRect.toJShape();
         Rectangle dr = r.toJShape();
@@ -87,15 +86,14 @@ public class HoldNote extends Note{
     @Override
     public void judge(int signal) {
         if(signal == 0){
-            if (Time.CURRENT_TIME - perfect_hit_time > JudgementLimits.BAD_LIMIT && status == 4) {
+            if (Chart.CURRENT_TIME - perfect_hit_time > JudgementLimits.BAD_LIMIT && status == 4) {
                 status = 3;
-                actual_hit_time = Chart.duration / 1e3;
             }
         }
         else if (signal == 1) {
-            double difference = perfect_hit_time - Time.CURRENT_TIME;
+            double difference = perfect_hit_time - Chart.CURRENT_TIME;
             if (Math.abs(difference) <= JudgementLimits.GOOD_LIMIT) {
-                actual_hit_time = Time.CURRENT_TIME;
+                actual_hit_time = Chart.CURRENT_TIME;
                 if (Math.abs(difference) > JudgementLimits.PERFECT_LIMIT) {
                     status = 1;
                 }
@@ -105,9 +103,9 @@ public class HoldNote extends Note{
             }
         }
         else{
-            if (duration + perfect_hit_time - Time.CURRENT_TIME > JudgementLimits.HOLD_NOTE_END_LIMIT && status != 4) {
+            if (duration + perfect_hit_time - Chart.CURRENT_TIME > JudgementLimits.HOLD_NOTE_END_LIMIT && status != 4) {
                 status = 3;
-                actual_hit_time = -1;
+                actual_hit_time = Double.POSITIVE_INFINITY;
             }
         }
     }
@@ -116,7 +114,7 @@ public class HoldNote extends Note{
     public boolean isActive() {
         return (status == 4) || (
                         (status == 0 || status == 1) &&
-                        (perfect_hit_time + duration - Time.CURRENT_TIME > JudgementLimits.HOLD_NOTE_END_LIMIT)
+                        (perfect_hit_time + duration - Chart.CURRENT_TIME > JudgementLimits.HOLD_NOTE_END_LIMIT)
                 );
     }
 
@@ -133,12 +131,12 @@ public class HoldNote extends Note{
     @Override
     public int visibilityStatus() {
         if (
-                (Time.CURRENT_TIME >= startTime) &&
-                (Time.CURRENT_TIME <= perfect_hit_time + duration)
+                (Chart.CURRENT_TIME >= startTime) &&
+                (Chart.CURRENT_TIME <= perfect_hit_time + duration)
         ) {
             return 1;
         }
-        else if (Time.CURRENT_TIME < startTime) { return 0; }
+        else if (Chart.CURRENT_TIME < startTime) { return 0; }
         else { return 2; }
     }
 }

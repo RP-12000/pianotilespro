@@ -159,7 +159,7 @@ public class ResultPageText {
                 getHistoricBest().maxCombo = thisGameScore.maxCombo;
             }
             if(thisGameScore.worstHit<getHistoricBest().worstHit){
-                bestWorstHit.getBoundedString().setString("-"+(thisGameScore.worstHit-getHistoricBest().worstHit));
+                bestWorstHit.getBoundedString().setString(String.format("%.2f", (thisGameScore.worstHit-getHistoricBest().worstHit)*1000)+" ms");
                 getHistoricBest().worstHit = thisGameScore.worstHit;
             }
             getHistoricBest().fc = thisGameScore.fc;

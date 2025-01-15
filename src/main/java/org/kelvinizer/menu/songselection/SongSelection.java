@@ -1,10 +1,8 @@
-package org.kelvinizer.menu.menuwindows;
+package org.kelvinizer.menu.songselection;
 
 import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.animation.AnimatablePanel;
-import org.kelvinizer.menu.menubuttons.SongSelectionButtons;
-import org.kelvinizer.menu.menutext.SongSelectionText;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,6 +84,12 @@ public class SongSelection extends AnimatablePanel {
             public void actionPerformed(ActionEvent e) {
                 toSettings = true;
                 exit();
+            }
+        });
+        addKeyBinding(KeyEvent.VK_A, false, KeyEvent.CTRL_DOWN_MASK, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Control.isAutoplay = !Control.isAutoplay;
             }
         });
     }

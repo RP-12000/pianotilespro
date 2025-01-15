@@ -20,12 +20,12 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.ArrayList;
 
-import static org.kelvinizer.constants.Control.getResourcePathName;
-import static org.kelvinizer.constants.Control.isAutoplay;
+import static org.kelvinizer.constants.Control.*;
 import static org.kelvinizer.constants.Selection.*;
 
 public class Chart extends AnimatablePanel {
     public static double noteCount;
+    public static double CURRENT_TIME = 0 ;
     private final ChartText ct = new ChartText();
     private final ChartButtons cb = new ChartButtons();
     private final Lane[] lanes = new Lane[16];
@@ -86,7 +86,7 @@ public class Chart extends AnimatablePanel {
         for(Lane l: lanes){
             l.restart();
         }
-        Time.CURRENT_TIME = STATIC_TIMER;
+        CURRENT_TIME = STATIC_TIMER;
         isPaused = false;
         if(inputStream!=null){
             music.setMicrosecondPosition(0);
@@ -250,10 +250,10 @@ public class Chart extends AnimatablePanel {
     }
 
     private void setJudgementLineColor(Graphics2D g2d){
-        if(Lane.bad+Lane.good+Lane.miss == 0){
+        if(Lane.bad+Lane.good+Lane.miss == 0 && FCAPHintEnabled){
             g2d.setColor(Color.GREEN);
         }
-        else if(Lane.bad+Lane.miss == 0){
+        else if(Lane.bad+Lane.miss == 0 && FCAPHintEnabled){
             g2d.setColor(Color.BLUE);
         }
         else{
@@ -262,14 +262,7 @@ public class Chart extends AnimatablePanel {
         g2d.setStroke(new BasicStroke(3.0f));
     }
 
-    @Override
-    public void onAppearance(Graphics2D g2d){
-        timePoint = (System.nanoTime() - start_time)/1e9;
-        setGlobalOpacity(g2d, timePoint);
-        ct.updateText();
-        ct.render(g2d);
-        setGlobalOpacity(g2d, 1);
-        int distFromMiddle = (int) (ReferenceWindow.VERTICAL_JUDGEMENT_SPACING*4*Math.min(timePoint, 1));
+    private void renderVerticalJudgement(Graphics2D g2d, int distFromMiddle){
         setJudgementLineColor(g2d);
         g2d.drawLine(
                 (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]-distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[0],
@@ -279,7 +272,7 @@ public class Chart extends AnimatablePanel {
                 (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]-distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[1],
                 (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]+distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[1]
         );
-        for(int i=0; i<=distFromMiddle/ReferenceWindow.VERTICAL_JUDGEMENT_SPACING; i++){
+        for(int i=1; i<=distFromMiddle/ReferenceWindow.VERTICAL_JUDGEMENT_SPACING; i++){
             g2d.drawLine(
                     (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4-i], -1,
                     (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4-i], (int) ReferenceWindow.REF_WIN_H+1
@@ -289,6 +282,23 @@ public class Chart extends AnimatablePanel {
                     (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4+i], (int) ReferenceWindow.REF_WIN_H+1
             );
         }
+        if(handHintEnabled){
+            g2d.setColor(Color.RED);
+        }
+        g2d.drawLine(
+                (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4], -1,
+                (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4], (int) ReferenceWindow.REF_WIN_H+1
+        );
+    }
+
+    @Override
+    public void onAppearance(Graphics2D g2d){
+        timePoint = (System.nanoTime() - start_time)/1e9;
+        setGlobalOpacity(g2d, timePoint);
+        ct.updateText();
+        ct.render(g2d);
+        setGlobalOpacity(g2d, 1);
+        renderVerticalJudgement(g2d, (int) (ReferenceWindow.VERTICAL_JUDGEMENT_SPACING*4*Math.min(timePoint, 1)));
     }
 
     @Override
@@ -303,26 +313,7 @@ public class Chart extends AnimatablePanel {
                 ct.updateText();
                 ct.render(g2d);
                 setGlobalOpacity(g2d, 1);
-                int distFromMiddle = (int) (ReferenceWindow.VERTICAL_JUDGEMENT_SPACING*4*(1-timePoint));
-                setJudgementLineColor(g2d);
-                g2d.drawLine(
-                        (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]-distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[0],
-                        (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]+distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[0]
-                );
-                g2d.drawLine(
-                        (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]-distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[1],
-                        (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4]+distFromMiddle, (int) ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[1]
-                );
-                for(int i=0; i<distFromMiddle/ReferenceWindow.VERTICAL_JUDGEMENT_SPACING; i++){
-                    g2d.drawLine(
-                            (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4-i], -1,
-                            (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4-i], (int) ReferenceWindow.REF_WIN_H+1
-                    );
-                    g2d.drawLine(
-                            (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4+i], -1,
-                            (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4+i], (int) ReferenceWindow.REF_WIN_H+1
-                    );
-                }
+                renderVerticalJudgement(g2d, (int) (ReferenceWindow.VERTICAL_JUDGEMENT_SPACING*4*(1-timePoint)));
                 progressBar.setY(-progressBar.getHeight()*timePoint);
                 progressBar.render(g2d);
             }
@@ -333,8 +324,8 @@ public class Chart extends AnimatablePanel {
         try {
             PrintWriter pw = new PrintWriter(getResourcePathName("")+"refresh.txt");
             pw.println(music.getMicrosecondPosition());
-            if(Math.abs(music.getMicrosecondPosition()-Time.CURRENT_TIME*1e6)>Control.tolerance*1e3){
-                music.setMicrosecondPosition((long) Math.max(0, Time.CURRENT_TIME*1e6));
+            if(Math.abs(music.getMicrosecondPosition()- CURRENT_TIME*1e6)>Control.tolerance*1e3){
+                music.setMicrosecondPosition((long) Math.max(0, CURRENT_TIME*1e6));
             }
             pw.close();
         } catch (IOException ignored) {}
@@ -342,7 +333,7 @@ public class Chart extends AnimatablePanel {
 
     @Override
     public void render(Graphics2D g2d){
-        if(music!=null && !isPaused && !music.isRunning() && Time.CURRENT_TIME>=Control.MUSIC_DIFFERENCE/1000.0){
+        if(music!=null && !isPaused && !music.isRunning() && CURRENT_TIME>=Control.MUSIC_DIFFERENCE/1000.0){
             music.start();
         }
         if (music != null && isPaused && music.isRunning()) {
@@ -378,29 +369,15 @@ public class Chart extends AnimatablePanel {
                 r.render(g2d);
             }
         }
-        setJudgementLineColor(g2d);
-        for(int i=0; i<9; i++){
-            g2d.drawLine(
-                    (int)ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[i], -1,
-                    (int)ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[i], (int)ReferenceWindow.REF_WIN_H+1
-            );
-        }
-        g2d.drawLine(
-                (int)ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[0], (int)ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[0],
-                (int)ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[8], (int)ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[0]
-        );
-        g2d.drawLine(
-                (int)ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[0], (int)ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[1],
-                (int)ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[8], (int)ReferenceWindow.HORIZONTAL_JUDGEMENT_LINE_POS[1]
-        );
+        renderVerticalJudgement(g2d, (int) ReferenceWindow.VERTICAL_JUDGEMENT_SPACING*4);
         ct.updateText();
         ct.render(g2d);
-        progressBar.setWidth(ReferenceWindow.REF_WIN_W / (music.getMicrosecondLength()/1e6-STATIC_TIMER) * (Time.CURRENT_TIME-STATIC_TIMER));
+        progressBar.setWidth(ReferenceWindow.REF_WIN_W / (music.getMicrosecondLength()/1e6-STATIC_TIMER) * (CURRENT_TIME-STATIC_TIMER));
         progressBar.render(g2d);
         setGlobalOpacity(g2d, 1);
         if(!isPaused){
             cb.pause.render(g2d);
-            Time.CURRENT_TIME += 1.0 / Time.FPS;
+            CURRENT_TIME += 1.0 / Control.FPS;
         }
         if(progressBar.getWidth() >= ReferenceWindow.REF_WIN_W){
             exit(2000);

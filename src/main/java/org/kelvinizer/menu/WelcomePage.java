@@ -1,4 +1,4 @@
-package org.kelvinizer.menu.menuwindows;
+package org.kelvinizer.menu;
 
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.buttons.CRectButton;
@@ -80,7 +80,7 @@ public class WelcomePage extends AnimatablePanel {
         }
         gameName.render(g2d);
         gameVersion.render(g2d);
-        if(state!=2){
+        if(state!=2 || !success){
             bar.render(g2d);
             loading.render(g2d);
         }
@@ -92,6 +92,7 @@ public class WelcomePage extends AnimatablePanel {
 
     private void errorCheck(){
         try{
+            loading.setString("Scanning for Songs");
             collections = new JacketMenu("Chart", 0);
             int totalSongs = -1;
             for(int i=0; i<collections.size(); i++){
@@ -100,6 +101,7 @@ public class WelcomePage extends AnimatablePanel {
                 songIndex.put(collections.getSelectionString(i), 0);
                 songs.put(collections.getSelectionString(i), jm);
                 songData.put(collections.getSelectionString(i), new ArrayList<>());
+                loading.setString("Found "+totalSongs+1+" songs");
             }
             for(int i=0; i<collections.size(); i++){
                 for(int j=0; j<songs.get(collections.getSelectionString(i)).size(); j++){
@@ -113,7 +115,6 @@ public class WelcomePage extends AnimatablePanel {
             collectionDir = collections.getSelectionString(0);
             success=true;
         } catch (RuntimeException e) {
-            loading.setString("Error when loading this: ");
             bar.setFillColor(Color.DARK_GRAY);
             loading.setStringColor(Color.RED);
         }

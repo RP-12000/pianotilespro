@@ -1,4 +1,4 @@
-package org.kelvinizer.menu.menubuttons;
+package org.kelvinizer.menu.songselection;
 
 import org.kelvinizer.buttons.CRectButton;
 import org.kelvinizer.buttons.CTriangleButton;

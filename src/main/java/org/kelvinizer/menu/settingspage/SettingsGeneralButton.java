@@ -1,8 +1,7 @@
-package org.kelvinizer.menu.menubuttons;
+package org.kelvinizer.menu.settingspage;
 
 import org.kelvinizer.buttons.CRectButton;
 import org.kelvinizer.buttons.CTriangleButton;
-import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.shapes.CTriangle;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.interfaces.Focusable;
@@ -11,10 +10,8 @@ import org.kelvinizer.support.interfaces.Scalable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class CollectionSelectionButtons implements Scalable, Focusable {
+public class SettingsGeneralButton implements Scalable, Focusable {
     public final CRectButton back = new CRectButton();
-    public final CRectButton settings = new CRectButton();
-    public final CRectButton jacket = new CRectButton();
     public final CTriangleButton moveLeft = new CTriangleButton();
     public final CTriangleButton moveRight = new CTriangleButton();
 
@@ -31,33 +28,6 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
 
         back.setNormal(normal);
         back.setOnFocus(onFocus);
-    }
-
-    private void setSettings(){
-        BoundedString normal = new BoundedString("", 0, 1030, 50, 100, 100);
-        BoundedString onFocus = new BoundedString("", 0, 1020, 60, 120, 120);
-
-        if(!settings.setIcon("Settings.jpg")) {
-            normal.getBounds().setOutlineColor(Color.WHITE);
-            normal.getBounds().setOutlineThickness(1.0);
-            onFocus.getBounds().setOutlineColor(Color.BLUE);
-            onFocus.getBounds().setOutlineThickness(5.0);
-        }
-
-        settings.setNormal(normal);
-        settings.setOnFocus(onFocus);
-    }
-
-    private void setJacket(){
-        BoundedString normal = new BoundedString();
-        normal.setBounds(new CRect(540, 330, 360, 360));
-        jacket.setNormal(normal);
-
-        BoundedString onFocus = new BoundedString();
-        onFocus.setBounds(new CRect(540, 330, 360, 360));
-        onFocus.getBounds().setOutlineColor(Color.BLUE);
-        onFocus.getBounds().setOutlineThickness(5.0);
-        jacket.setOnFocus(onFocus);
     }
 
     private void setMoveLeft(){
@@ -96,29 +66,23 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
         moveRight.setOnFocus(onFocus);
     }
 
-    public CollectionSelectionButtons(){
+    public SettingsGeneralButton(){
         setBack();
-        setSettings();
-        setJacket();
         setMoveLeft();
         setMoveRight();
     }
 
     @Override
-    public void scale(Dimension d) {
-        back.scale(d);
-        settings.scale(d);
-        jacket.scale(d);
-        moveLeft.scale(d);
-        moveRight.scale(d);
+    public void setFocused(MouseEvent e) {
+        back.setFocused(e);
+        moveLeft.setFocused(e);
+        moveRight.setFocused(e);
     }
 
     @Override
-    public void setFocused(MouseEvent e) {
-        back.setFocused(e);
-        settings.setFocused(e);
-        jacket.setFocused(e);
-        moveLeft.setFocused(e);
-        moveRight.setFocused(e);
+    public void scale(Dimension d) {
+        back.scale(d);
+        moveLeft.scale(d);
+        moveRight.scale(d);
     }
 }

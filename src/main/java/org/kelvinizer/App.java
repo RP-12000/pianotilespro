@@ -3,11 +3,13 @@ package org.kelvinizer;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.ReferenceWindow;
-import org.kelvinizer.constants.Time;
 import org.kelvinizer.game.gamewindow.Chart;
 import org.kelvinizer.game.gamewindow.ResultPage;
 import org.kelvinizer.game.gamewindow.Song;
-import org.kelvinizer.menu.menuwindows.*;
+import org.kelvinizer.menu.WelcomePage;
+import org.kelvinizer.menu.collectionselection.CollectionSelection;
+import org.kelvinizer.menu.settingspage.Settings;
+import org.kelvinizer.menu.songselection.SongSelection;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
@@ -30,8 +32,20 @@ public class App extends JFrame {
         boot();
         initSettings();
         ScheduledExecutorService gameLoop = Executors.newSingleThreadScheduledExecutor();
-        gameLoop.scheduleAtFixedRate(this::runGame, 0, 1000/Time.FPS, TimeUnit.MILLISECONDS);
+        gameLoop.scheduleAtFixedRate(this::runGame, 0, 1000/Control.FPS, TimeUnit.MILLISECONDS);
         setVisible(true);
+    }
+
+    private void printSettings(PrintWriter pw){
+        pw.println(userName);
+        pw.println(isAutoplay);
+        pw.println(syncEnabled);
+        pw.println(FCAPHintEnabled);
+        pw.println(handHintEnabled);
+        pw.println(newFPS);
+        pw.println(MUSIC_DIFFERENCE);
+        pw.println(tolerance);
+        pw.close();
     }
 
     private void boot(){
@@ -53,11 +67,7 @@ public class App extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 try{
-                    PrintWriter pw = new PrintWriter(getResourcePathName("Chart/settings.txt"));
-                    pw.println(userName);
-                    pw.println(isAutoplay);
-                    pw.println(syncEnabled);
-                    pw.close();
+                    printSettings(new PrintWriter(getResourcePathName("Chart/settings.txt")));
                     for(Map.Entry<String, ArrayList<Song>> entry: songData.entrySet()){
                         for(Song s: entry.getValue()){
                             s.exportBestToFile();
@@ -75,15 +85,18 @@ public class App extends JFrame {
             userName = userInfo.readLine();
             isAutoplay = Boolean.parseBoolean(userInfo.readLine());
             syncEnabled = Boolean.parseBoolean(userInfo.readLine());
+            FCAPHintEnabled = Boolean.parseBoolean(userInfo.readLine());
+            handHintEnabled = Boolean.parseBoolean(userInfo.readLine());
+            FPS = Integer.parseInt(userInfo.readLine());
+            newFPS = FPS;
+            MUSIC_DIFFERENCE = Integer.parseInt(userInfo.readLine());
+            tolerance = Integer.parseInt(userInfo.readLine());
             userInfo.close();
         } catch (IOException | RuntimeException e){
             try {
                 PrintWriter newInfo = new PrintWriter(new FileWriter(getResourcePathName("Chart")+"/settings.txt"));
                 userName = "User"+(long)(Math.random()*1e10);
-                newInfo.println(userName);
-                newInfo.println(true);
-                newInfo.println(true);
-                newInfo.close();
+                printSettings(newInfo);
             } catch (IOException ex) {
                 throw new RuntimeException("Unable to load game");
             }

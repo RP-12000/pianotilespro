@@ -1,7 +1,6 @@
 package org.kelvinizer.animation;
 
 import org.kelvinizer.constants.ReferenceWindow;
-import org.kelvinizer.constants.Time;
 import org.kelvinizer.support.classes.Triple;
 import org.kelvinizer.support.interfaces.Drawable;
 import org.kelvinizer.support.interfaces.Scalable;
@@ -15,6 +14,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static org.kelvinizer.constants.Control.FPS;
+
 public class AnimatablePanel extends JPanel implements Animatable, MouseMotionListener, MouseWheelListener, MouseListener, Scalable, Drawable {
     private boolean is_start = true, is_end = false;
     private boolean has_start = false, has_end = false;
@@ -27,7 +28,7 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
         start_duration = (long) (start_duration_in_ms*1e6);
         setSize((int) ReferenceWindow.REF_WIN_W, (int) ReferenceWindow.REF_WIN_H);
         ScheduledExecutorService e = Executors.newSingleThreadScheduledExecutor();
-        e.scheduleAtFixedRate(this::repaint, 0, 1000/Time.FPS, TimeUnit.MILLISECONDS);
+        e.scheduleAtFixedRate(this::repaint, 0, 1000/FPS, TimeUnit.MILLISECONDS);
     }
 
     public AnimatablePanel(){

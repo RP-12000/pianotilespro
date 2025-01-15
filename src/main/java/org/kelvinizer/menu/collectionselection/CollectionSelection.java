@@ -1,9 +1,8 @@
-package org.kelvinizer.menu.menuwindows;
+package org.kelvinizer.menu.collectionselection;
 
 import org.kelvinizer.constants.Control;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.Selection;
-import org.kelvinizer.menu.menubuttons.CollectionSelectionButtons;
 import org.kelvinizer.support.classes.BoundedString;
 
 import javax.swing.*;

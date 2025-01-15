@@ -1,5 +1,6 @@
-package org.kelvinizer.menu.menutext;
+package org.kelvinizer.menu.songselection;
 
+import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.dynamic.DynamicImage;
 import org.kelvinizer.dynamic.DynamicMotionManager;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 public class SongSelectionText {
     public final DynamicMotionManager dm = new DynamicMotionManager();
+    public final DynamicString nullJacket = new DynamicString("No jacket preview available", 15, 760, 330, 480, 300);
     private final DynamicString selectedSong = new DynamicString("", 0, 250, 350, 300, 100);
     private final DynamicString selectedSongDifficulty = new DynamicString("", 50, 450, 350, 100, 100);
     private final DynamicString selectedLevel = new DynamicString("", 15, 450, 380, 100, 40);
@@ -25,11 +27,11 @@ public class SongSelectionText {
     private final DynamicString illustrator = new DynamicString("", 35, -150, 380, 300, 100);
     private final DynamicString charterVerdict = new DynamicString("Chart", 15, -150, 440, 300, 100);
     private final DynamicString charter = new DynamicString("", 35, -150, 470, 300, 100);
-    public final DynamicString nullJacket = new DynamicString("No jacket preview available", 15, 760, 330, 480, 300);
+    private final DynamicString autoplayVerdict = new DynamicString("Auto", 20, 450, 320);
     private final DynamicImage jacket = new DynamicImage(new CRect(760, 330, 480, 300));
 
     private final BoundedString previousSong = new BoundedString("", 0, 250, 230, 300, 100);
-    private final BoundedString previousSongLevel = new BoundedString("", 30, 450, 230, 100, 100);
+    private final BoundedString previousSongLevel = new BoundedString("", 50, 450, 230, 100, 100);
     private final BoundedString previousSongComposer = new BoundedString("", 0, 250, 260, 300, 40);
     private final BoundedString nextSong = new BoundedString("", 0, 250, 470, 300, 100);
     private final BoundedString nextSongLevel = new BoundedString("", 50, 450, 470, 100, 100);
@@ -37,6 +39,7 @@ public class SongSelectionText {
 
     private final BoundedString bestScore = new BoundedString("", 30, 875, 505, 250, 50);
     private final BoundedString bestAcc = new BoundedString("", 10, 915, 515);
+    private final BoundedString bestWorstHit = new BoundedString("", 10, 915, 495);
     private final BoundedString bestGrade = new BoundedString("", 40, 960, 505);
     private final BoundedString newSong = new BoundedString("NEW", 15, 960, 505);
 
@@ -45,23 +48,6 @@ public class SongSelectionText {
 
     private final float adjacentOpacity = 0.25f;
     private boolean isNewSong = false;
-
-    private void setSelectedSong(){
-        selectedSong.getBoundedString().setMaxStringSize(35);
-        selectedSong.getBoundedString().getBounds().setOutlineColor(Color.WHITE);
-        selectedSong.getBoundedString().getBounds().setOutlineThickness(5.0);
-        selectedSong.getBoundedString().setRelativeY(0.4);
-        selectedSong.addVerticalMotion(new Motion(0, 0.8, 350, 230));
-        selectedSong.addHorizontalMotion(new Motion(2.8, 4.0, 250, 1330, 3.5));
-
-        selectedLevel.addVerticalMotion(new Motion(0, 0.8, 380, 260));
-        selectedLevel.addHorizontalMotion(new Motion(2.8, 4.0, 450, 1530, 3.5));
-
-        selectedSongDifficulty.getBoundedString().getBounds().setOutlineColor(Color.WHITE);
-        selectedSongDifficulty.getBoundedString().getBounds().setOutlineThickness(5.0);
-        selectedSongDifficulty.addVerticalMotion(new Motion(0, 0.8, 350, 230));
-        selectedSongDifficulty.addHorizontalMotion(new Motion(2.8, 4.0, 450, 1530, 3.5));
-    }
 
     private void setSelectedSongComposer(){
         selectedSongComposer.getBoundedString().setMaxStringSize(15);
@@ -97,6 +83,23 @@ public class SongSelectionText {
         nullJacket.getBoundedString().getBounds().setOutlineColor(Color.WHITE);
         nullJacket.getBoundedString().getBounds().setOutlineThickness(1.0f);
         nullJacket.addHorizontalMotion(new Motion(2.8, 4.0, 760, 1840, 3.5));
+    }
+
+    private void setSelectedSong(){
+        selectedSong.getBoundedString().setMaxStringSize(35);
+        selectedSong.getBoundedString().getBounds().setOutlineColor(Color.WHITE);
+        selectedSong.getBoundedString().getBounds().setOutlineThickness(5.0);
+        selectedSong.getBoundedString().setRelativeY(0.4);
+        selectedSong.addVerticalMotion(new Motion(0, 0.8, 350, 230));
+        selectedSong.addHorizontalMotion(new Motion(2.8, 4.0, 250, 1330, 3.5));
+
+        selectedLevel.addVerticalMotion(new Motion(0, 0.8, 380, 260));
+        selectedLevel.addHorizontalMotion(new Motion(2.8, 4.0, 450, 1530, 3.5));
+
+        selectedSongDifficulty.getBoundedString().getBounds().setOutlineColor(Color.WHITE);
+        selectedSongDifficulty.getBoundedString().getBounds().setOutlineThickness(5.0);
+        selectedSongDifficulty.addVerticalMotion(new Motion(0, 0.8, 350, 230));
+        selectedSongDifficulty.addHorizontalMotion(new Motion(2.8, 4.0, 450, 1530, 3.5));
     }
 
     private void setPreviousSong(){
@@ -150,6 +153,9 @@ public class SongSelectionText {
         setIllustrator();
         setPreviousSong();
         setNextSong();
+        autoplayVerdict.getBoundedString().setStringColor(Color.GREEN);
+        autoplayVerdict.addVerticalMotion(new Motion(0, 0.8, 320, 200));
+        autoplayVerdict.addHorizontalMotion(new Motion(2.8, 4.0, 450, 1530, 3.5));
         bestScore.setRelativeX(0.3);
         bestScore.getBounds().setOutlineThickness(1.0);
         newSong.setStyle(Font.ITALIC);
@@ -170,6 +176,7 @@ public class SongSelectionText {
         selectedSongDifficulty.getBoundedString().setString(levelToString(sd.get(jm.getMenuIndex()).getCharterData()));
         bestScore.setString(sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).getScoreString());
         bestAcc.setString(sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).getAccuracyString());
+        bestWorstHit.setString(sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).getWorstHitString());
         sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).setGradeString(bestGrade);
         bestScore.getBounds().setOutlineColor(bestGrade.getStringColor());
         isNewSong = sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).newChart;
@@ -192,6 +199,9 @@ public class SongSelectionText {
         selectedLevel.getBoundedString().setString(Selection.level);
         charter.getBoundedString().setString(s.getCharterData().first);
         selectedSongDifficulty.getBoundedString().setString(levelToString(s.getCharterData()));
+        if(Control.isAutoplay){
+            dm.addDynamicObject(autoplayVerdict);
+        }
         if(bf!=null){
             dm.addDynamicObject(jacket);
             jacket.setImage(bf);
@@ -202,12 +212,16 @@ public class SongSelectionText {
     }
 
     public void renderCurrent(Graphics2D g2d){
+        if(Control.isAutoplay){
+            autoplayVerdict.render(g2d);
+        }
         selectedSong.render(g2d);
         selectedSongDifficulty.render(g2d);
         selectedSongComposer.render(g2d);
         selectedLevel.render(g2d);
         bestScore.render(g2d);
         bestAcc.render(g2d);
+        bestWorstHit.render(g2d);
         if(isNewSong){
             newSong.render(g2d);
         }

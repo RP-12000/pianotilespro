@@ -1,6 +1,7 @@
 package org.kelvinizer.note;
 
 import org.kelvinizer.constants.*;
+import org.kelvinizer.game.gamewindow.Chart;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.Motion;
 
@@ -19,7 +20,7 @@ public abstract class Note implements Comparable<Note>{
     protected final double startTime;
     protected final double perfect_hit_time;
     protected boolean is_sync = false;
-    protected double actual_hit_time = -1;
+    protected double actual_hit_time = Double.POSITIVE_INFINITY;
     protected int status = 4;
 
     public Note(int lane_num, double perfect_hit_time, double duration){
@@ -66,7 +67,7 @@ public abstract class Note implements Comparable<Note>{
 
     public void reset() {
         status = 4;
-        actual_hit_time = -1;
+        actual_hit_time = Double.POSITIVE_INFINITY;
     }
 
     public void sync(){
@@ -94,16 +95,16 @@ public abstract class Note implements Comparable<Note>{
     }
 
     public void autoplay() {
-        if (Time.CURRENT_TIME >= perfect_hit_time) {
-            if (actual_hit_time == -1) {
+        if (Chart.CURRENT_TIME >= perfect_hit_time) {
+            if (actual_hit_time == Double.POSITIVE_INFINITY) {
                 status = 0;
-                actual_hit_time = Time.CURRENT_TIME;
+                actual_hit_time = Chart.CURRENT_TIME;
             }
         }
     }
 
     public CRect toParticleRect(){
-        double current_time = Time.CURRENT_TIME;
+        double current_time = Chart.CURRENT_TIME;
         while (current_time > actual_hit_time + JudgementLimits.NOTE_LINGERING_TIME) {
             current_time -= JudgementLimits.NOTE_LINGERING_TIME;
         }
@@ -132,7 +133,7 @@ public abstract class Note implements Comparable<Note>{
                         0.0,
                         fillColor.getAlpha() - Math.max(
                                 0.0,
-                                fillColor.getAlpha() / JudgementLimits.GOOD_LIMIT * (Time.CURRENT_TIME - perfect_hit_time)
+                                fillColor.getAlpha() / JudgementLimits.GOOD_LIMIT * (Chart.CURRENT_TIME - perfect_hit_time)
                         )
                 ))
         ));
@@ -141,7 +142,7 @@ public abstract class Note implements Comparable<Note>{
                 (int)(Math.max(
                         0.0,
                         SYNC_COLOR.getAlpha() - Math.max(
-                                0.0, SYNC_COLOR.getAlpha() / JudgementLimits.GOOD_LIMIT * (Time.CURRENT_TIME - perfect_hit_time)
+                                0.0, SYNC_COLOR.getAlpha() / JudgementLimits.GOOD_LIMIT * (Chart.CURRENT_TIME - perfect_hit_time)
                         )
                 ))
         ));
@@ -156,7 +157,7 @@ public abstract class Note implements Comparable<Note>{
         }
         r.setPosition(
                 ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[lane_num % 8] + ReferenceWindow.VERTICAL_JUDGEMENT_SPACING / 2,
-                movement.dist(Time.CURRENT_TIME - startTime)
+                movement.dist(Chart.CURRENT_TIME - startTime)
         );
         return r;
     }

@@ -25,7 +25,7 @@ public class ScoreData {
     }
 
     public ScoreData(){
-        this(0, 0, 0, 0, false, true);
+        this(0, 0, 0, Double.POSITIVE_INFINITY, false, true);
     }
 
     public ScoreData(int score, int maxCombo, double acc, double worstHit, boolean fc, boolean newChart){
@@ -67,6 +67,9 @@ public class ScoreData {
     public void setGradeString(BoundedString grade){
         if(fc){
             grade.setStringColor(Color.BLUE);
+        }
+        else{
+            grade.setStringColor(Color.WHITE);
         }
         if(score<700000){
             grade.setString("F");

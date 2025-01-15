@@ -1,7 +1,6 @@
 package org.kelvinizer.note;
 
 import org.kelvinizer.constants.JudgementLimits;
-import org.kelvinizer.constants.Time;
 import org.kelvinizer.game.gamewindow.Chart;
 import org.kelvinizer.shapes.CRect;
 
@@ -25,15 +24,14 @@ public class TapNote extends Note{
     @Override
     public void judge(int signal) {
         if(signal == 0){
-            if (Time.CURRENT_TIME - perfect_hit_time > JudgementLimits.BAD_LIMIT && status == 4) {
+            if (Chart.CURRENT_TIME - perfect_hit_time > JudgementLimits.BAD_LIMIT && status == 4) {
                 status = 3;
-                actual_hit_time = Chart.duration / 1e3;
             }
         }
         else if (signal == 1) {
-            double difference = perfect_hit_time - Time.CURRENT_TIME;
+            double difference = perfect_hit_time - Chart.CURRENT_TIME;
             if (Math.abs(difference) <= JudgementLimits.BAD_LIMIT) {
-                actual_hit_time = Time.CURRENT_TIME;
+                actual_hit_time = Chart.CURRENT_TIME;
                 if (Math.abs(difference) > JudgementLimits.GOOD_LIMIT) {
                     status = 2;
                 }
@@ -59,26 +57,26 @@ public class TapNote extends Note{
 
     @Override
     public boolean hasParticle() {
-        return (status == 0 || status == 1 || status == 2) && (Time.CURRENT_TIME - actual_hit_time < JudgementLimits.NOTE_LINGERING_TIME);
+        return (status == 0 || status == 1 || status == 2) && (Chart.CURRENT_TIME - actual_hit_time < JudgementLimits.NOTE_LINGERING_TIME);
     }
 
     @Override
     public int visibilityStatus() {
         if (
                 (status == 3 || status == 4) &&
-                (Time.CURRENT_TIME >= startTime) &&
-                (Time.CURRENT_TIME <= perfect_hit_time + JudgementLimits.BAD_LIMIT) &&
+                (Chart.CURRENT_TIME >= startTime) &&
+                (Chart.CURRENT_TIME <= perfect_hit_time + JudgementLimits.BAD_LIMIT) &&
                 (isActive() || (!isActive() && hasParticle()))
         ) {
             return 1;
         }
         else if (
                 (status == 0 || status == 1 || status == 2) &&
-                        (Time.CURRENT_TIME <= actual_hit_time + JudgementLimits.NOTE_LINGERING_TIME)
+                        (Chart.CURRENT_TIME <= actual_hit_time + JudgementLimits.NOTE_LINGERING_TIME)
         ) {
             return 1;
         }
-        else if (Time.CURRENT_TIME < perfect_hit_time - getTotalMovementTime()) { return 0; }
+        else if (Chart.CURRENT_TIME < perfect_hit_time - getTotalMovementTime()) { return 0; }
         else { return 2; }
     }
 
