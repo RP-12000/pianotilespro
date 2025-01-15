@@ -14,6 +14,7 @@ public class Song {
     public boolean newSong = false;
     public final HashMap<String, Pair<String, Double>> data = new HashMap<>();
     public final HashMap<String, ScoreData> historyBest = new HashMap<>();
+    public final double OFFSET;
 
     public Song(String dir) throws RuntimeException {
         absoluteDir = dir;
@@ -23,6 +24,7 @@ public class Song {
             BufferedReader br = new BufferedReader(new FileReader(getResourcePathName(dir+"/credits.txt")));
             composer = br.readLine();
             illustration = br.readLine();
+            OFFSET = Double.parseDouble(br.readLine());
             lg = Boolean.parseBoolean(br.readLine());
             String[] temp = br.readLine().split(" ");
             data.put("BS", new Pair<>(temp[0], Double.parseDouble(temp[1])));
@@ -69,16 +71,16 @@ public class Song {
             pw.close();
         }
 
-        if(!Chart.isValidChart(dir, "BS")){
+        if(!Chart.isValidChart(this, "BS")){
             throw new RuntimeException("Broken Basic Chart");
         }
-        else if(!Chart.isValidChart(dir, "MD")){
+        else if(!Chart.isValidChart(this, "MD")){
             throw new RuntimeException("Broken MD Chart");
         }
-        else if(!Chart.isValidChart(dir, "AV")){
+        else if(!Chart.isValidChart(this, "AV")){
             throw new RuntimeException("Broken MD Chart");
         }
-        else if(lg && !Chart.isValidChart(dir, "LG")){
+        else if(lg && !Chart.isValidChart(this, "LG")){
             throw new RuntimeException("Broken MD Chart");
         }
     }
@@ -105,6 +107,10 @@ public class Song {
 
     public String getSongName() {
         return songName;
+    }
+
+    public String getAbsoluteDir(){
+        return absoluteDir;
     }
 
     public void exportBestToFile(){

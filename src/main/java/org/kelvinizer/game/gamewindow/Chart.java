@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import static org.kelvinizer.constants.Control.getResourcePathName;
 import static org.kelvinizer.constants.Control.isAutoplay;
+import static org.kelvinizer.constants.Selection.*;
 
 public class Chart extends AnimatablePanel {
     public static double noteCount;
@@ -33,7 +34,6 @@ public class Chart extends AnimatablePanel {
     private AudioInputStream inputStream = null;
     private Clip music = null;
     public static double duration;
-    private static boolean firstInit = true;
 
     private final CRect progressBar = new CRect(0, 10);
 
@@ -112,26 +112,24 @@ public class Chart extends AnimatablePanel {
 //        }
     }
 
-    public Chart(String songDir, String level) throws IOException, RuntimeException, LineUnavailableException {
+    public Chart(Song song, String level) throws IOException, RuntimeException, LineUnavailableException {
         super(2000);
-        getMusic(new File(getResourcePathName(songDir)));
-
-        BufferedReader chart = new BufferedReader(new FileReader(getResourcePathName(songDir+"/"+level+".txt")));
+        getMusic(new File(getResourcePathName(song.getAbsoluteDir())));
+        BufferedReader chart = new BufferedReader(new FileReader(getResourcePathName(song.getAbsoluteDir()+"/"+level+".txt")));
         ArrayList<Note> tempNotes = new ArrayList<>();
         noteCount = Double.parseDouble(chart.readLine());
         if(noteCount==0){
             throw new RuntimeException("Zero-note chart detected");
         }
-
         for(int i=0; i<(int)noteCount; i++){
             String[] s = chart.readLine().split(" ");
             int numMotions = Integer.parseInt(s[1]);
             Note n;
             if(s[0].equals("0")){
-                n = TapNote.parseTapNote(chart.readLine());
+                n = TapNote.parseTapNote(chart.readLine(), song.OFFSET);
             }
             else{
-                n = HoldNote.parseHoldNote(chart.readLine());
+                n = HoldNote.parseHoldNote(chart.readLine(), song.OFFSET);
             }
             for(int j=0; j<numMotions; j++){
                 n.addMotion(new Motion(chart.readLine()));
@@ -210,15 +208,12 @@ public class Chart extends AnimatablePanel {
     }
 
     public Chart() throws IOException, LineUnavailableException {
-        this("Chart/"+Selection.collectionDir+"/"+Selection.songDir, Selection.level);
-        if(firstInit){
-            firstInit=false;
-        }
+        this(getSongData(), Selection.level);
     }
 
-    public static boolean isValidChart(String songDir, String level){
+    public static boolean isValidChart(Song s, String level){
         try{
-            new Chart(songDir, level);
+            new Chart(s, level);
             return true;
         } catch (IOException | RuntimeException | LineUnavailableException e){
             return false;

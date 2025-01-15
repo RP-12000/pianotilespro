@@ -132,7 +132,7 @@ public class ResultPageText {
                 currentAccuracy*Lane.total/ Chart.noteCount*maxScore*(1-comboScorePercentage)+
                         Lane.maxCombo/ Chart.noteCount*maxScore*comboScorePercentage
         );
-        ScoreData thisGameScore = new ScoreData(currentScore, (int) Lane.maxCombo, currentAccuracy, Lane.worstHit, (Lane.maxCombo == Chart.noteCount));
+        ScoreData thisGameScore = new ScoreData(currentScore, (int) Lane.maxCombo, currentAccuracy, Lane.worstHit, (Lane.maxCombo == Chart.noteCount), false);
         accuracy.getBoundedString().setString(thisGameScore.getAccuracyString());
         scoreText.getBoundedString().setString(thisGameScore.getScoreString());
         thisGameScore.setGradeString(grade.getBoundedString());
@@ -162,9 +162,8 @@ public class ResultPageText {
                 bestWorstHit.getBoundedString().setString("-"+(thisGameScore.worstHit-getHistoricBest().worstHit));
                 getHistoricBest().worstHit = thisGameScore.worstHit;
             }
-            if(getSongData().newSong){
-                getSongData().newSong = false;
-            }
+            getHistoricBest().fc = thisGameScore.fc;
+            getHistoricBest().newChart = thisGameScore.newChart;
         }
     }
 

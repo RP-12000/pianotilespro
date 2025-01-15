@@ -4,7 +4,6 @@ import org.kelvinizer.buttons.CRectButton;
 import org.kelvinizer.buttons.CTriangleButton;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.game.gamewindow.Song;
-import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.shapes.CTriangle;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.classes.Pair;
@@ -74,196 +73,51 @@ public class SongSelectionButtons implements Scalable, Focusable {
         play.setOnFocus(onFocus);
     }
 
-    private void setBasic(){
-        BoundedString normal = new BoundedString("", 30);
+    private void setLevelButton(CRectButton button, CRectButton verdict, Color selectedColor, String levelString, double x){
+        BoundedString normal = new BoundedString("", 30, x, 505, 50, 50);
         normal.setRelativeY(0.35);
-        normal.setBounds(new CRect(545, 505, 50, 50));
         normal.getBounds().setOutlineColor(Color.WHITE);
         normal.getBounds().setOutlineThickness(1.0);
         normal.setStyle(Font.PLAIN);
-        basic.setNormal(normal);
+        button.setNormal(normal);
 
-        BoundedString onFocus = new BoundedString("", 30);
+        BoundedString onFocus = new BoundedString("", 30, x, 505, 50, 50);
         onFocus.setRelativeY(0.35);
-        onFocus.setBounds(new CRect(545, 505, 50, 50));
         onFocus.getBounds().setOutlineColor(Color.WHITE);
         onFocus.getBounds().setOutlineThickness(3.0);
-        basic.setOnFocus(onFocus);
+        button.setOnFocus(onFocus);
 
-        BoundedString onSelection = new BoundedString("", 30);
+        BoundedString onSelection = new BoundedString("", 30, x, 505, 50, 50);
         onSelection.setRelativeY(0.35);
-        onSelection.setBounds(new CRect(545, 505, 50, 50));
         onSelection.getBounds().setOutlineColor(Color.WHITE);
         onSelection.getBounds().setOutlineThickness(1.0);
-        onSelection.getBounds().setFillColor(Color.GREEN);
-        basic.setOnSelection(onSelection);
+        onSelection.getBounds().setFillColor(selectedColor);
+        button.setOnSelection(onSelection);
+
+        BoundedString normal2 = new BoundedString(levelString, 13, x, 505, 50, 50);
+        normal2.setRelativeY(0.8);
+        normal2.getBounds().setOutlineColor(Color.WHITE);
+        normal2.getBounds().setOutlineThickness(1.0);
+        verdict.setNormal(normal2);
+
+        BoundedString onFocus2 = new BoundedString(levelString, 13, x, 505, 50, 50);
+        onFocus2.setRelativeY(0.8);
+        onFocus2.getBounds().setOutlineColor(Color.WHITE);
+        onFocus2.getBounds().setOutlineThickness(3.0);
+        verdict.setOnFocus(onFocus2);
+
+        BoundedString onSelection2 = new BoundedString(levelString, 13, x, 505, 50, 50);
+        onSelection2.setRelativeY(0.8);
+        onSelection2.getBounds().setOutlineColor(Color.WHITE);
+        onSelection2.getBounds().setOutlineThickness(1.0);
+        verdict.setOnSelection(onSelection2);
     }
 
-    private void setBS(){
-        BoundedString normal = new BoundedString("BS", 13);
-        normal.setRelativeY(0.8);
-        normal.setBounds(new CRect(545, 505, 50, 50));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
-        BS.setNormal(normal);
-
-        BoundedString onFocus = new BoundedString("BS", 13);
-        onFocus.setRelativeY(0.8);
-        onFocus.setBounds(new CRect(545, 505, 50, 50));
-        onFocus.getBounds().setOutlineColor(Color.WHITE);
-        onFocus.getBounds().setOutlineThickness(3.0);
-        BS.setOnFocus(onFocus);
-
-        BoundedString onSelection = new BoundedString("BS", 13);
-        onSelection.setRelativeY(0.8);
-        onSelection.setBounds(new CRect(545, 505, 50, 50));
-        onSelection.getBounds().setOutlineColor(Color.WHITE);
-        onSelection.getBounds().setOutlineThickness(1.0);
-        BS.setOnSelection(onSelection);
-    }
-
-    private void setMedium(){
-        BoundedString normal = new BoundedString("", 30);
-        normal.setRelativeY(0.35);
-        normal.setBounds(new CRect(595, 505, 50, 50));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
-        normal.setStyle(Font.PLAIN);
-        medium.setNormal(normal);
-
-        BoundedString onFocus = new BoundedString("", 30);
-        onFocus.setRelativeY(0.35);
-        onFocus.setBounds(new CRect(595, 505, 50, 50));
-        onFocus.getBounds().setOutlineColor(Color.WHITE);
-        onFocus.getBounds().setOutlineThickness(3.0);
-        medium.setOnFocus(onFocus);
-
-        BoundedString onSelection = new BoundedString("", 30);
-        onSelection.setRelativeY(0.35);
-        onSelection.setBounds(new CRect(595, 505, 50, 50));
-        onSelection.getBounds().setOutlineColor(Color.WHITE);
-        onSelection.getBounds().setOutlineThickness(1.0);
-        onSelection.getBounds().setFillColor(Color.BLUE);
-        medium.setOnSelection(onSelection);
-    }
-
-    private void setMD(){
-        BoundedString normal = new BoundedString("MD", 13);
-        normal.setRelativeY(0.8);
-        normal.setBounds(new CRect(595, 505, 50, 50));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
-        MD.setNormal(normal);
-
-        BoundedString onFocus = new BoundedString("MD", 13);
-        onFocus.setRelativeY(0.8);
-        onFocus.setBounds(new CRect(595, 505, 50, 50));
-        onFocus.getBounds().setOutlineColor(Color.WHITE);
-        onFocus.getBounds().setOutlineThickness(3.0);
-        MD.setOnFocus(onFocus);
-
-        BoundedString onSelection = new BoundedString("MD", 13);
-        onSelection.setRelativeY(0.8);
-        onSelection.setBounds(new CRect(595, 505, 50, 50));
-        onSelection.getBounds().setOutlineColor(Color.WHITE);
-        onSelection.getBounds().setOutlineThickness(1.0);
-        MD.setOnSelection(onSelection);
-    }
-
-    private void setAdvanced(){
-        BoundedString normal = new BoundedString("", 30);
-        normal.setRelativeY(0.35);
-        normal.setBounds(new CRect(645, 505, 50, 50));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
-        normal.setStyle(Font.PLAIN);
-        advanced.setNormal(normal);
-
-        BoundedString onFocus = new BoundedString("", 30);
-        onFocus.setRelativeY(0.35);
-        onFocus.setBounds(new CRect(645, 505, 50, 50));
-        onFocus.getBounds().setOutlineColor(Color.WHITE);
-        onFocus.getBounds().setOutlineThickness(3.0);
-        advanced.setOnFocus(onFocus);
-
-        BoundedString onSelection = new BoundedString("", 30);
-        onSelection.setRelativeY(0.35);
-        onSelection.setBounds(new CRect(645, 505, 50, 50));
-        onSelection.getBounds().setOutlineColor(Color.WHITE);
-        onSelection.getBounds().setOutlineThickness(1.0);
-        onSelection.getBounds().setFillColor(Color.RED);
-        advanced.setOnSelection(onSelection);
-    }
-
-    private void setAV(){
-        BoundedString normal = new BoundedString("AV", 13);
-        normal.setRelativeY(0.8);
-        normal.setBounds(new CRect(645, 505, 50, 50));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
-        AV.setNormal(normal);
-
-        BoundedString onFocus = new BoundedString("AV", 13);
-        onFocus.setRelativeY(0.8);
-        onFocus.setBounds(new CRect(645, 505, 50, 50));
-        onFocus.getBounds().setOutlineColor(Color.WHITE);
-        onFocus.getBounds().setOutlineThickness(3.0);
-        AV.setOnFocus(onFocus);
-
-        BoundedString onSelection = new BoundedString("AV", 13);
-        onSelection.setRelativeY(0.8);
-        onSelection.setBounds(new CRect(645, 505, 50, 50));
-        onSelection.getBounds().setOutlineColor(Color.WHITE);
-        onSelection.getBounds().setOutlineThickness(1.0);
-        AV.setOnSelection(onSelection);
-    }
-
-    private void setLegendary(){
-        BoundedString normal = new BoundedString("", 30);
-        normal.setRelativeY(0.35);
-        normal.setBounds(new CRect(695, 505, 50, 50));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
-        normal.setStyle(Font.PLAIN);
-        legendary.setNormal(normal);
-
-        BoundedString onFocus = new BoundedString("", 30);
-        onFocus.setRelativeY(0.35);
-        onFocus.setBounds(new CRect(695, 505, 50, 50));
-        onFocus.getBounds().setOutlineColor(Color.WHITE);
-        onFocus.getBounds().setOutlineThickness(3.0);
-        legendary.setOnFocus(onFocus);
-
-        BoundedString onSelection = new BoundedString("", 30);
-        onSelection.setRelativeY(0.35);
-        onSelection.setBounds(new CRect(695, 505, 50, 50));
-        onSelection.getBounds().setOutlineColor(Color.WHITE);
-        onSelection.getBounds().setOutlineThickness(1.0);
-        onSelection.getBounds().setFillColor(Color.MAGENTA);
-        legendary.setOnSelection(onSelection);
-    }
-
-    private void setLG(){
-        BoundedString normal = new BoundedString("LG", 13);
-        normal.setRelativeY(0.8);
-        normal.setBounds(new CRect(695, 505, 50, 50));
-        normal.getBounds().setOutlineColor(Color.WHITE);
-        normal.getBounds().setOutlineThickness(1.0);
-        LG.setNormal(normal);
-
-        BoundedString onFocus = new BoundedString("LG", 13);
-        onFocus.setRelativeY(0.8);
-        onFocus.setBounds(new CRect(695, 505, 50, 50));
-        onFocus.getBounds().setOutlineColor(Color.WHITE);
-        onFocus.getBounds().setOutlineThickness(3.0);
-        LG.setOnFocus(onFocus);
-
-        BoundedString onSelection = new BoundedString("LG", 13);
-        onSelection.setRelativeY(0.8);
-        onSelection.setBounds(new CRect(695, 505, 50, 50));
-        onSelection.getBounds().setOutlineColor(Color.WHITE);
-        onSelection.getBounds().setOutlineThickness(1.0);
-        LG.setOnSelection(onSelection);
+    private void setLevelButtons(){
+        setLevelButton(basic, BS, Color.GREEN, "BS",545);
+        setLevelButton(medium, MD, Color.BLUE, "MD",595);
+        setLevelButton(advanced, AV, Color.RED, "AV",645);
+        setLevelButton(legendary, LG, Color.MAGENTA, "LG",695);
     }
 
     private void setMoveUp(){
@@ -306,14 +160,7 @@ public class SongSelectionButtons implements Scalable, Focusable {
         setBack();
         setSettings();
         setPlay();
-        setBasic();
-        setBS();
-        setMedium();
-        setMD();
-        setAdvanced();
-        setAV();
-        setLegendary();
-        setLG();
+        setLevelButtons();
         setMoveUp();
         setMoveDown();
     }
@@ -339,59 +186,26 @@ public class SongSelectionButtons implements Scalable, Focusable {
         return ((Integer)(int)(double)(level.second)).toString();
     }
 
+    private void renderOneLevel(CRectButton button, CRectButton verdict, Graphics2D g2d, Song s, String level){
+        button.select(false);
+        verdict.select(false);
+        if(Selection.level.equals(level)){
+            button.select(true);
+            verdict.select(true);
+        }
+        button.getNormal().setString(levelToString(s.getCharterData(level)));
+        button.getOnFocus().setString(levelToString(s.getCharterData(level)));
+        button.getOnSelection().setString(levelToString(s.getCharterData(level)));
+        button.render(g2d);
+        verdict.render(g2d);
+    }
+
     public void renderLevels(Graphics2D g2d, Song s){
-        basic.select(false);
-        BS.select(false);
-        medium.select(false);
-        MD.select(false);
-        advanced.select(false);
-        AV.select(false);
-        legendary.select(false);
-        LG.select(false);
-
-        switch (Selection.level) {
-            case "BS" -> {
-                basic.select(true);
-                BS.select(true);
-            }
-            case "MD" -> {
-                medium.select(true);
-                MD.select(true);
-            }
-            case "AV" -> {
-                advanced.select(true);
-                AV.select(true);
-            }
-            case "LG" -> {
-                legendary.select(true);
-                LG.select(true);
-            }
-        }
-
-        basic.getNormal().setString(levelToString(s.getCharterData("BS")));
-        basic.getOnFocus().setString(levelToString(s.getCharterData("BS")));
-        basic.getOnSelection().setString(levelToString(s.getCharterData("BS")));
-        medium.getNormal().setString(levelToString(s.getCharterData("MD")));
-        medium.getOnFocus().setString(levelToString(s.getCharterData("MD")));
-        medium.getOnSelection().setString(levelToString(s.getCharterData("MD")));
-        advanced.getNormal().setString(levelToString(s.getCharterData("AV")));
-        advanced.getOnFocus().setString(levelToString(s.getCharterData("AV")));
-        advanced.getOnSelection().setString(levelToString(s.getCharterData("AV")));
+        renderOneLevel(basic, BS, g2d, s, "BS");
+        renderOneLevel(medium, MD, g2d, s, "MD");
+        renderOneLevel(advanced, AV, g2d, s, "AV");
         if(s.hasLG()){
-            legendary.getNormal().setString(levelToString(s.getCharterData("LG")));
-            legendary.getOnFocus().setString(levelToString(s.getCharterData("LG")));
-            legendary.getOnSelection().setString(levelToString(s.getCharterData("LG")));
-        }
-
-        basic.render(g2d);
-        BS.render(g2d);
-        medium.render(g2d);
-        MD.render(g2d);
-        advanced.render(g2d);
-        AV.render(g2d);
-        if(s.hasLG()){
-            legendary.render(g2d);
-            LG.render(g2d);
+            renderOneLevel(legendary, LG, g2d, s, "LG");
         }
     }
 

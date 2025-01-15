@@ -29,6 +29,7 @@ public class SongSelection extends AnimatablePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 songs.get(collectionDir).moveBackward();
+                songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
                 if(!getSongData().hasLG() && Selection.level.equals("LG")){
                     Selection.level = "AV";
                 }
@@ -38,6 +39,7 @@ public class SongSelection extends AnimatablePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 songs.get(collectionDir).moveForward();
+                songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
                 if(!getSongData().hasLG() && Selection.level.equals("LG")){
                     Selection.level = "AV";
                 }
@@ -111,12 +113,14 @@ public class SongSelection extends AnimatablePanel {
         if(!songs.isEmpty() && Selection.isValidCollection){
             if(ssb.moveUp.isFocused()){
                 songs.get(collectionDir).moveBackward();
+                songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
                 if(!getSongData().hasLG() && Selection.level.equals("LG")){
                     Selection.level = "AV";
                 }
             }
             if(ssb.moveDown.isFocused()){
                 songs.get(collectionDir).moveForward();
+                songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
                 if(!getSongData().hasLG() && Selection.level.equals("LG")){
                     Selection.level = "AV";
                 }
@@ -166,6 +170,7 @@ public class SongSelection extends AnimatablePanel {
     public void render(Graphics2D g2d){
         ssb.settings.render(g2d);
         ssb.back.render(g2d);
+        songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
         if(songs.isEmpty()){
             sst.emptyFolder.render(g2d);
         }

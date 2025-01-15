@@ -12,6 +12,7 @@ public class ScoreData {
     public double acc;
     public double worstHit;
     public boolean fc;
+    public boolean newChart;
 
     public ScoreData(String s){
         String[] t = s.split(" ");
@@ -20,18 +21,20 @@ public class ScoreData {
         acc = Double.parseDouble(t[2]);
         worstHit = Double.parseDouble(t[3]);
         fc = Boolean.parseBoolean(t[4]);
+        newChart = Boolean.parseBoolean(t[5]);
     }
 
     public ScoreData(){
-        this(0, 0, 0, 0, false);
+        this(0, 0, 0, 0, false, true);
     }
 
-    public ScoreData(int score, int maxCombo, double acc, double worstHit, boolean fc){
+    public ScoreData(int score, int maxCombo, double acc, double worstHit, boolean fc, boolean newChart){
         this.score = score;
         this.maxCombo = maxCombo;
         this.acc = acc;
         this.worstHit = worstHit;
         this.fc = fc;
+        this.newChart = newChart;
     }
 
     public String getScoreString(){
@@ -91,6 +94,6 @@ public class ScoreData {
 
     @Override
     public String toString(){
-        return score+" "+maxCombo+" "+acc+" "+worstHit+" "+fc;
+        return score+" "+maxCombo+" "+acc+" "+worstHit+" "+fc+" "+newChart;
     }
 }

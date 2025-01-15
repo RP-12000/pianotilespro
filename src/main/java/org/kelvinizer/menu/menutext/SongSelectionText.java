@@ -17,23 +17,23 @@ import java.util.ArrayList;
 
 public class SongSelectionText {
     public final DynamicMotionManager dm = new DynamicMotionManager();
-    private final DynamicString selectedSong = new DynamicString();
-    private final DynamicString selectedSongDifficulty = new DynamicString();
-    private final DynamicString selectedLevel = new DynamicString();
-    private final DynamicString selectedSongComposer = new DynamicString();
-    private final DynamicString illustratorVerdict = new DynamicString();
-    private final DynamicString illustrator = new DynamicString();
-    private final DynamicString charterVerdict = new DynamicString();
-    private final DynamicString charter = new DynamicString();
+    private final DynamicString selectedSong = new DynamicString("", 0, 250, 350, 300, 100);
+    private final DynamicString selectedSongDifficulty = new DynamicString("", 50, 450, 350, 100, 100);
+    private final DynamicString selectedLevel = new DynamicString("", 15, 450, 380, 100, 40);
+    private final DynamicString selectedSongComposer = new DynamicString("", 0, 250, 380, 300, 40);
+    private final DynamicString illustratorVerdict = new DynamicString("Illustration", 15, -150, 350, 300, 100);
+    private final DynamicString illustrator = new DynamicString("", 35, -150, 380, 300, 100);
+    private final DynamicString charterVerdict = new DynamicString("Chart", 15, -150, 440, 300, 100);
+    private final DynamicString charter = new DynamicString("", 35, -150, 470, 300, 100);
     public final DynamicString nullJacket = new DynamicString("No jacket preview available", 15, 760, 330, 480, 300);
-    private final DynamicImage jacket = new DynamicImage();
+    private final DynamicImage jacket = new DynamicImage(new CRect(760, 330, 480, 300));
 
-    private final BoundedString previousSong = new BoundedString();
-    private final BoundedString previousSongLevel = new BoundedString();
-    private final BoundedString previousSongComposer = new BoundedString();
-    private final BoundedString nextSong = new BoundedString();
-    private final BoundedString nextSongLevel = new BoundedString();
-    private final BoundedString nextSongComposer = new BoundedString();
+    private final BoundedString previousSong = new BoundedString("", 0, 250, 230, 300, 100);
+    private final BoundedString previousSongLevel = new BoundedString("", 30, 450, 230, 100, 100);
+    private final BoundedString previousSongComposer = new BoundedString("", 0, 250, 260, 300, 40);
+    private final BoundedString nextSong = new BoundedString("", 0, 250, 470, 300, 100);
+    private final BoundedString nextSongLevel = new BoundedString("", 50, 450, 470, 100, 100);
+    private final BoundedString nextSongComposer = new BoundedString("", 0, 250, 500, 300, 40);
 
     private final BoundedString bestScore = new BoundedString("", 30, 875, 505, 250, 50);
     private final BoundedString bestAcc = new BoundedString("", 10, 915, 515);
@@ -48,24 +48,15 @@ public class SongSelectionText {
 
     private void setSelectedSong(){
         selectedSong.getBoundedString().setMaxStringSize(35);
-        selectedSong.getBoundedString().setBounds(new CRect(250, 350, 300, 100));
         selectedSong.getBoundedString().getBounds().setOutlineColor(Color.WHITE);
         selectedSong.getBoundedString().getBounds().setOutlineThickness(5.0);
         selectedSong.getBoundedString().setRelativeY(0.4);
         selectedSong.addVerticalMotion(new Motion(0, 0.8, 350, 230));
         selectedSong.addHorizontalMotion(new Motion(2.8, 4.0, 250, 1330, 3.5));
-    }
 
-    private void setSelectedLevel(){
-        selectedLevel.getBoundedString().setStringSize(15);
-        selectedLevel.getBoundedString().setBounds(new CRect(450, 380, 100, 40));
         selectedLevel.addVerticalMotion(new Motion(0, 0.8, 380, 260));
         selectedLevel.addHorizontalMotion(new Motion(2.8, 4.0, 450, 1530, 3.5));
-    }
 
-    private void setSelectedSongDifficulty(){
-        selectedSongDifficulty.getBoundedString().setStringSize(50);
-        selectedSongDifficulty.getBoundedString().setBounds(new CRect(450, 350, 100, 100));
         selectedSongDifficulty.getBoundedString().getBounds().setOutlineColor(Color.WHITE);
         selectedSongDifficulty.getBoundedString().getBounds().setOutlineThickness(5.0);
         selectedSongDifficulty.addVerticalMotion(new Motion(0, 0.8, 350, 230));
@@ -74,104 +65,68 @@ public class SongSelectionText {
 
     private void setSelectedSongComposer(){
         selectedSongComposer.getBoundedString().setMaxStringSize(15);
-        selectedSongComposer.getBoundedString().setBounds(new CRect(250, 380, 300, 40));
         selectedSongComposer.addVerticalMotion(new Motion(0, 0.8, 380, 260));
         selectedSongComposer.addHorizontalMotion(new Motion(2.8, 4.0, 250, 1330, 3.5));
     }
 
     private void setIllustratorVerdict(){
-        illustratorVerdict.getBoundedString().setString("Illustration");
-        illustratorVerdict.getBoundedString().setStringSize(15);
-        illustratorVerdict.getBoundedString().setBounds(new CRect(-150, 350, 300, 100));
         illustratorVerdict.addHorizontalMotion(new Motion(0, 0.8, -150, 250, 0.2));
         illustratorVerdict.addHorizontalMotion(new Motion(2.8, 4.0, 250, 1330, 3.5));
     }
 
     private void setIllustrator(){
-        illustrator.getBoundedString().setStringSize(35);
-        illustrator.getBoundedString().setBounds(new CRect(-150, 380, 300, 100));
         illustrator.getBoundedString().setRelativeY(0.6);
         illustrator.addHorizontalMotion(new Motion(0, 0.8, -150, 250, 0.2));
         illustrator.addHorizontalMotion(new Motion(2.8, 4.0, 250, 1330, 3.5));
     }
 
     private void setCharterVerdict(){
-        charterVerdict.getBoundedString().setString("Chart");
-        charterVerdict.getBoundedString().setStringSize(15);
-        charterVerdict.getBoundedString().setBounds(new CRect(-150, 440, 300, 100));
         charterVerdict.addHorizontalMotion(new Motion(0, 0.8, -150, 250, 0.2));
         charterVerdict.addHorizontalMotion(new Motion(2.8, 4.0, 250, 1330, 3.5));
     }
 
     private void setCharter(){
-        charter.getBoundedString().setStringSize(35);
-        charter.getBoundedString().setBounds(new CRect(-150, 470, 300, 100));
         charter.getBoundedString().setRelativeY(0.6);
         charter.addHorizontalMotion(new Motion(0, 0.8, -150, 250, 0.2));
         charter.addHorizontalMotion(new Motion(2.8, 4.0, 250, 1330, 3.5));
     }
 
     private void setJacket(){
-        jacket.setBounds(new CRect(760, 330, 480, 300));
         jacket.addHorizontalMotion(new Motion(2.8, 4.0, 760, 1840, 3.5));
-    }
-
-    private void setPreviousSong(){
-        previousSong.setMaxStringSize(30);
-        previousSong.setBounds(new CRect(250, 230, 300, 100));
-        previousSong.setStringColor(new Color(1, 1, 1, adjacentOpacity));
-        previousSong.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
-        previousSong.getBounds().setOutlineThickness(5.0);
-        previousSong.setRelativeY(0.4);
-    }
-
-    private void setPreviousSongLevel(){
-        previousSongLevel.setStringSize(50);
-        previousSongLevel.setBounds(new CRect(450, 230, 100, 100));
-        previousSongLevel.setStringColor(new Color(1, 1, 1, adjacentOpacity));
-        previousSongLevel.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
-        previousSongLevel.getBounds().setOutlineThickness(5.0);
-    }
-
-    private void setPreviousSongComposer(){
-        previousSongComposer.setMaxStringSize(15);
-        previousSongComposer.setBounds(new CRect(250, 260, 300, 40));
-        previousSongComposer.setStringColor(new Color(1, 1, 1, adjacentOpacity));
-    }
-
-    private void setNextSong(){
-        nextSong.setMaxStringSize(30);
-        nextSong.setBounds(new CRect(250, 470, 300, 100));
-        nextSong.setStringColor(new Color(1, 1, 1, adjacentOpacity));
-        nextSong.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
-        nextSong.getBounds().setOutlineThickness(5.0);
-        nextSong.setRelativeY(0.4);
-    }
-
-    private void setNextSongLevel(){
-        nextSongLevel.setStringSize(50);
-        nextSongLevel.setBounds(new CRect(450, 470, 100, 100));
-        nextSongLevel.setStringColor(new Color(1, 1, 1, adjacentOpacity));
-        nextSongLevel.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
-        nextSongLevel.getBounds().setOutlineThickness(5.0);
-    }
-
-    private void setNextSongComposer(){
-        nextSongComposer.setMaxStringSize(15);
-        nextSongComposer.setBounds(new CRect(250, 500, 300, 40));
-        nextSongComposer.setStringColor(new Color(1, 1, 1, adjacentOpacity));
-    }
-
-    private void setNullJacket(){
         nullJacket.getBoundedString().setStyle(Font.ITALIC);
         nullJacket.getBoundedString().getBounds().setOutlineColor(Color.WHITE);
         nullJacket.getBoundedString().getBounds().setOutlineThickness(1.0f);
         nullJacket.addHorizontalMotion(new Motion(2.8, 4.0, 760, 1840, 3.5));
     }
 
-    private void setBestScore(){
-        bestScore.setRelativeX(0.3);
-        bestScore.getBounds().setOutlineThickness(1.0);
+    private void setPreviousSong(){
+        previousSong.setMaxStringSize(30);
+        previousSong.setStringColor(new Color(1, 1, 1, adjacentOpacity));
+        previousSong.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
+        previousSong.getBounds().setOutlineThickness(5.0);
+        previousSong.setRelativeY(0.4);
+
+        previousSongLevel.setStringColor(new Color(1, 1, 1, adjacentOpacity));
+        previousSongLevel.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
+        previousSongLevel.getBounds().setOutlineThickness(5.0);
+
+        previousSongComposer.setMaxStringSize(15);
+        previousSongComposer.setStringColor(new Color(1, 1, 1, adjacentOpacity));
+    }
+
+    private void setNextSong(){
+        nextSong.setMaxStringSize(30);
+        nextSong.setStringColor(new Color(1, 1, 1, adjacentOpacity));
+        nextSong.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
+        nextSong.getBounds().setOutlineThickness(5.0);
+        nextSong.setRelativeY(0.4);
+
+        nextSongLevel.setStringColor(new Color(1, 1, 1, adjacentOpacity));
+        nextSongLevel.getBounds().setOutlineColor(new Color(1, 1, 1, adjacentOpacity));
+        nextSongLevel.getBounds().setOutlineThickness(5.0);
+
+        nextSongComposer.setMaxStringSize(15);
+        nextSongComposer.setStringColor(new Color(1, 1, 1, adjacentOpacity));
     }
 
     private void setDm(){
@@ -187,22 +142,17 @@ public class SongSelectionText {
 
     public SongSelectionText(){
         setSelectedSong();
-        setSelectedLevel();
         setCharterVerdict();
         setCharter();
         setSelectedSongComposer();
         setJacket();
         setIllustratorVerdict();
         setIllustrator();
-        setSelectedSongDifficulty();
         setPreviousSong();
-        setPreviousSongLevel();
-        setPreviousSongComposer();
         setNextSong();
-        setNextSongLevel();
-        setNextSongComposer();
-        setNullJacket();
-        setBestScore();
+        bestScore.setRelativeX(0.3);
+        bestScore.getBounds().setOutlineThickness(1.0);
+        newSong.setStyle(Font.ITALIC);
         setDm();
     }
 
@@ -222,16 +172,16 @@ public class SongSelectionText {
         bestAcc.setString(sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).getAccuracyString());
         sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).setGradeString(bestGrade);
         bestScore.getBounds().setOutlineColor(bestGrade.getStringColor());
-        isNewSong = sd.get(jm.getMenuIndex()).newSong;
+        isNewSong = sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).newChart;
         if(!jm.atBeginning()){
             previousSong.setString(jm.getSelectionString(jm.getMenuIndex()-1));
             previousSongComposer.setString(sd.get(jm.getMenuIndex()-1).getComposer());
-            previousSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()).getCharterData()));
+            previousSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()-1).getCharterData()));
         }
         if(!jm.atEnd()){
             nextSong.setString(jm.getSelectionString(jm.getMenuIndex()+1));
             nextSongComposer.setString(sd.get(jm.getMenuIndex()+1).getComposer());
-            nextSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()).getCharterData()));
+            nextSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()+1).getCharterData()));
         }
     }
 

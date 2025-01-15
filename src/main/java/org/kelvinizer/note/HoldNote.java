@@ -22,11 +22,11 @@ public class HoldNote extends Note{
         this.duration = last;
     }
 
-    public static HoldNote parseHoldNote(String s){
+    public static HoldNote parseHoldNote(String s, double offset){
         String[] t = s.split(" ");
         return new HoldNote(
                 Integer.parseInt(t[0]),
-                Double.parseDouble(t[1]),
+                Double.parseDouble(t[1])+offset,
                 Double.parseDouble(t[2]),
                 Double.parseDouble(t[3]),
                 Double.parseDouble(t[4])

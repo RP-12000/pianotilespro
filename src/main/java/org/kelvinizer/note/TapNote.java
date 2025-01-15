@@ -13,11 +13,11 @@ public class TapNote extends Note{
         super(lane_num, perfect_hit_time, duration);
     }
 
-    public static TapNote parseTapNote(String s){
+    public static TapNote parseTapNote(String s, double offset){
         String[] t = s.split(" ");
         return new TapNote(
                 Integer.parseInt(t[0]),
-                Double.parseDouble(t[1]),
+                Double.parseDouble(t[1])+offset,
                 Double.parseDouble(t[2])
         );
     }
