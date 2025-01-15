@@ -9,15 +9,16 @@ import java.util.HashMap;
 import static org.kelvinizer.constants.Control.getResourcePathName;
 
 public class Song {
-    private final String songName, composer, illustration;
+    private final String absoluteDir, songName, composer, illustration;
     private final boolean lg;
     public boolean newSong = false;
     public final HashMap<String, Pair<String, Double>> data = new HashMap<>();
     public final HashMap<String, ScoreData> historyBest = new HashMap<>();
 
     public Song(String dir) throws RuntimeException {
-        String[] splitedDir = dir.split("/");
-        songName = splitedDir[splitedDir.length-1];
+        absoluteDir = dir;
+        String[] sp = dir.split("/");
+        songName = sp[sp.length-1];
         try{
             BufferedReader br = new BufferedReader(new FileReader(getResourcePathName(dir+"/credits.txt")));
             composer = br.readLine();
@@ -104,5 +105,18 @@ public class Song {
 
     public String getSongName() {
         return songName;
+    }
+
+    public void exportBestToFile(){
+        try{
+            PrintWriter pw = new PrintWriter(getResourcePathName(absoluteDir+"/user.txt"));
+            pw.println(historyBest.get("BS").toString());
+            pw.println(historyBest.get("MD").toString());
+            pw.println(historyBest.get("AV").toString());
+            if(lg){
+                pw.println(historyBest.get("LG").toString());
+            }
+            pw.close();
+        } catch (FileNotFoundException ignored){}
     }
 }

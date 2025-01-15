@@ -19,7 +19,7 @@ import static org.kelvinizer.constants.Selection.*;
 
 public class ResultPageText {
     public final DynamicString scoreText = new DynamicString("", 80, 280, 175);
-    public final DynamicString newBestScore = new DynamicString("", 15, 500, 200);
+    public final DynamicString newBestScore = new DynamicString("", 30, 600, 180);
     public final DynamicString grade = new DynamicString("", 120, 860, 175);
 
     public final DynamicString maxCombo = new DynamicString("", 20, 650, 340, 120, 50);
@@ -147,7 +147,7 @@ public class ResultPageText {
         initBounds();
         if(!Control.isAutoplay){
             if(thisGameScore.score>getHistoricBest().score){
-                newBestScore.getBoundedString().setString("+"+(thisGameScore.score-getHistoricBest().score));
+                newBestScore.getBoundedString().setString("+"+(ScoreData.toScoreString(thisGameScore.score-getHistoricBest().score)));
                 getHistoricBest().score = thisGameScore.score;
             }
             if(thisGameScore.acc>getHistoricBest().acc){

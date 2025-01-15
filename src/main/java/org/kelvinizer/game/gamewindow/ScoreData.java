@@ -35,6 +35,10 @@ public class ScoreData {
     }
 
     public String getScoreString(){
+        return toScoreString(this.score);
+    }
+
+    public static String toScoreString(int score){
         int zeroCount = 0;
         int tempScore = score;
         StringBuilder prefix = new StringBuilder();
@@ -87,6 +91,6 @@ public class ScoreData {
 
     @Override
     public String toString(){
-        return score+" "+maxCombo+" "+acc+" "+worstHit;
+        return score+" "+maxCombo+" "+acc+" "+worstHit+" "+fc;
     }
 }

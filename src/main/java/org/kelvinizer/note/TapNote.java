@@ -27,7 +27,7 @@ public class TapNote extends Note{
         if(signal == 0){
             if (Time.CURRENT_TIME - perfect_hit_time > JudgementLimits.BAD_LIMIT && status == 4) {
                 status = 3;
-                actual_hit_time = Chart.duration;
+                actual_hit_time = Chart.duration / 1e3;
             }
         }
         else if (signal == 1) {

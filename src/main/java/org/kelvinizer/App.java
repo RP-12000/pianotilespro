@@ -6,6 +6,7 @@ import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Time;
 import org.kelvinizer.game.gamewindow.Chart;
 import org.kelvinizer.game.gamewindow.ResultPage;
+import org.kelvinizer.game.gamewindow.Song;
 import org.kelvinizer.menu.menuwindows.*;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -14,9 +15,12 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.*;
 
 import static org.kelvinizer.constants.Control.*;
+import static org.kelvinizer.constants.Selection.*;
 
 public class App extends JFrame {
     private AnimatablePanel display;
@@ -54,6 +58,11 @@ public class App extends JFrame {
                     pw.println(isAutoplay);
                     pw.println(syncEnabled);
                     pw.close();
+                    for(Map.Entry<String, ArrayList<Song>> entry: songData.entrySet()){
+                        for(Song s: entry.getValue()){
+                            s.exportBestToFile();
+                        }
+                    }
                     System.exit(0);
                 } catch(IOException ignored){}
             }
@@ -70,7 +79,7 @@ public class App extends JFrame {
         } catch (IOException | RuntimeException e){
             try {
                 PrintWriter newInfo = new PrintWriter(new FileWriter(getResourcePathName("Chart")+"/settings.txt"));
-                userName = "User"+(int)(Math.random()*1e10);
+                userName = "User"+(long)(Math.random()*1e10);
                 newInfo.println(userName);
                 newInfo.println(true);
                 newInfo.println(true);
