@@ -333,6 +333,9 @@ public class Chart extends AnimatablePanel {
         try {
             PrintWriter pw = new PrintWriter(getResourcePathName("")+"refresh.txt");
             pw.println(music.getMicrosecondPosition());
+            if(Math.abs(music.getMicrosecondPosition()-Time.CURRENT_TIME*1e6)>Control.tolerance*1e3){
+                music.setMicrosecondPosition((long) Math.max(0, Time.CURRENT_TIME*1e6));
+            }
             pw.close();
         } catch (IOException ignored) {}
     }
