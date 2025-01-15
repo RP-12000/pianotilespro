@@ -222,7 +222,7 @@ public class SongSelectionText {
         bestAcc.setString(sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).getAccuracyString());
         sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).setGradeString(bestGrade);
         bestScore.getBounds().setOutlineColor(bestGrade.getStringColor());
-        isNewSong = sd.get(jm.getMenuIndex()).isNewSong();
+        isNewSong = sd.get(jm.getMenuIndex()).newSong;
         if(!jm.atBeginning()){
             previousSong.setString(jm.getSelectionString(jm.getMenuIndex()-1));
             previousSongComposer.setString(sd.get(jm.getMenuIndex()-1).getComposer());

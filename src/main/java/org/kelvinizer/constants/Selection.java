@@ -10,9 +10,9 @@ import java.util.HashMap;
 public class Selection {
     public static int collectionIndex = 0;
     public static JacketMenu collections;
-    public static HashMap<String, JacketMenu> songs = new HashMap<>();
-    public static HashMap<String, Integer> songIndex = new HashMap<>();
-    public static final HashMap<String, ArrayList<Song>> songData = new HashMap<>();
+    public static HashMap<String, JacketMenu> songs = new HashMap<>();//Collection_name, the list of songs names
+    public static HashMap<String, Integer> songIndex = new HashMap<>();//Collection_name, index of the song in the collection
+    public static final HashMap<String, ArrayList<Song>> songData = new HashMap<>();//Collection_name, the list of song data
 
     public static boolean isValidCollection = true;
     public static String collectionDir = "";

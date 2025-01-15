@@ -112,16 +112,6 @@ public class Chart extends AnimatablePanel {
 //        }
     }
 
-    private void staggerStart(){
-        music.start();
-        try {
-            Thread.sleep(511);
-        } catch (InterruptedException e) {
-            throw new RuntimeException("Error when stagger starting audio clip");
-        }
-        music.stop();
-    }
-
     public Chart(String songDir, String level) throws IOException, RuntimeException, LineUnavailableException {
         super(2000);
         getMusic(new File(getResourcePathName(songDir)));
@@ -222,7 +212,6 @@ public class Chart extends AnimatablePanel {
     public Chart() throws IOException, LineUnavailableException {
         this("Chart/"+Selection.collectionDir+"/"+Selection.songDir, Selection.level);
         if(firstInit){
-            staggerStart();
             firstInit=false;
         }
     }
@@ -340,6 +329,14 @@ public class Chart extends AnimatablePanel {
         }
     }
 
+    private void forceRefresh(){
+        try {
+            PrintWriter pw = new PrintWriter(getResourcePathName("")+"refresh.txt");
+            pw.println(music.getMicrosecondPosition());
+            pw.close();
+        } catch (IOException ignored) {}
+    }
+
     @Override
     public void render(Graphics2D g2d){
         if(music!=null && !isPaused && !music.isRunning() && Time.CURRENT_TIME>=Control.MUSIC_DIFFERENCE/1000.0){
@@ -348,6 +345,7 @@ public class Chart extends AnimatablePanel {
         if (music != null && isPaused && music.isRunning()) {
             music.stop();
         }
+        forceRefresh();
         if(isPaused){
             if (goBack) {
                 setGlobalOpacity(g2d, 1-timePoint);

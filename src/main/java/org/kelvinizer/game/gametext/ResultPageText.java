@@ -8,27 +8,29 @@ import org.kelvinizer.dynamic.DynamicMotionManager;
 import org.kelvinizer.dynamic.DynamicString;
 import org.kelvinizer.game.gamewindow.Chart;
 import org.kelvinizer.game.gamewindow.Lane;
+import org.kelvinizer.game.gamewindow.ScoreData;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.Motion;
 
 import java.awt.*;
 
 import static org.kelvinizer.constants.JudgementLimits.*;
+import static org.kelvinizer.constants.Selection.*;
 
 public class ResultPageText {
     public final DynamicString scoreText = new DynamicString("", 80, 280, 175);
-    public final DynamicString newBestScore = new DynamicString("", 15);
+    public final DynamicString newBestScore = new DynamicString("", 15, 500, 200);
     public final DynamicString grade = new DynamicString("", 120, 860, 175);
 
     public final DynamicString maxCombo = new DynamicString("", 20, 650, 340, 120, 50);
     public final DynamicString maxComboVerdict = new DynamicString("Max Combo", 15, 650, 420);
-    public final DynamicString bestMaxCombo = new DynamicString("", 15);
+    public final DynamicString bestMaxCombo = new DynamicString("", 15, 650, 380);
     public final DynamicString worstHit = new DynamicString("", 30, 800, 340, 120, 50);
     public final DynamicString worstHitVerdict = new DynamicString("Worst Hit", 15, 800, 420);
-    public final DynamicString bestWorstHit = new DynamicString("", 15);
+    public final DynamicString bestWorstHit = new DynamicString("", 15, 800, 380);
     public final DynamicString accuracy = new DynamicString("", 30, 950, 340, 120, 50);
     public final DynamicString accuracyVerdict = new DynamicString("Accuracy", 15, 950, 420);
-    public final DynamicString bestAccuracy = new DynamicString("", 15);
+    public final DynamicString bestAccuracy = new DynamicString("", 15, 950, 380);
 
     public final DynamicString perfect = new DynamicString("", 15, 695, 540, 150, 30);
     public final DynamicString bad = new DynamicString("", 15, 695, 585, 150, 30);
@@ -120,57 +122,20 @@ public class ResultPageText {
         accuracy.getBoundedString().setMaxStringSize(30);
     }
 
-    private void calculateGrade(int score){
-        if(Lane.maxCombo == Chart.noteCount){
-            grade.getBoundedString().setStringColor(Color.BLUE);
-        }
-        if(score<700000){
-            grade.getBoundedString().setString("F");
-        }
-        else if(score<820000){
-            grade.getBoundedString().setString("C");
-        }
-        else if(score<880000){
-            grade.getBoundedString().setString("B");
-        }
-        else if(score<920000){
-            grade.getBoundedString().setString("A");
-        }
-        else if(score<960000){
-            grade.getBoundedString().setString("S");
-        }
-        else if(score<1000000){
-            grade.getBoundedString().setString("V");
-        }
-        else{
-            grade.getBoundedString().setStringColor(Color.GREEN);
-            grade.getBoundedString().setString("P");
-        }
+    private ScoreData getHistoricBest(){
+        return songData.get(collectionDir).get(songIndex.get(collectionDir)).historyBest.get(Selection.level);
     }
 
     private void setText(){
         double currentAccuracy = (Lane.perfect+Lane.good*goodPercentage)/Lane.total;
-        if(Lane.total!=0){
-            accuracy.getBoundedString().setString(String.format("%.2f", currentAccuracy*100)+" %");
-        }
-        else{
-            accuracy.getBoundedString().setString("N/A %");
-        }
         int currentScore = (int) Math.round(
                 currentAccuracy*Lane.total/ Chart.noteCount*maxScore*(1-comboScorePercentage)+
                         Lane.maxCombo/ Chart.noteCount*maxScore*comboScorePercentage
         );
-        calculateGrade(currentScore);
-        initBounds();
-        int zeroCount = 0;
-        int tempScore = currentScore;
-        StringBuilder prefix = new StringBuilder();
-        while(tempScore<maxScore && zeroCount<Math.log10(maxScore)){
-            prefix.append("0");
-            zeroCount++;
-            tempScore=tempScore*10;
-        }
-        scoreText.getBoundedString().setString(prefix.toString()+currentScore);
+        ScoreData thisGameScore = new ScoreData(currentScore, (int) Lane.maxCombo, currentAccuracy, Lane.worstHit, (Lane.maxCombo == Chart.noteCount));
+        accuracy.getBoundedString().setString(thisGameScore.getAccuracyString());
+        scoreText.getBoundedString().setString(thisGameScore.getScoreString());
+        thisGameScore.setGradeString(grade.getBoundedString());
         perfect.getBoundedString().setString("Perfect: "+ (int)Lane.perfect);
         good.getBoundedString().setString("Good: "+(int)Lane.good);
         bad.getBoundedString().setString("Bad "+(int)Lane.bad);
@@ -178,7 +143,29 @@ public class ResultPageText {
         early.getBoundedString().setString("Early: "+(int)Lane.early);
         late.getBoundedString().setString("Late: "+(int)Lane.late);
         maxCombo.getBoundedString().setString(String.valueOf((int)Lane.maxCombo));
-        worstHit.getBoundedString().setString(String.format("%.2f", Lane.worstHit*1000)+" ms");
+        worstHit.getBoundedString().setString(thisGameScore.getWorstHitString());
+        initBounds();
+        if(!Control.isAutoplay){
+            if(thisGameScore.score>getHistoricBest().score){
+                newBestScore.getBoundedString().setString("+"+(thisGameScore.score-getHistoricBest().score));
+                getHistoricBest().score = thisGameScore.score;
+            }
+            if(thisGameScore.acc>getHistoricBest().acc){
+                bestAccuracy.getBoundedString().setString("+"+String.format("%.2f", (thisGameScore.acc-getHistoricBest().acc)*100)+" %");
+                getHistoricBest().acc = thisGameScore.acc;
+            }
+            if(thisGameScore.maxCombo>getHistoricBest().maxCombo){
+                bestMaxCombo.getBoundedString().setString("+"+(thisGameScore.maxCombo-getHistoricBest().maxCombo));
+                getHistoricBest().maxCombo = thisGameScore.maxCombo;
+            }
+            if(thisGameScore.worstHit<getHistoricBest().worstHit){
+                bestWorstHit.getBoundedString().setString("-"+(thisGameScore.worstHit-getHistoricBest().worstHit));
+                getHistoricBest().worstHit = thisGameScore.worstHit;
+            }
+            if(getSongData().newSong){
+                getSongData().newSong = false;
+            }
+        }
     }
 
     public ResultPageText(DynamicMotionManager dmm){

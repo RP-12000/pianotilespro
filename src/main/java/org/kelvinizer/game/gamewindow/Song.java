@@ -11,7 +11,7 @@ import static org.kelvinizer.constants.Control.getResourcePathName;
 public class Song {
     private final String songName, composer, illustration;
     private final boolean lg;
-    private boolean newSong = false;
+    public boolean newSong = false;
     public final HashMap<String, Pair<String, Double>> data = new HashMap<>();
     public final HashMap<String, ScoreData> historyBest = new HashMap<>();
 
@@ -104,9 +104,5 @@ public class Song {
 
     public String getSongName() {
         return songName;
-    }
-
-    public boolean isNewSong() {
-        return newSong;
     }
 }

@@ -11,6 +11,8 @@ import org.kelvinizer.menu.menuwindows.*;
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.concurrent.*;
 
@@ -30,13 +32,32 @@ public class App extends JFrame {
 
     private void boot(){
         setTitle("PianoTilesPro");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(0, 0,
                 (int) ReferenceWindow.REF_WIN_W+ReferenceWindow.extraWidth,
                 (int) ReferenceWindow.REF_WIN_H+ReferenceWindow.extraHeight
         );
         display = new WelcomePage();
         add(display);
+        addWindowListener(new WindowAdapter() {
+            /**
+             * Invoked when a window is in the process of being closed.
+             * The close operation can be overridden at this point.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try{
+                    PrintWriter pw = new PrintWriter(getResourcePathName("Chart/settings.txt"));
+                    pw.println(userName);
+                    pw.println(isAutoplay);
+                    pw.println(syncEnabled);
+                    pw.close();
+                    System.exit(0);
+                } catch(IOException ignored){}
+            }
+        });
     }
 
     private void initSettings(){
@@ -48,7 +69,7 @@ public class App extends JFrame {
             userInfo.close();
         } catch (IOException | RuntimeException e){
             try {
-                PrintWriter newInfo = new PrintWriter(new FileWriter(getResourcePathName("")+"settings.txt"));
+                PrintWriter newInfo = new PrintWriter(new FileWriter(getResourcePathName("Chart")+"/settings.txt"));
                 userName = "User"+(int)(Math.random()*1e10);
                 newInfo.println(userName);
                 newInfo.println(true);

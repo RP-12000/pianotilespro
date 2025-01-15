@@ -196,7 +196,7 @@ public class SongSelection extends AnimatablePanel {
 
     @Override
     public void toNextPanel(){
-        Selection.songIndex.put(Selection.collectionDir, songs.get(collectionDir).getMenuIndex());
+        songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
         if(goBack){
             Control.panel_index = 1;
             return;
@@ -205,9 +205,9 @@ public class SongSelection extends AnimatablePanel {
             Control.panel_index = -Control.panel_index;
         }
         else{
-            Selection.songDir = songs.get(collectionDir).getSelectionString();
-            Selection.songJacket = songs.get(collectionDir).getSelectionJacket();
-            Selection.chartConstant = getSongData().getCharterData().second;
+            songDir = songs.get(collectionDir).getSelectionString();
+            songJacket = songs.get(collectionDir).getSelectionJacket();
+            chartConstant = getSongData().getCharterData().second;
             Control.panel_index = 3;
         }
     }
