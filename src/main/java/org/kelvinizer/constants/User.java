@@ -12,7 +12,7 @@ import static org.kelvinizer.constants.Selection.*;
 
 public class User {
     public String userName;
-    public boolean isAutoplay = true;
+    public boolean isAutoplay = false;
     public boolean syncEnabled = true;
     public boolean FCAPHintEnabled = true;
     public boolean handHintEnabled = false;
@@ -116,7 +116,7 @@ public class User {
         for(int i=0; i<10; i++){
             sb.append((int) (Math.random() * 10));
         }
-        userName = sb.toString();
+        userName = "User"+sb;
         for(int i=0; i<collections.size(); i++){
             String cd = collections.getSelectionString(i);
             userData.put(cd, new HashMap<>());

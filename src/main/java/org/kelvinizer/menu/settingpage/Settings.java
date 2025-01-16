@@ -12,8 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import static org.kelvinizer.constants.Control.userIndex;
-import static org.kelvinizer.constants.Control.users;
+import static org.kelvinizer.constants.Control.*;
 
 public class Settings extends AnimatablePanel {
     private final SettingsCRectButtons scb = new SettingsCRectButtons();
@@ -132,6 +131,7 @@ public class Settings extends AnimatablePanel {
         }
         st.updateText(page);
         st.render(g2d);
+        newFPS = (int) ssb.frameRate.getCurrentVal();
         users.get(userIndex).MUSIC_DIFFERENCE = (int) ssb.musicDelay.getCurrentVal();
         users.get(userIndex).tolerance = (int) ssb.tolerance.getCurrentVal();
     }

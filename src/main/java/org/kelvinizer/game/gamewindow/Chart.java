@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import static org.kelvinizer.constants.Control.*;
@@ -29,7 +31,7 @@ public class Chart extends AnimatablePanel {
     private final ChartText ct = new ChartText();
     private final ChartButtons cb = new ChartButtons();
     private final Lane[] lanes = new Lane[16];
-    private final double STATIC_TIMER;
+    private double STATIC_TIMER;
 
     private AudioInputStream inputStream = null;
     private Clip music = null;
@@ -148,11 +150,10 @@ public class Chart extends AnimatablePanel {
                 tempNotes.get(i+1).sync();
             }
         }
-        STATIC_TIMER = Math.min(
-                Math.min(0.0, tempNotes.getFirst().getPerfectHitTime() - tempNotes.getFirst().getTotalMovementTime()),
-                users.get(userIndex).MUSIC_DIFFERENCE/1000.0
-        );
-
+        STATIC_TIMER = Math.min(0.0, tempNotes.getFirst().getPerfectHitTime() - tempNotes.getFirst().getTotalMovementTime());
+        if(!users.isEmpty()){
+            STATIC_TIMER = Math.min(STATIC_TIMER, users.get(userIndex).MUSIC_DIFFERENCE);
+        }
         for(int i=0; i<16; i++){
             lanes[i] = new Lane();
         }
@@ -322,7 +323,7 @@ public class Chart extends AnimatablePanel {
 
     private void forceRefresh(){
         try {
-            PrintWriter pw = new PrintWriter("music.refresh");
+            PrintWriter pw = new PrintWriter(".refresh");
             pw.println(music.getMicrosecondPosition());
             if(Math.abs(music.getMicrosecondPosition()- CURRENT_TIME*1e6)>users.get(userIndex).tolerance*1e3){
                 music.setMicrosecondPosition((long) Math.max(0, CURRENT_TIME*1e6));
@@ -380,6 +381,9 @@ public class Chart extends AnimatablePanel {
             CURRENT_TIME += 1.0 / Control.FPS;
         }
         if(progressBar.getWidth() >= ReferenceWindow.REF_WIN_W){
+            try {
+                Files.delete(Paths.get("music.refresh"));
+            } catch (IOException ignored) {}
             exit(2000);
         }
     }

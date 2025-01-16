@@ -18,7 +18,7 @@ public class ChartText implements Drawable {
     public final BoundedString level = new BoundedString(Selection.level+" "+Selection.chartConstant, 20, 990, 660);
     public final BoundedString combo = new BoundedString("", 30, 90, 108, 140, 150);
     public final BoundedString acc = new BoundedString("", 15, 990, 144);
-    public final BoundedString userName = new BoundedString(users.get(userIndex).userName, 15, 90, 144);
+    public final BoundedString userName = new BoundedString("", 15, 90, 144);
 
     public final BoundedString perfect = new BoundedString("", 18, 90, 300, 140, 30);
     public final BoundedString good = new BoundedString("", 18, 90, 340, 140, 30);
@@ -47,6 +47,7 @@ public class ChartText implements Drawable {
     }
 
     public void updateText(){
+        userName.setString(users.get(userIndex).userName);
         double currentAccuracy = (Lane.perfect+Lane.good*goodPercentage)/Lane.total;
         if(Lane.total!=0){
             acc.setString(String.format("%.2f", currentAccuracy*100)+" %");

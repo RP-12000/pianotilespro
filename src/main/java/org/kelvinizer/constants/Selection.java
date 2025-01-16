@@ -18,7 +18,6 @@ public class Selection {
     public static HashMap<String, Integer> songIndex = new HashMap<>();//Collection_name, index of the song in the collection
     public static final HashMap<String, ArrayList<Song>> songData = new HashMap<>();//Collection_name, the list of song data
 
-    public static boolean isValidCollection = true;
     public static String collectionDir = "";
     public static String songDir = "";
     public static String level = "BS";

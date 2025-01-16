@@ -3,6 +3,7 @@ package org.kelvinizer.menu;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.buttons.CRectButton;
 import org.kelvinizer.constants.Control;
+import org.kelvinizer.constants.User;
 import org.kelvinizer.game.gamewindow.Song;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.BoundedString;
@@ -15,8 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import static org.kelvinizer.constants.Control.GAME_VERSION;
-import static org.kelvinizer.constants.Control.getAllUsers;
+import static org.kelvinizer.constants.Control.*;
 import static org.kelvinizer.constants.Selection.*;
 import static org.kelvinizer.constants.Selection.collections;
 
@@ -96,6 +96,9 @@ public class WelcomePage extends AnimatablePanel {
         try{
             loading.setString("Loading users");
             getAllUsers();
+            if(users.size()<=userIndex){
+                userIndex=0;
+            }
             loading.setString("Scanning for Songs");
             collections = new JacketMenu("Chart", 0);
             int totalSongs = -1;
@@ -141,6 +144,12 @@ public class WelcomePage extends AnimatablePanel {
 
     @Override
     public void toNextPanel() {
-        Control.panel_index=1;
+        if(users.isEmpty()){
+            users.add(new User());
+            Control.panel_index=-1;
+        }
+        else{
+            Control.panel_index=1;
+        }
     }
 }

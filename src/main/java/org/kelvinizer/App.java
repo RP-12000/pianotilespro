@@ -18,6 +18,8 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.*;
 
 import static org.kelvinizer.constants.Control.*;
@@ -27,6 +29,15 @@ public class App extends JFrame {
     int lastPanel = 0;
 
     public App(){
+        try{
+            BufferedReader br = new BufferedReader(new FileReader("ptp_settings"));
+            FPS = Integer.parseInt(br.readLine());
+            userIndex = Integer.parseInt(br.readLine());
+        } catch (Exception e) {
+            FPS = 60;
+            userIndex = 0;
+        }
+        newFPS = FPS;
         boot();
         ScheduledExecutorService gameLoop = Executors.newSingleThreadScheduledExecutor();
         gameLoop.scheduleAtFixedRate(this::runGame, 0, 1000/Control.FPS, TimeUnit.MILLISECONDS);
@@ -51,6 +62,14 @@ public class App extends JFrame {
              */
             @Override
             public void windowClosing(WindowEvent e) {
+                try(PrintWriter pw = new PrintWriter("ptp_settings")){
+                    pw.println(newFPS+"\n"+userIndex);
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+                try{
+                    Files.deleteIfExists(Paths.get(".refresh"));
+                } catch (IOException ignored) {}
                 for(User u: users){
                     u.exportUser();
                 }
