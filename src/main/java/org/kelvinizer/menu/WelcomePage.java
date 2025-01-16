@@ -15,12 +15,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import static org.kelvinizer.constants.Control.GAME_VERSION;
 import static org.kelvinizer.constants.Selection.*;
 import static org.kelvinizer.constants.Selection.collections;
 
 public class WelcomePage extends AnimatablePanel {
     private final BoundedString gameName = new BoundedString("Piano Tiles Pro", 81, 540, 200);
-    private final BoundedString gameVersion = new BoundedString("v0.0.0-a", 27, 540, 590);
+    private final BoundedString gameVersion = new BoundedString(GAME_VERSION, 27, 540, 590);
     private final BoundedString enter = new BoundedString("Press Enter to start", 16, 540, 630, 540, 30);
     private final CRectButton play = new CRectButton();
 

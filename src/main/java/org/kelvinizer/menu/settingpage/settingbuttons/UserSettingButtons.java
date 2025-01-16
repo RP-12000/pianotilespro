@@ -9,12 +9,6 @@ import org.kelvinizer.support.interfaces.Scalable;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-
-import static org.kelvinizer.constants.Control.getResourcePathName;
 
 public class UserSettingButtons implements Scalable, Drawable, Focusable {
     public CRectButton exportUser = new CRectButton();
@@ -38,19 +32,6 @@ public class UserSettingButtons implements Scalable, Drawable, Focusable {
     public UserSettingButtons(){
         setButton(exportUser, 340, "Export User");
         setButton(importUser, 740, "Import User");
-    }
-
-    public void importUser(){
-        try{
-            File f = new File("/");
-            File[] fs = f.listFiles();
-        } catch (Exception e){
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void exportUser(){
-
     }
 
     @Override

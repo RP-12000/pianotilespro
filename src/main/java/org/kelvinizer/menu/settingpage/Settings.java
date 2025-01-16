@@ -51,7 +51,7 @@ public class Settings extends AnimatablePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(page==3){
-                    usb.exportUser();
+                    st.exportUser();
                 }
             }
         });
@@ -59,7 +59,7 @@ public class Settings extends AnimatablePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(page==3){
-                    usb.importUser();
+                    st.importUser();
                 }
             }
         });
@@ -125,10 +125,10 @@ public class Settings extends AnimatablePanel {
             }
             case 3 ->{
                 if(usb.exportUser.isFocused()){
-                    usb.exportUser();
+                    st.exportUser();
                 }
                 else if(usb.importUser.isFocused()){
-                    usb.importUser();
+                    st.importUser();
                 }
             }
         }

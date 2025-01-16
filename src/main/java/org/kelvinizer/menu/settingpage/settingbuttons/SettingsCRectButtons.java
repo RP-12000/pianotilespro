@@ -18,8 +18,6 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
     public final CRectButton FCAP_Off = new CRectButton();
     public final CRectButton handHintOn = new CRectButton();
     public final CRectButton handHintOff = new CRectButton();
-    public final CRectButton exportUser = new CRectButton();
-    public final CRectButton importUser = new CRectButton();
 
     private void setOnAndOffIndicator(CRectButton on, CRectButton off, double y){
         BoundedString normalOn = new BoundedString("On", 50);
@@ -77,8 +75,6 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
         FCAP_Off.scale(d);
         handHintOn.scale(d);
         handHintOff.scale(d);
-        exportUser.scale(d);
-        importUser.scale(d);
     }
 
     @Override

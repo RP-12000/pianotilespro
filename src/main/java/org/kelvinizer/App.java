@@ -36,18 +36,6 @@ public class App extends JFrame {
         setVisible(true);
     }
 
-    private void printSettings(PrintWriter pw){
-        pw.println(userName);
-        pw.println(isAutoplay);
-        pw.println(syncEnabled);
-        pw.println(FCAPHintEnabled);
-        pw.println(handHintEnabled);
-        pw.println(newFPS);
-        pw.println(MUSIC_DIFFERENCE);
-        pw.println(tolerance);
-        pw.close();
-    }
-
     private void boot(){
         setTitle("PianoTilesPro");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -67,7 +55,9 @@ public class App extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 try{
-                    printSettings(new PrintWriter(getResourcePathName("Chart/settings.txt")));
+                    PrintWriter info = new PrintWriter(getResourcePathName("Chart/settings.txt"));
+                    printSettings(info);
+                    info.close();
                     for(Map.Entry<String, ArrayList<Song>> entry: songData.entrySet()){
                         for(Song s: entry.getValue()){
                             s.exportBestToFile();
@@ -81,22 +71,13 @@ public class App extends JFrame {
 
     private void initSettings(){
         try {
-            BufferedReader userInfo = new BufferedReader(new FileReader(getResourcePathName("Chart/settings.txt")));
-            userName = userInfo.readLine();
-            isAutoplay = Boolean.parseBoolean(userInfo.readLine());
-            syncEnabled = Boolean.parseBoolean(userInfo.readLine());
-            FCAPHintEnabled = Boolean.parseBoolean(userInfo.readLine());
-            handHintEnabled = Boolean.parseBoolean(userInfo.readLine());
-            FPS = Integer.parseInt(userInfo.readLine());
-            newFPS = FPS;
-            MUSIC_DIFFERENCE = Integer.parseInt(userInfo.readLine());
-            tolerance = Integer.parseInt(userInfo.readLine());
-            userInfo.close();
+            readSettings(new BufferedReader(new FileReader(getResourcePathName("Chart/settings.txt"))));
         } catch (IOException | RuntimeException e){
             try {
                 PrintWriter newInfo = new PrintWriter(new FileWriter(getResourcePathName("Chart")+"/settings.txt"));
                 userName = "User"+(long)(Math.random()*1e10);
                 printSettings(newInfo);
+                newInfo.close();
             } catch (IOException ex) {
                 throw new RuntimeException("Unable to load game");
             }

@@ -56,15 +56,15 @@ public class Song {
             }
             pw.println(true);
             pw.println("""
-                    0 0 -1 0 false
-                    0 0 -1 0 false
-                    0 0 -1 0 false
+                    0 0 0 Infinity false true
+                    0 0 0 Infinity false true
+                    0 0 0 Infinity false true
                     """);
             historyBest.put("BS", new ScoreData());
             historyBest.put("MD", new ScoreData());
             historyBest.put("AV", new ScoreData());
             if(lg){
-                pw.println("0 0 -1 0 false");
+                pw.println("0 0 0 Infinity false true");
                 historyBest.put("LG", new ScoreData());
             }
             newSong = true;
@@ -113,16 +113,25 @@ public class Song {
         return absoluteDir;
     }
 
+    @Override
+    public String toString(){
+        String s =
+                historyBest.get("BS").toString()+"\n"+
+                historyBest.get("MD").toString()+"\n"+
+                historyBest.get("AV").toString();
+        if(lg){
+            s+="\n"+historyBest.get("LG").toString();
+        }
+        return s;
+    }
+
     public void exportBestToFile(){
-        try{
-            PrintWriter pw = new PrintWriter(getResourcePathName(absoluteDir+"/user.txt"));
-            pw.println(historyBest.get("BS").toString());
-            pw.println(historyBest.get("MD").toString());
-            pw.println(historyBest.get("AV").toString());
-            if(lg){
-                pw.println(historyBest.get("LG").toString());
-            }
-            pw.close();
+        try(PrintWriter pw = new PrintWriter(getResourcePathName(absoluteDir+"/user.txt"))){
+            pw.println(this);
         } catch (FileNotFoundException ignored){}
+    }
+
+    public String toUserDataString(){
+        return songName+" "+lg+"\n"+this;
     }
 }
