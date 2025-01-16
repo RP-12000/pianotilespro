@@ -12,10 +12,13 @@ import org.kelvinizer.support.interfaces.Scalable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+import static org.kelvinizer.constants.Control.userIndex;
+import static org.kelvinizer.constants.Control.users;
+
 public class SettingsSlidingButton implements Scalable, Drawable, Focusable {
-    public final SlidingButton tolerance = new SlidingButton(0, 160, Control.tolerance);
+    public final SlidingButton tolerance = new SlidingButton(0, 160, users.get(userIndex).tolerance);
     public final SlidingButton frameRate = new SlidingButton(30, 144, Control.FPS);
-    public final SlidingButton musicDelay = new SlidingButton(-600, 600, Control.MUSIC_DIFFERENCE);
+    public final SlidingButton musicDelay = new SlidingButton(-600, 600, users.get(userIndex).MUSIC_DIFFERENCE);
 
     private void setSlidingButton(SlidingButton sb, double y){
         CRectButton slider = new CRectButton();

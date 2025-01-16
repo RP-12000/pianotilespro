@@ -1,11 +1,15 @@
 package org.kelvinizer.constants;
 
+import org.kelvinizer.game.gamewindow.ScoreData;
 import org.kelvinizer.game.gamewindow.Song;
 import org.kelvinizer.support.classes.JacketMenu;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static org.kelvinizer.constants.Control.userIndex;
+import static org.kelvinizer.constants.Control.users;
 
 public class Selection {
     public static int collectionIndex = 0;
@@ -23,5 +27,9 @@ public class Selection {
 
     public static Song getSongData(){
         return songData.get(collectionDir).get(songIndex.get(collectionDir));
+    }
+
+    public static ScoreData getScoreData(){
+        return users.get(userIndex).getScoreData();
     }
 }

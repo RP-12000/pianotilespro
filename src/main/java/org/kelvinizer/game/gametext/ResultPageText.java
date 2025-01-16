@@ -1,6 +1,5 @@
 package org.kelvinizer.game.gametext;
 
-import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.ReferenceWindow;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.dynamic.DynamicImage;
@@ -14,6 +13,8 @@ import org.kelvinizer.support.classes.Motion;
 
 import java.awt.*;
 
+import static org.kelvinizer.constants.Control.userIndex;
+import static org.kelvinizer.constants.Control.users;
 import static org.kelvinizer.constants.JudgementLimits.*;
 import static org.kelvinizer.constants.Selection.*;
 
@@ -45,7 +46,7 @@ public class ResultPageText {
 
     public final DynamicString songName = new DynamicString(Selection.songDir.replace('_', ' '), 15, 136, 630, 192, 60);
     public final DynamicString level = new DynamicString(Selection.level+" "+Selection.chartConstant, 15, 280, 630, 96, 60);
-    public final DynamicString userName = new DynamicString(Control.userName, 15, 424, 630, 192, 60);
+    public final DynamicString userName = new DynamicString(users.get(userIndex).userName, 15, 424, 630, 192, 60);
 
     public final DynamicImage jacket = new DynamicImage(new CRect(280, 450, 480, 300));
 
@@ -102,7 +103,7 @@ public class ResultPageText {
         initBound(scoreBounds);
         initBound(accBounds);
         initBound(noteBounds);
-        if(Control.isAutoplay){
+        if(users.get(userIndex).isAutoplay){
             userName.getBoundedString().setStringColor(Color.GREEN);
         }
     }
@@ -120,10 +121,6 @@ public class ResultPageText {
         maxCombo.getBoundedString().setMaxStringSize(30);
         worstHit.getBoundedString().setMaxStringSize(30);
         accuracy.getBoundedString().setMaxStringSize(30);
-    }
-
-    private ScoreData getHistoricBest(){
-        return songData.get(collectionDir).get(songIndex.get(collectionDir)).historyBest.get(Selection.level);
     }
 
     private void setText(){
@@ -145,25 +142,25 @@ public class ResultPageText {
         maxCombo.getBoundedString().setString(String.valueOf((int)Lane.maxCombo));
         worstHit.getBoundedString().setString(thisGameScore.getWorstHitString());
         initBounds();
-        if(!Control.isAutoplay){
-            if(thisGameScore.score>getHistoricBest().score){
-                newBestScore.getBoundedString().setString("+"+(ScoreData.toScoreString(thisGameScore.score-getHistoricBest().score)));
-                getHistoricBest().score = thisGameScore.score;
+        if(!users.get(userIndex).isAutoplay){
+            if(thisGameScore.score>getScoreData().score){
+                newBestScore.getBoundedString().setString("+"+(ScoreData.toScoreString(thisGameScore.score-getScoreData().score)));
+                getScoreData().score = thisGameScore.score;
             }
-            if(thisGameScore.acc>getHistoricBest().acc){
-                bestAccuracy.getBoundedString().setString("+"+String.format("%.2f", (thisGameScore.acc-getHistoricBest().acc)*100)+" %");
-                getHistoricBest().acc = thisGameScore.acc;
+            if(thisGameScore.acc>getScoreData().acc){
+                bestAccuracy.getBoundedString().setString("+"+String.format("%.2f", (thisGameScore.acc-getScoreData().acc)*100)+" %");
+                getScoreData().acc = thisGameScore.acc;
             }
-            if(thisGameScore.maxCombo>getHistoricBest().maxCombo){
-                bestMaxCombo.getBoundedString().setString("+"+(thisGameScore.maxCombo-getHistoricBest().maxCombo));
-                getHistoricBest().maxCombo = thisGameScore.maxCombo;
+            if(thisGameScore.maxCombo>getScoreData().maxCombo){
+                bestMaxCombo.getBoundedString().setString("+"+(thisGameScore.maxCombo-getScoreData().maxCombo));
+                getScoreData().maxCombo = thisGameScore.maxCombo;
             }
-            if(thisGameScore.worstHit<getHistoricBest().worstHit){
-                bestWorstHit.getBoundedString().setString(String.format("%.2f", (thisGameScore.worstHit-getHistoricBest().worstHit)*1000)+" ms");
-                getHistoricBest().worstHit = thisGameScore.worstHit;
+            if(thisGameScore.worstHit<getScoreData().worstHit){
+                bestWorstHit.getBoundedString().setString(String.format("%.2f", (thisGameScore.worstHit-getScoreData().worstHit)*1000)+" ms");
+                getScoreData().worstHit = thisGameScore.worstHit;
             }
-            getHistoricBest().fc = thisGameScore.fc;
-            getHistoricBest().newChart = thisGameScore.newChart;
+            getScoreData().fc = thisGameScore.fc;
+            getScoreData().newChart = thisGameScore.newChart;
         }
     }
 

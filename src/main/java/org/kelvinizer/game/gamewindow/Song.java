@@ -11,9 +11,7 @@ import static org.kelvinizer.constants.Control.getResourcePathName;
 public class Song {
     private final String absoluteDir, songName, composer, illustration;
     private final boolean lg;
-    public boolean newSong = false;
     public final HashMap<String, Pair<String, Double>> data = new HashMap<>();
-    public final HashMap<String, ScoreData> historyBest = new HashMap<>();
     public final double OFFSET;
 
     public Song(String dir) throws RuntimeException {
@@ -38,37 +36,6 @@ public class Song {
             }
         } catch (IOException e){
             throw new RuntimeException("Error when reading credits for this song: "+songName);
-        }
-        try{
-            BufferedReader br = new BufferedReader(new FileReader(getResourcePathName(dir+"/user.txt")));
-            historyBest.put("BS", new ScoreData(br.readLine()));
-            historyBest.put("MD", new ScoreData(br.readLine()));
-            historyBest.put("AV", new ScoreData(br.readLine()));
-            if(lg){
-                historyBest.put("LG", new ScoreData(br.readLine()));
-            }
-        } catch (IOException | RuntimeException e) {
-            PrintWriter pw;
-            try {
-                pw = new PrintWriter(getResourcePathName("")+dir+"/user.txt");
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            pw.println(true);
-            pw.println("""
-                    0 0 0 Infinity false true
-                    0 0 0 Infinity false true
-                    0 0 0 Infinity false true
-                    """);
-            historyBest.put("BS", new ScoreData());
-            historyBest.put("MD", new ScoreData());
-            historyBest.put("AV", new ScoreData());
-            if(lg){
-                pw.println("0 0 0 Infinity false true");
-                historyBest.put("LG", new ScoreData());
-            }
-            newSong = true;
-            pw.close();
         }
 
         if(!Chart.isValidChart(this, "BS")){
@@ -111,27 +78,5 @@ public class Song {
 
     public String getAbsoluteDir(){
         return absoluteDir;
-    }
-
-    @Override
-    public String toString(){
-        String s =
-                historyBest.get("BS").toString()+"\n"+
-                historyBest.get("MD").toString()+"\n"+
-                historyBest.get("AV").toString();
-        if(lg){
-            s+="\n"+historyBest.get("LG").toString();
-        }
-        return s;
-    }
-
-    public void exportBestToFile(){
-        try(PrintWriter pw = new PrintWriter(getResourcePathName(absoluteDir+"/user.txt"))){
-            pw.println(this);
-        } catch (FileNotFoundException ignored){}
-    }
-
-    public String toUserDataString(){
-        return songName+" "+lg+"\n"+this;
     }
 }

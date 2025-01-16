@@ -5,7 +5,6 @@ import org.kelvinizer.constants.Control;
 import org.kelvinizer.menu.settingpage.settingbuttons.SettingsCRectButtons;
 import org.kelvinizer.menu.settingpage.settingbuttons.SettingsGeneralButton;
 import org.kelvinizer.menu.settingpage.settingbuttons.SettingsSlidingButton;
-import org.kelvinizer.menu.settingpage.settingbuttons.UserSettingButtons;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,11 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import static org.kelvinizer.constants.Control.userIndex;
+import static org.kelvinizer.constants.Control.users;
+
 public class Settings extends AnimatablePanel {
     private final SettingsCRectButtons scb = new SettingsCRectButtons();
     private final SettingsGeneralButton sgb = new SettingsGeneralButton();
     private final SettingsSlidingButton ssb = new SettingsSlidingButton();
-    private final UserSettingButtons usb = new UserSettingButtons();
     private final SettingsText st = new SettingsText();
     public static int page = 1;
 
@@ -27,7 +28,7 @@ public class Settings extends AnimatablePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(page==1){
-                    Control.syncEnabled = !Control.syncEnabled;
+                    users.get(userIndex).syncEnabled = !users.get(userIndex).syncEnabled;
                 }
             }
         });
@@ -35,7 +36,7 @@ public class Settings extends AnimatablePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(page==1){
-                    Control.handHintEnabled = !Control.handHintEnabled;
+                    users.get(userIndex).handHintEnabled = !users.get(userIndex).handHintEnabled;
                 }
             }
         });
@@ -43,30 +44,14 @@ public class Settings extends AnimatablePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(page==1){
-                    Control.FCAPHintEnabled = !Control.FCAPHintEnabled;
-                }
-            }
-        });
-        addKeyBinding(KeyEvent.VK_E, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(page==3){
-                    st.exportUser();
-                }
-            }
-        });
-        addKeyBinding(KeyEvent.VK_I, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(page==3){
-                    st.importUser();
+                    users.get(userIndex).FCAPHintEnabled = !users.get(userIndex).FCAPHintEnabled;
                 }
             }
         });
         addKeyBinding(KeyEvent.VK_PAGE_DOWN, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                page=Math.min(3, page+1);
+                page=Math.min(2, page+1);
             }
         });
         addKeyBinding(KeyEvent.VK_PAGE_UP, new AbstractAction() {
@@ -88,7 +73,6 @@ public class Settings extends AnimatablePanel {
         scb.setFocused(e);
         sgb.setFocused(e);
         ssb.setFocused(e);
-        usb.setFocused(e);
     }
 
     @Override
@@ -102,34 +86,19 @@ public class Settings extends AnimatablePanel {
 
     @Override
     public void mouseClicked(MouseEvent e){
-        switch (page){
-            case 1 ->{
-                if(scb.syncOn.isFocused()){
-                    Control.syncEnabled=true;
-                }
-                else if(scb.syncOff.isFocused()){
-                    Control.syncEnabled=false;
-                }
-                else if(scb.FCAP_On.isFocused()){
-                    Control.FCAPHintEnabled=true;
-                }
-                else if(scb.FCAP_Off.isFocused()){
-                    Control.FCAPHintEnabled=false;
-                }
-                else if(scb.handHintOn.isFocused()){
-                    Control.handHintEnabled=true;
-                }
-                else if(scb.handHintOff.isFocused()){
-                    Control.handHintEnabled=false;
-                }
-            }
-            case 3 ->{
-                if(usb.exportUser.isFocused()){
-                    st.exportUser();
-                }
-                else if(usb.importUser.isFocused()){
-                    st.importUser();
-                }
+        if (page == 1) {
+            if (scb.syncOn.isFocused()) {
+                users.get(userIndex).syncEnabled = true;
+            } else if (scb.syncOff.isFocused()) {
+                users.get(userIndex).syncEnabled = false;
+            } else if (scb.FCAP_On.isFocused()) {
+                users.get(userIndex).FCAPHintEnabled = true;
+            } else if (scb.FCAP_Off.isFocused()) {
+                users.get(userIndex).FCAPHintEnabled = false;
+            } else if (scb.handHintOn.isFocused()) {
+                users.get(userIndex).handHintEnabled = true;
+            } else if (scb.handHintOff.isFocused()) {
+                users.get(userIndex).handHintEnabled = false;
             }
         }
         if(sgb.back.isFocused()){
@@ -139,7 +108,7 @@ public class Settings extends AnimatablePanel {
             page=Math.max(1, page-1);
         }
         else if(sgb.moveRight.isFocused()){
-            page=Math.min(3, page+1);
+            page=Math.min(2, page+1);
         }
     }
 
@@ -148,28 +117,23 @@ public class Settings extends AnimatablePanel {
         scb.scale(d);
         ssb.scale(d);
         sgb.scale(d);
-        usb.scale(d);
     }
 
     @Override
     public void render(Graphics2D g2d){
         sgb.back.render(g2d);
-        if(page!=1){
-            sgb.moveLeft.render(g2d);
-        }
-        if(page!=3){
+        if(page==1){
             sgb.moveRight.render(g2d);
+            scb.render(g2d);
         }
-        switch (page){
-            case 1 -> scb.render(g2d);
-            case 2 -> ssb.render(g2d);
-            case 3 -> usb.render(g2d);
+        if(page==2){
+            sgb.moveLeft.render(g2d);
+            ssb.render(g2d);
         }
         st.updateText(page);
         st.render(g2d);
-        Control.MUSIC_DIFFERENCE = (int) ssb.musicDelay.getCurrentVal();
-        Control.newFPS = (int) ssb.frameRate.getCurrentVal();
-        Control.tolerance = (int) ssb.tolerance.getCurrentVal();
+        users.get(userIndex).MUSIC_DIFFERENCE = (int) ssb.musicDelay.getCurrentVal();
+        users.get(userIndex).tolerance = (int) ssb.tolerance.getCurrentVal();
     }
 
     @Override

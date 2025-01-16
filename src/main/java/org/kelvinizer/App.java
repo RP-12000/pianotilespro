@@ -3,9 +3,9 @@ package org.kelvinizer;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.ReferenceWindow;
+import org.kelvinizer.constants.User;
 import org.kelvinizer.game.gamewindow.Chart;
 import org.kelvinizer.game.gamewindow.ResultPage;
-import org.kelvinizer.game.gamewindow.Song;
 import org.kelvinizer.menu.WelcomePage;
 import org.kelvinizer.menu.collectionselection.CollectionSelection;
 import org.kelvinizer.menu.settingpage.Settings;
@@ -17,12 +17,9 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.concurrent.*;
 
 import static org.kelvinizer.constants.Control.*;
-import static org.kelvinizer.constants.Selection.*;
 
 public class App extends JFrame {
     private AnimatablePanel display;
@@ -30,7 +27,6 @@ public class App extends JFrame {
 
     public App(){
         boot();
-        initSettings();
         ScheduledExecutorService gameLoop = Executors.newSingleThreadScheduledExecutor();
         gameLoop.scheduleAtFixedRate(this::runGame, 0, 1000/Control.FPS, TimeUnit.MILLISECONDS);
         setVisible(true);
@@ -54,34 +50,12 @@ public class App extends JFrame {
              */
             @Override
             public void windowClosing(WindowEvent e) {
-                try{
-                    PrintWriter info = new PrintWriter(getResourcePathName("Chart/settings.txt"));
-                    printSettings(info);
-                    info.close();
-                    for(Map.Entry<String, ArrayList<Song>> entry: songData.entrySet()){
-                        for(Song s: entry.getValue()){
-                            s.exportBestToFile();
-                        }
-                    }
-                    System.exit(0);
-                } catch(IOException ignored){}
+                for(User u: users){
+                    u.exportUser();
+                }
+                System.exit(0);
             }
         });
-    }
-
-    private void initSettings(){
-        try {
-            readSettings(new BufferedReader(new FileReader(getResourcePathName("Chart/settings.txt"))));
-        } catch (IOException | RuntimeException e){
-            try {
-                PrintWriter newInfo = new PrintWriter(new FileWriter(getResourcePathName("Chart")+"/settings.txt"));
-                userName = "User"+(long)(Math.random()*1e10);
-                printSettings(newInfo);
-                newInfo.close();
-            } catch (IOException ex) {
-                throw new RuntimeException("Unable to load game");
-            }
-        }
     }
 
     private void runGame(){

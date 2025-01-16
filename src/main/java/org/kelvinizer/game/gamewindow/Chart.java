@@ -150,7 +150,7 @@ public class Chart extends AnimatablePanel {
         }
         STATIC_TIMER = Math.min(
                 Math.min(0.0, tempNotes.getFirst().getPerfectHitTime() - tempNotes.getFirst().getTotalMovementTime()),
-                Control.MUSIC_DIFFERENCE/1000.0
+                users.get(userIndex).MUSIC_DIFFERENCE/1000.0
         );
 
         for(int i=0; i<16; i++){
@@ -250,10 +250,10 @@ public class Chart extends AnimatablePanel {
     }
 
     private void setJudgementLineColor(Graphics2D g2d){
-        if(Lane.bad+Lane.good+Lane.miss == 0 && FCAPHintEnabled){
+        if(Lane.bad+Lane.good+Lane.miss == 0 && users.get(userIndex).FCAPHintEnabled){
             g2d.setColor(Color.GREEN);
         }
-        else if(Lane.bad+Lane.miss == 0 && FCAPHintEnabled){
+        else if(Lane.bad+Lane.miss == 0 && users.get(userIndex).FCAPHintEnabled){
             g2d.setColor(Color.BLUE);
         }
         else{
@@ -282,7 +282,7 @@ public class Chart extends AnimatablePanel {
                     (int) ReferenceWindow.VERTICAL_JUDGEMENT_LINE_POS[4+i], (int) ReferenceWindow.REF_WIN_H+1
             );
         }
-        if(handHintEnabled){
+        if(users.get(userIndex).handHintEnabled){
             g2d.setColor(Color.RED);
         }
         g2d.drawLine(
@@ -308,7 +308,7 @@ public class Chart extends AnimatablePanel {
             render(g2d);
         }
         else{
-            if(timePoint<1){
+            if(timePoint<=1){
                 setGlobalOpacity(g2d, 1.0-timePoint);
                 ct.updateText();
                 ct.render(g2d);
@@ -322,9 +322,9 @@ public class Chart extends AnimatablePanel {
 
     private void forceRefresh(){
         try {
-            PrintWriter pw = new PrintWriter(getResourcePathName("")+"refresh.txt");
+            PrintWriter pw = new PrintWriter("music.refresh");
             pw.println(music.getMicrosecondPosition());
-            if(Math.abs(music.getMicrosecondPosition()- CURRENT_TIME*1e6)>Control.tolerance*1e3){
+            if(Math.abs(music.getMicrosecondPosition()- CURRENT_TIME*1e6)>users.get(userIndex).tolerance*1e3){
                 music.setMicrosecondPosition((long) Math.max(0, CURRENT_TIME*1e6));
             }
             pw.close();
@@ -333,7 +333,7 @@ public class Chart extends AnimatablePanel {
 
     @Override
     public void render(Graphics2D g2d){
-        if(music!=null && !isPaused && !music.isRunning() && CURRENT_TIME>=Control.MUSIC_DIFFERENCE/1000.0){
+        if(music!=null && !isPaused && !music.isRunning() && CURRENT_TIME>=users.get(userIndex).MUSIC_DIFFERENCE/1000.0){
             music.start();
         }
         if (music != null && isPaused && music.isRunning()) {
@@ -355,7 +355,7 @@ public class Chart extends AnimatablePanel {
             }
         }
         for(int i=0; i<16; i++){
-            if(!isAutoplay){
+            if(!users.get(userIndex).isAutoplay){
                 lanes[i].update(signal[i]);
                 if(signal[i]!=0){
                     signal[i] = 0;

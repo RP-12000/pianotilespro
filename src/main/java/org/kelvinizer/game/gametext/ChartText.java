@@ -1,6 +1,5 @@
 package org.kelvinizer.game.gametext;
 
-import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.game.gamewindow.Chart;
 import org.kelvinizer.game.gamewindow.Lane;
@@ -9,6 +8,8 @@ import org.kelvinizer.support.interfaces.Drawable;
 
 import java.awt.*;
 
+import static org.kelvinizer.constants.Control.userIndex;
+import static org.kelvinizer.constants.Control.users;
 import static org.kelvinizer.constants.JudgementLimits.*;
 
 public class ChartText implements Drawable {
@@ -17,7 +18,7 @@ public class ChartText implements Drawable {
     public final BoundedString level = new BoundedString(Selection.level+" "+Selection.chartConstant, 20, 990, 660);
     public final BoundedString combo = new BoundedString("", 30, 90, 108, 140, 150);
     public final BoundedString acc = new BoundedString("", 15, 990, 144);
-    public final BoundedString userName = new BoundedString(Control.userName, 15, 90, 144);
+    public final BoundedString userName = new BoundedString(users.get(userIndex).userName, 15, 90, 144);
 
     public final BoundedString perfect = new BoundedString("", 18, 90, 300, 140, 30);
     public final BoundedString good = new BoundedString("", 18, 90, 340, 140, 30);
@@ -90,7 +91,7 @@ public class ChartText implements Drawable {
         level.render(g2d);
         combo.render(g2d);
         acc.render(g2d);
-        if(Control.isAutoplay){
+        if(users.get(userIndex).isAutoplay){
             userName.setStringColor(Color.GREEN);
         }
         userName.render(g2d);

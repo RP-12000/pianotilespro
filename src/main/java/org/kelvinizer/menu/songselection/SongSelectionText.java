@@ -1,6 +1,5 @@
 package org.kelvinizer.menu.songselection;
 
-import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.dynamic.DynamicImage;
 import org.kelvinizer.dynamic.DynamicMotionManager;
@@ -15,6 +14,10 @@ import org.kelvinizer.support.classes.Pair;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
+import static org.kelvinizer.constants.Control.userIndex;
+import static org.kelvinizer.constants.Control.users;
+import static org.kelvinizer.constants.Selection.getScoreData;
 
 public class SongSelectionText {
     public final DynamicMotionManager dm = new DynamicMotionManager();
@@ -174,12 +177,14 @@ public class SongSelectionText {
         selectedSongComposer.getBoundedString().setString(sd.get(jm.getMenuIndex()).getComposer());
         selectedLevel.getBoundedString().setString(Selection.level);
         selectedSongDifficulty.getBoundedString().setString(levelToString(sd.get(jm.getMenuIndex()).getCharterData()));
-        bestScore.setString(sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).getScoreString());
-        bestAcc.setString(sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).getAccuracyString());
-        bestWorstHit.setString(sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).getWorstHitString());
-        sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).setGradeString(bestGrade);
+
+        bestScore.setString(getScoreData().getScoreString());
+        bestAcc.setString(getScoreData().getAccuracyString());
+        bestWorstHit.setString(getScoreData().getWorstHitString());
+        getScoreData().setGradeString(bestGrade);
         bestScore.getBounds().setOutlineColor(bestGrade.getStringColor());
-        isNewSong = sd.get(jm.getMenuIndex()).historyBest.get(Selection.level).newChart;
+        isNewSong = getScoreData().newChart;
+
         if(!jm.atBeginning()){
             previousSong.setString(jm.getSelectionString(jm.getMenuIndex()-1));
             previousSongComposer.setString(sd.get(jm.getMenuIndex()-1).getComposer());
@@ -199,7 +204,7 @@ public class SongSelectionText {
         selectedLevel.getBoundedString().setString(Selection.level);
         charter.getBoundedString().setString(s.getCharterData().first);
         selectedSongDifficulty.getBoundedString().setString(levelToString(s.getCharterData()));
-        if(Control.isAutoplay){
+        if(users.get(userIndex).isAutoplay){
             dm.addDynamicObject(autoplayVerdict);
         }
         if(bf!=null){
@@ -212,7 +217,7 @@ public class SongSelectionText {
     }
 
     public void renderCurrent(Graphics2D g2d){
-        if(Control.isAutoplay){
+        if(users.get(userIndex).isAutoplay){
             autoplayVerdict.render(g2d);
         }
         selectedSong.render(g2d);

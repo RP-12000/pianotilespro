@@ -7,6 +7,9 @@ import org.kelvinizer.support.classes.Motion;
 
 import java.awt.*;
 
+import static org.kelvinizer.constants.Control.userIndex;
+import static org.kelvinizer.constants.Control.users;
+
 public abstract class Note implements Comparable<Note>{
     protected final MotionManager movement;
 
@@ -152,7 +155,7 @@ public abstract class Note implements Comparable<Note>{
         else {
             r.setOrigin(r.getWidth() / 2.0f, 0);
         }
-        if (is_sync && Control.syncEnabled) {
+        if (is_sync && users.get(userIndex).syncEnabled) {
             r.setOutlineThickness(NOTE_OUTLINE_THICKNESS);
         }
         r.setPosition(

@@ -11,6 +11,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
+import static org.kelvinizer.constants.Control.userIndex;
+import static org.kelvinizer.constants.Control.users;
 import static org.kelvinizer.constants.Selection.*;
 
 public class SongSelection extends AnimatablePanel {
@@ -89,7 +91,7 @@ public class SongSelection extends AnimatablePanel {
         addKeyBinding(KeyEvent.VK_A, false, KeyEvent.CTRL_DOWN_MASK, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Control.isAutoplay = !Control.isAutoplay;
+                users.get(userIndex).isAutoplay = !users.get(userIndex).isAutoplay;
             }
         });
     }
@@ -172,6 +174,7 @@ public class SongSelection extends AnimatablePanel {
 
     @Override
     public void render(Graphics2D g2d){
+        songDir = songs.get(collectionDir).getSelectionString();
         ssb.settings.render(g2d);
         ssb.back.render(g2d);
         songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
@@ -214,7 +217,6 @@ public class SongSelection extends AnimatablePanel {
             Control.panel_index = -Control.panel_index;
         }
         else{
-            songDir = songs.get(collectionDir).getSelectionString();
             songJacket = songs.get(collectionDir).getSelectionJacket();
             chartConstant = getSongData().getCharterData().second;
             Control.panel_index = 3;

@@ -1,7 +1,6 @@
 package org.kelvinizer.menu.settingpage.settingbuttons;
 
 import org.kelvinizer.buttons.CRectButton;
-import org.kelvinizer.constants.Control;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.interfaces.Drawable;
@@ -10,6 +9,9 @@ import org.kelvinizer.support.interfaces.Scalable;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+
+import static org.kelvinizer.constants.Control.userIndex;
+import static org.kelvinizer.constants.Control.users;
 
 public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
     public final CRectButton syncOn = new CRectButton();
@@ -79,7 +81,7 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
 
     @Override
     public void render(Graphics2D g2d) {
-        if(Control.syncEnabled){
+        if(users.get(userIndex).syncEnabled){
             syncOff.select(false);
             syncOn.select(true);
         }
@@ -87,7 +89,7 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
             syncOff.select(true);
             syncOn.select(false);
         }
-        if(Control.FCAPHintEnabled){
+        if(users.get(userIndex).FCAPHintEnabled){
             FCAP_Off.select(false);
             FCAP_On.select(true);
         }
@@ -95,7 +97,7 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
             FCAP_Off.select(true);
             FCAP_On.select(false);
         }
-        if(Control.handHintEnabled){
+        if(users.get(userIndex).handHintEnabled){
             handHintOff.select(false);
             handHintOn.select(true);
         }

@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import static org.kelvinizer.constants.Control.GAME_VERSION;
+import static org.kelvinizer.constants.Control.getAllUsers;
 import static org.kelvinizer.constants.Selection.*;
 import static org.kelvinizer.constants.Selection.collections;
 
@@ -93,6 +94,8 @@ public class WelcomePage extends AnimatablePanel {
 
     private void errorCheck(){
         try{
+            loading.setString("Loading users");
+            getAllUsers();
             loading.setString("Scanning for Songs");
             collections = new JacketMenu("Chart", 0);
             int totalSongs = -1;
