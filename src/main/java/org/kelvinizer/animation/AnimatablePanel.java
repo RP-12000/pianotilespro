@@ -145,15 +145,15 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
     @Override
     public void render(Graphics2D g2d) {}
 
-    protected void addKeyBinding(int VK_Code, boolean onRelease, Action a){
+    public void addKeyBinding(int VK_Code, boolean onRelease, Action a){
         addKeyBinding(VK_Code, onRelease, 0, a);
     }
 
-    protected void addKeyBinding(int VK_Code, boolean onRelease, int VK_State, Action a){
+    public void addKeyBinding(int VK_Code, boolean onRelease, int VK_State, Action a){
         bindings.put(new Triple<>(VK_Code, onRelease, VK_State), a);
     }
 
-    protected void addKeyBinding(int VK_Code, Action a){
+    public void addKeyBinding(int VK_Code, Action a){
         addKeyBinding(VK_Code, true, a);
     }
 

@@ -14,9 +14,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class SongSelectionButtons implements Scalable, Focusable {
-    public final CRectButton back = new CRectButton();
-    public final CRectButton settings = new CRectButton();
-    public final CRectButton play = new CRectButton();
     public final CRectButton basic = new CRectButton();
     public final CRectButton BS = new CRectButton();
     public final CRectButton medium = new CRectButton();
@@ -27,51 +24,6 @@ public class SongSelectionButtons implements Scalable, Focusable {
     public final CRectButton LG = new CRectButton();
     public final CTriangleButton moveUp = new CTriangleButton();
     public final CTriangleButton moveDown = new CTriangleButton();
-
-    private void setBack(){
-        BoundedString normal = new BoundedString("", 0, 50, 50, 100, 100);
-        BoundedString onFocus = new BoundedString("", 0, 60, 60, 120, 120);
-
-        if(!back.setIcon("Back.jpg")) {
-            normal.getBounds().setOutlineColor(Color.WHITE);
-            normal.getBounds().setOutlineThickness(1.0);
-            onFocus.getBounds().setOutlineColor(Color.BLUE);
-            onFocus.getBounds().setOutlineThickness(5.0);
-        }
-
-        back.setNormal(normal);
-        back.setOnFocus(onFocus);
-    }
-
-    private void setSettings(){
-        BoundedString normal = new BoundedString("", 0, 1030, 50, 100, 100);
-        BoundedString onFocus = new BoundedString("", 0, 1020, 60, 120, 120);
-
-        if(!settings.setIcon("Settings.jpg")) {
-            normal.getBounds().setOutlineColor(Color.WHITE);
-            normal.getBounds().setOutlineThickness(1.0);
-            onFocus.getBounds().setOutlineColor(Color.BLUE);
-            onFocus.getBounds().setOutlineThickness(5.0);
-        }
-
-        settings.setNormal(normal);
-        settings.setOnFocus(onFocus);
-    }
-
-    private void setPlay(){
-        BoundedString normal = new BoundedString("", 0, 1030, 670, 100, 100);
-        BoundedString onFocus = new BoundedString("", 0, 1020, 660, 120, 120);
-
-        if(!play.setIcon("Play.jpg")) {
-            normal.getBounds().setOutlineColor(Color.WHITE);
-            normal.getBounds().setOutlineThickness(1.0);
-            onFocus.getBounds().setOutlineColor(Color.BLUE);
-            onFocus.getBounds().setOutlineThickness(5.0);
-        }
-
-        play.setNormal(normal);
-        play.setOnFocus(onFocus);
-    }
 
     private void setLevelButton(CRectButton button, CRectButton verdict, Color selectedColor, String levelString, double x){
         BoundedString normal = new BoundedString("", 30, x, 505, 50, 50);
@@ -157,9 +109,6 @@ public class SongSelectionButtons implements Scalable, Focusable {
     }
 
     public SongSelectionButtons(){
-        setBack();
-        setSettings();
-        setPlay();
         setLevelButtons();
         setMoveUp();
         setMoveDown();
@@ -167,9 +116,6 @@ public class SongSelectionButtons implements Scalable, Focusable {
 
     @Override
     public void scale(Dimension d) {
-        back.scale(d);
-        settings.scale(d);
-        play.scale(d);
         basic.scale(d);
         BS.scale(d);
         medium.scale(d);
@@ -187,12 +133,8 @@ public class SongSelectionButtons implements Scalable, Focusable {
     }
 
     private void renderOneLevel(CRectButton button, CRectButton verdict, Graphics2D g2d, Song s, String level){
-        button.select(false);
-        verdict.select(false);
-        if(Selection.level.equals(level)){
-            button.select(true);
-            verdict.select(true);
-        }
+        button.select(Selection.level.equals(level));
+        verdict.select(Selection.level.equals(level));
         button.getNormal().setString(levelToString(s.getCharterData(level)));
         button.getOnFocus().setString(levelToString(s.getCharterData(level)));
         button.getOnSelection().setString(levelToString(s.getCharterData(level)));
@@ -211,9 +153,6 @@ public class SongSelectionButtons implements Scalable, Focusable {
 
     @Override
     public void setFocused(MouseEvent e) {
-        back.setFocused(e);
-        settings.setFocused(e);
-        play.setFocused(e);
         basic.setFocused(e);
         medium.setFocused(e);
         advanced.setFocused(e);

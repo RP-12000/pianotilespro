@@ -45,10 +45,6 @@ public class SongSelectionText {
     private final BoundedString bestWorstHit = new BoundedString("", 10, 915, 495);
     private final BoundedString bestGrade = new BoundedString("", 40, 960, 505);
     private final BoundedString newSong = new BoundedString("NEW", 15, 960, 505);
-
-    public final BoundedString emptyFolder = new BoundedString("Nothing is in here QAQ", 50, 540, 360);
-    public final BoundedString corruptedFolder = new BoundedString("Collection corrupted QAQ", 50, 540, 360);
-
     private final float adjacentOpacity = 0.25f;
     private boolean isNewSong = false;
 

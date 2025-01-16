@@ -3,6 +3,7 @@ package org.kelvinizer.menu.songselection;
 import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.Selection;
 import org.kelvinizer.animation.AnimatablePanel;
+import org.kelvinizer.menu.SelectionButtons;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,10 +17,9 @@ import static org.kelvinizer.constants.Control.users;
 import static org.kelvinizer.constants.Selection.*;
 
 public class SongSelection extends AnimatablePanel {
-    private boolean goBack = false;
-    private boolean toSettings = false;
     private boolean startEndScene = false;
 
+    private final SelectionButtons sb = new SelectionButtons();
     private final SongSelectionButtons ssb = new SongSelectionButtons();
     private final SongSelectionText sst = new SongSelectionText();
 
@@ -68,32 +68,13 @@ public class SongSelection extends AnimatablePanel {
                 }
             }
         });
-        addKeyBinding(KeyEvent.VK_ENTER, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                exit(4000);
-            }
-        });
-        addKeyBinding(KeyEvent.VK_BACK_SPACE, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                goBack=true;
-                exit();
-            }
-        });
-        addKeyBinding(KeyEvent.VK_S, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toSettings = true;
-                exit();
-            }
-        });
         addKeyBinding(KeyEvent.VK_A, false, KeyEvent.CTRL_DOWN_MASK, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 users.get(userIndex).isAutoplay = !users.get(userIndex).isAutoplay;
             }
         });
+        sb.addKeyBindings(this);
     }
 
     @Override
@@ -104,48 +85,40 @@ public class SongSelection extends AnimatablePanel {
     @Override
     public void mouseMoved(MouseEvent e){
         ssb.setFocused(e);
+        sb.setFocused(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e){
-        if(ssb.back.isFocused()){
-            goBack = true;
-            exit();
-        }
-        if(ssb.settings.isFocused()){
-            toSettings = true;
-            exit();
-        }
-        if(!songs.isEmpty() && Selection.isValidCollection){
-            if(ssb.moveUp.isFocused()){
-                songs.get(collectionDir).moveBackward();
-                songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
-                if(!getSongData().hasLG() && Selection.level.equals("LG")){
-                    Selection.level = "AV";
-                }
-            }
-            if(ssb.moveDown.isFocused()){
-                songs.get(collectionDir).moveForward();
-                songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
-                if(!getSongData().hasLG() && Selection.level.equals("LG")){
-                    Selection.level = "AV";
-                }
-            }
-            if(ssb.play.isFocused()){
-                exit(4000);
-            }
-            else if(ssb.basic.isFocused()){
-                Selection.level = "BS";
-            }
-            else if(ssb.medium.isFocused()){
-                Selection.level = "MD";
-            }
-            else if(ssb.advanced.isFocused()){
+        sb.process();
+        if(ssb.moveUp.isFocused()){
+            songs.get(collectionDir).moveBackward();
+            songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
+            if(!getSongData().hasLG() && Selection.level.equals("LG")){
                 Selection.level = "AV";
             }
-            else if(getSongData().hasLG() && ssb.legendary.isFocused()){
-                Selection.level = "LG";
+        }
+        if(ssb.moveDown.isFocused()){
+            songs.get(collectionDir).moveForward();
+            songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
+            if(!getSongData().hasLG() && Selection.level.equals("LG")){
+                Selection.level = "AV";
             }
+        }
+        if(sb.play.isFocused()){
+            exit(4000);
+        }
+        else if(ssb.basic.isFocused()){
+            Selection.level = "BS";
+        }
+        else if(ssb.medium.isFocused()){
+            Selection.level = "MD";
+        }
+        else if(ssb.advanced.isFocused()){
+            Selection.level = "AV";
+        }
+        else if(getSongData().hasLG() && ssb.legendary.isFocused()){
+            Selection.level = "LG";
         }
     }
 
@@ -159,7 +132,7 @@ public class SongSelection extends AnimatablePanel {
 
     @Override
     public void onDisappearance(Graphics2D g2d){
-        if(!goBack && !toSettings){
+        if(sb.state == 0){
             if(!startEndScene){
                 sst.setEndStrings(getSongData(), songs.get(collectionDir).getSelectionJacket());
                 sst.dm.activate();
@@ -175,51 +148,47 @@ public class SongSelection extends AnimatablePanel {
     @Override
     public void render(Graphics2D g2d){
         songDir = songs.get(collectionDir).getSelectionString();
-        ssb.settings.render(g2d);
-        ssb.back.render(g2d);
         songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
-        if(songs.isEmpty()){
-            sst.emptyFolder.render(g2d);
-        }
-        else if(!Selection.isValidCollection){
-            sst.corruptedFolder.render(g2d);
+        if(songs.get(collectionDir).getSelectionJacket()!=null){
+            g2d.drawImage(songs.get(collectionDir).getSelectionJacket(), 520, 180, 480, 300, this);
         }
         else{
-            if(songs.get(collectionDir).getSelectionJacket()!=null){
-                g2d.drawImage(songs.get(collectionDir).getSelectionJacket(), 520, 180, 480, 300, this);
+            sst.nullJacket.render(g2d);
+        }
+        sb.render(g2d);
+        sst.updateSelectionStrings(songs.get(collectionDir), songData.get(collectionDir));
+        sst.renderCurrent(g2d);
+        if(!songs.get(collectionDir).atBeginning()){
+            ssb.moveUp.render(g2d);
+            sst.renderPrevious(g2d);
+        }
+        if(!songs.get(collectionDir).atEnd()){
+            ssb.moveDown.render(g2d);
+            sst.renderNext(g2d);
+        }
+        ssb.renderLevels(g2d, getSongData());
+        if(sb.state!=-1){
+            if(sb.state==0){
+                exit(4000);
             }
             else{
-                sst.nullJacket.render(g2d);
+                exit();
             }
-            ssb.play.render(g2d);
-            sst.updateSelectionStrings(songs.get(collectionDir), songData.get(collectionDir));
-            sst.renderCurrent(g2d);
-            if(!songs.get(collectionDir).atBeginning()){
-                ssb.moveUp.render(g2d);
-                sst.renderPrevious(g2d);
-            }
-            if(!songs.get(collectionDir).atEnd()){
-                ssb.moveDown.render(g2d);
-                sst.renderNext(g2d);
-            }
-            ssb.renderLevels(g2d, getSongData());
         }
     }
 
     @Override
     public void toNextPanel(){
         songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
-        if(goBack){
-            Control.panel_index = 1;
-            return;
-        }
-        if(toSettings){
-            Control.panel_index = -Control.panel_index;
-        }
-        else{
-            songJacket = songs.get(collectionDir).getSelectionJacket();
-            chartConstant = getSongData().getCharterData().second;
-            Control.panel_index = 3;
+        switch(sb.state){
+            case SelectionButtons.EXIT -> {
+                songJacket = songs.get(collectionDir).getSelectionJacket();
+                chartConstant = getSongData().getCharterData().second;
+                Control.panel_index = 3;
+            }
+            case SelectionButtons.BACK -> Control.panel_index = 1;
+            case SelectionButtons.SETTINGS -> Control.panel_index = -Control.panel_index;
+            case SelectionButtons.USER -> Control.panel_index+=4;
         }
     }
 }

@@ -1,6 +1,8 @@
 package org.kelvinizer.constants;
 
 import org.kelvinizer.game.gamewindow.ScoreData;
+import org.kelvinizer.support.classes.Pair;
+import org.kelvinizer.support.classes.Triple;
 
 import java.io.*;
 import java.util.HashMap;
@@ -9,7 +11,7 @@ import static org.kelvinizer.constants.Control.*;
 import static org.kelvinizer.constants.Selection.*;
 
 public class User {
-    public String userName = "User"+(long)(Math.random()*1e10);
+    public String userName;
     public boolean isAutoplay = true;
     public boolean syncEnabled = true;
     public boolean FCAPHintEnabled = true;
@@ -110,6 +112,11 @@ public class User {
     }
 
     public User(){
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<10; i++){
+            sb.append((int) (Math.random() * 10));
+        }
+        userName = sb.toString();
         for(int i=0; i<collections.size(); i++){
             String cd = collections.getSelectionString(i);
             userData.put(cd, new HashMap<>());
@@ -128,5 +135,61 @@ public class User {
 
     public ScoreData getScoreData(){
         return userData.get(collectionDir).get(songDir).get(level);
+    }
+
+    public Pair<Integer, Triple<Integer, Integer, Integer>> getFCAPData(String cd, String level){
+        Pair<Integer, Triple<Integer, Integer, Integer>> ans = new Pair<>(0, new Triple<>(0, 0, 0));
+        if(level.equals("LG")){
+            for(int i=0; i<songData.get(cd).size(); i++){
+                if(songData.get(cd).get(i).hasLG()){
+                    ans.first++;
+                }
+                if(
+                        songData.get(cd).get(i).hasLG() &&
+                        !userData.get(cd).get(songData.get(cd).get(i).getSongName()).get(level).newChart
+                ){
+                    ans.second.first++;
+                }
+                if(
+                        songData.get(cd).get(i).hasLG() &&
+                        userData.get(cd).get(songData.get(cd).get(i).getSongName()).get(level).fc
+                ){
+                    ans.second.second++;
+                }
+                if(
+                        songData.get(cd).get(i).hasLG() &&
+                        userData.get(cd).get(songData.get(cd).get(i).getSongName()).get(level).score==1000000
+                ){
+                    ans.second.third++;
+                }
+            }
+        }
+        else{
+            for(int i=0; i<songData.get(cd).size(); i++){
+                ans.first++;
+                if(!userData.get(cd).get(songData.get(cd).get(i).getSongName()).get(level).newChart){
+                    ans.second.first++;
+                }
+                if(userData.get(cd).get(songData.get(cd).get(i).getSongName()).get(level).fc){
+                    ans.second.second++;
+                }
+                if(userData.get(cd).get(songData.get(cd).get(i).getSongName()).get(level).score==1000000){
+                    ans.second.third++;
+                }
+            }
+        }
+        return ans;
+    }
+
+    public Pair<Integer, Triple<Integer, Integer, Integer>> getWholeGameFCAPData(String level){
+        Pair<Integer, Triple<Integer, Integer, Integer>> ans = new Pair<>(0, new Triple<>(0,0,0));
+        for(int i=0; i<collections.size(); i++){
+            Pair<Integer, Triple<Integer, Integer, Integer>> a = getFCAPData(collections.getSelectionString(i), level);
+            ans.first+=a.first;
+            ans.second.first+=a.second.first;
+            ans.second.second+=a.second.second;
+            ans.second.third+=a.second.third;
+        }
+        return ans;
     }
 }

@@ -10,6 +10,7 @@ import org.kelvinizer.menu.WelcomePage;
 import org.kelvinizer.menu.collectionselection.CollectionSelection;
 import org.kelvinizer.menu.settingpage.Settings;
 import org.kelvinizer.menu.songselection.SongSelection;
+import org.kelvinizer.menu.userselection.UserSelection;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
@@ -74,6 +75,7 @@ public class App extends JFrame {
                     }
                 }
                 case 4 -> display = new ResultPage();
+                case 5, 6-> display = new UserSelection();
                 default -> display = new Settings();
             }
             display.setBounds(0, 0,
