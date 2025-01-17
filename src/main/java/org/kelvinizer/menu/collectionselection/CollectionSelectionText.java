@@ -1,7 +1,6 @@
 package org.kelvinizer.menu.collectionselection;
 
 import org.kelvinizer.constants.Control;
-import org.kelvinizer.menu.userselection.UserSelection;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.classes.Pair;
 import org.kelvinizer.support.classes.Triple;
@@ -41,7 +40,7 @@ public class CollectionSelectionText implements Drawable {
 
     @Override
     public void render(Graphics2D g2d){
-        Pair<Integer, Triple<Integer, Integer, Integer>> temp = Control.users.get(UserSelection.renderIndex).getFCAPData(collectionDir, level);
+        Pair<Integer, Triple<Integer, Integer, Integer>> temp = Control.users.get(Control.userIndex).getFCAPData(collectionDir, level);
         totalData.setString(temp.first+" Total");
         clearedData.setString(temp.second.first+" Cleared");
         fcData.setString(temp.second.second+" Full Combo");

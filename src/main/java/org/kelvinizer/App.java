@@ -3,6 +3,7 @@ package org.kelvinizer;
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.Control;
 import org.kelvinizer.constants.ReferenceWindow;
+import org.kelvinizer.constants.Selection;
 import org.kelvinizer.constants.User;
 import org.kelvinizer.game.gamewindow.Chart;
 import org.kelvinizer.game.gamewindow.ResultPage;
@@ -13,6 +14,7 @@ import org.kelvinizer.menu.songselection.SongSelection;
 import org.kelvinizer.menu.userselection.UserSelection;
 
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -33,10 +35,9 @@ public class App extends JFrame {
             BufferedReader br = new BufferedReader(new FileReader("ptp_settings"));
             FPS = Integer.parseInt(br.readLine());
             userIndex = Integer.parseInt(br.readLine());
-        } catch (Exception e) {
-            FPS = 60;
-            userIndex = 0;
-        }
+            firstTimeOpen = Boolean.parseBoolean(br.readLine());
+            Selection.collectionIndex = Integer.parseInt(br.readLine());
+        } catch (Exception ignored) {}
         newFPS = FPS;
         boot();
         ScheduledExecutorService gameLoop = Executors.newSingleThreadScheduledExecutor();
@@ -63,7 +64,7 @@ public class App extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 try(PrintWriter pw = new PrintWriter("ptp_settings")){
-                    pw.println(newFPS+"\n"+userIndex);
+                    pw.println(newFPS+"\n"+userIndex+"\n"+firstTimeOpen+"\n"+ Selection.collectionIndex);
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -89,7 +90,7 @@ public class App extends JFrame {
                 case 3 ->{
                     try {
                         display = new Chart();
-                    } catch (IOException | LineUnavailableException | RuntimeException e) {
+                    } catch (IOException | LineUnavailableException | RuntimeException | UnsupportedAudioFileException e) {
                         throw new RuntimeException("Corrupted Chart Detected");
                     }
                 }

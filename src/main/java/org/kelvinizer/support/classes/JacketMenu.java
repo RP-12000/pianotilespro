@@ -4,53 +4,38 @@ package org.kelvinizer.support.classes;
 import javax.imageio.ImageIO;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
+
+import static org.kelvinizer.constants.Control.getResourceInput;
 
 public class JacketMenu{
     private final String dir;
-    private final ArrayList<Pair<String, BufferedImage>> menu = new ArrayList<>();
+    private ArrayList<Pair<String, BufferedImage>> menu;
     private int menuIndex;
 
-    private BufferedImage getJacket(File f){
-        File[] lf = f.listFiles();
-        if(lf == null){
-            return null;
-        }
-        BufferedImage bf = null;
-        for(File thing: lf){
-            try{
-                bf = ImageIO.read(thing);
-                if(bf!=null){
-                    return bf;
-                }
-            } catch (IOException ignored) {}
-        }
-        return bf;
-    }
-
     private void updateMenu() {
-        menu.clear();
-        File f = new File(dir);
-        File[] lf = f.listFiles();
-        if(lf == null){
-            throw new RuntimeException();
-        }
-        for(File thing: lf){
-            if(thing.isDirectory()){
-                try{
-                    String path = thing.getCanonicalPath();
-                    String[] temp = path.split("\\\\");
-                    try{
-                        menu.add(new Pair<>(temp[temp.length-1], getJacket(thing)));
-                    } catch (RuntimeException e) {
-                        throw new RuntimeException(e);
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+        menu = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(getResourceInput(dir + "/.ptpmenu")));
+        while(true){
+            String s;
+            try{
+                s = Objects.requireNonNull(br.readLine());
+            } catch (IOException | NullPointerException e){
+                break;
             }
+
+            BufferedImage bi;
+            try{
+                bi = ImageIO.read(getResourceInput(dir +"/"+s+"/jacket.jpg"));
+            } catch (Exception e){
+                bi=null;
+            }
+            menu.add(new Pair<>(s, bi));
+        }
+        if(menu.isEmpty()){
+            throw new RuntimeException("Empty Jacket Menu not allowed");
         }
     }
 

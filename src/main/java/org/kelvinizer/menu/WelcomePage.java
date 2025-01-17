@@ -100,7 +100,7 @@ public class WelcomePage extends AnimatablePanel {
                 userIndex=0;
             }
             loading.setString("Scanning for Songs");
-            collections = new JacketMenu("Chart", 0);
+            collections = new JacketMenu("Chart", collectionIndex);
             int totalSongs = -1;
             for(int i=0; i<collections.size(); i++){
                 JacketMenu jm = new JacketMenu("Chart/"+collections.getSelectionString(i), 0);
@@ -108,7 +108,7 @@ public class WelcomePage extends AnimatablePanel {
                 songIndex.put(collections.getSelectionString(i), 0);
                 songs.put(collections.getSelectionString(i), jm);
                 songData.put(collections.getSelectionString(i), new ArrayList<>());
-                loading.setString("Found "+totalSongs+1+" songs");
+                loading.setString("Found "+(totalSongs+1)+" songs");
             }
             for(int i=0; i<collections.size(); i++){
                 for(int j=0; j<songs.get(collections.getSelectionString(i)).size(); j++){
@@ -121,6 +121,7 @@ public class WelcomePage extends AnimatablePanel {
             }
             collectionDir = collections.getSelectionString(0);
             success=true;
+            firstTimeOpen=false;
         } catch (RuntimeException e) {
             bar.setFillColor(Color.DARK_GRAY);
             loading.setStringColor(Color.RED);

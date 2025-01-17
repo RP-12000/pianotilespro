@@ -6,6 +6,9 @@ import org.kelvinizer.support.classes.Pair;
 import java.io.*;
 import java.util.HashMap;
 
+import static org.kelvinizer.constants.Control.firstTimeOpen;
+import static org.kelvinizer.constants.Control.getResourceInput;
+
 public class Song {
     private final String absoluteDir, songName, composer, illustration;
     private final boolean lg;
@@ -17,7 +20,7 @@ public class Song {
         String[] sp = dir.split("/");
         songName = sp[sp.length-1];
         try{
-            BufferedReader br = new BufferedReader(new FileReader(dir+"/credits.txt"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(getResourceInput(dir+"/credits.txt")));
             composer = br.readLine();
             illustration = br.readLine();
             OFFSET = Double.parseDouble(br.readLine());
@@ -35,18 +38,19 @@ public class Song {
         } catch (IOException e){
             throw new RuntimeException("Error when reading credits for this song: "+songName);
         }
-
-        if(!Chart.isValidChart(this, "BS")){
-            throw new RuntimeException("Broken Basic Chart");
-        }
-        else if(!Chart.isValidChart(this, "MD")){
-            throw new RuntimeException("Broken MD Chart");
-        }
-        else if(!Chart.isValidChart(this, "AV")){
-            throw new RuntimeException("Broken MD Chart");
-        }
-        else if(lg && !Chart.isValidChart(this, "LG")){
-            throw new RuntimeException("Broken MD Chart");
+        if(firstTimeOpen){
+            if(!Chart.isValidChart(this, "BS")){
+                throw new RuntimeException("Broken Basic Chart");
+            }
+            else if(!Chart.isValidChart(this, "MD")){
+                throw new RuntimeException("Broken MD Chart");
+            }
+            else if(!Chart.isValidChart(this, "AV")){
+                throw new RuntimeException("Broken MD Chart");
+            }
+            else if(lg && !Chart.isValidChart(this, "LG")){
+                throw new RuntimeException("Broken MD Chart");
+            }
         }
     }
 

@@ -8,7 +8,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Objects;
+
+import static org.kelvinizer.constants.Control.getResourceInput;
 
 public class CRectButton extends KButton {
     private BoundedString normal;
@@ -137,7 +138,7 @@ public class CRectButton extends KButton {
 
     public boolean setIcon(String iconPath){
         try {
-            icon = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/" + iconPath)));
+            icon = ImageIO.read(getResourceInput(iconPath));
             return true;
         } catch (RuntimeException | IOException e) {
             icon = null;

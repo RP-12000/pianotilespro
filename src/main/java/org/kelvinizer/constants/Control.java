@@ -1,15 +1,18 @@
 package org.kelvinizer.constants;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Control {
     public static final String GAME_VERSION = "v0.0.0-a";
     public static int panel_index = 0;
     public static ArrayList<User> users = new ArrayList<>();
     public static int userIndex = 0;
-    public static int FPS;
+    public static int FPS = 60;
     public static int newFPS;
+    public static boolean firstTimeOpen = true;
 
     public static void getAllUsers(){
         File userFolder = new File("Users");
@@ -23,5 +26,9 @@ public class Control {
             }
             users.removeIf(u -> !u.isValidUser);
         }
+    }
+
+    public static BufferedInputStream getResourceInput(String path){
+        return new BufferedInputStream(Objects.requireNonNull(Control.class.getResourceAsStream("/" + path)));
     }
 }

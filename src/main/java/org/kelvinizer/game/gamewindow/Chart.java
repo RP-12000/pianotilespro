@@ -33,8 +33,8 @@ public class Chart extends AnimatablePanel {
     private final Lane[] lanes = new Lane[16];
     private double STATIC_TIMER;
 
-    private AudioInputStream inputStream = null;
-    private Clip music = null;
+    private final AudioInputStream inputStream;
+    private final Clip music;
     public static double duration;
 
     private final CRect progressBar = new CRect(0, 10);
@@ -95,29 +95,13 @@ public class Chart extends AnimatablePanel {
         }
     }
 
-    private void getMusic(File songDir) throws IOException, LineUnavailableException {
-        File[] f = songDir.listFiles();
-        if (f != null) {
-            for(File thing: f){
-                try{
-                    inputStream = AudioSystem.getAudioInputStream(thing);
-                } catch (UnsupportedAudioFileException ignored){}
-            }
-        }
-        if(inputStream!=null){
-            music = AudioSystem.getClip();
-            music.open(inputStream);
-            duration = music.getMicrosecondLength()/1e3;
-        }
-//        else{
-//            throw new RuntimeException("No audio detected");
-//        }
-    }
-
-    public Chart(Song song, String level) throws IOException, RuntimeException, LineUnavailableException {
+    public Chart(Song song, String level) throws IOException, RuntimeException, LineUnavailableException, UnsupportedAudioFileException {
         super(2000);
-        getMusic(new File(song.getAbsoluteDir()));
-        BufferedReader chart = new BufferedReader(new FileReader(song.getAbsoluteDir()+"/"+level+".txt"));
+        inputStream = AudioSystem.getAudioInputStream(getResourceInput(song.getAbsoluteDir()+"/audio.wav"));
+        music = AudioSystem.getClip();
+        music.open(inputStream);
+        duration = music.getMicrosecondLength()/1e3;
+        BufferedReader chart = new BufferedReader(new InputStreamReader(getResourceInput(song.getAbsoluteDir()+"/"+level+".txt")));
         ArrayList<Note> tempNotes = new ArrayList<>();
         noteCount = Double.parseDouble(chart.readLine());
         if(noteCount==0){
@@ -207,7 +191,7 @@ public class Chart extends AnimatablePanel {
         restart();
     }
 
-    public Chart() throws IOException, LineUnavailableException {
+    public Chart() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         this(getSongData(), Selection.level);
     }
 
@@ -215,7 +199,7 @@ public class Chart extends AnimatablePanel {
         try{
             new Chart(s, level);
             return true;
-        } catch (IOException | RuntimeException | LineUnavailableException e){
+        } catch (IOException | RuntimeException | LineUnavailableException | UnsupportedAudioFileException e){
             return false;
         }
     }
@@ -372,12 +356,14 @@ public class Chart extends AnimatablePanel {
         renderVerticalJudgement(g2d, (int) ReferenceWindow.VERTICAL_JUDGEMENT_SPACING*4);
         ct.updateText();
         ct.render(g2d);
-        progressBar.setWidth(ReferenceWindow.REF_WIN_W / (music.getMicrosecondLength()/1e6-STATIC_TIMER) * (CURRENT_TIME-STATIC_TIMER));
-        progressBar.render(g2d);
         setGlobalOpacity(g2d, 1);
         if(!isPaused){
             cb.pause.render(g2d);
             CURRENT_TIME += 1.0 / Control.FPS;
+        }
+        if(music!=null){
+            progressBar.setWidth(ReferenceWindow.REF_WIN_W / (music.getMicrosecondLength()/1e6-STATIC_TIMER) * (CURRENT_TIME-STATIC_TIMER));
+            progressBar.render(g2d);
         }
         if(progressBar.getWidth() >= ReferenceWindow.REF_WIN_W){
             try {

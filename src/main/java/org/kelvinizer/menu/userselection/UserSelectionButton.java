@@ -50,7 +50,7 @@ public class UserSelectionButton implements Scalable, Drawable, Focusable {
         BoundedString normal = new BoundedString("", 0, 50, 50, 100, 100);
         BoundedString onFocus = new BoundedString("", 0, 60, 60, 120, 120);
 
-        if(!back.setIcon("Icon/Back.jpg")) {
+        if(!back.setIcon("Back.jpg")) {
             normal.getBounds().setOutlineColor(Color.WHITE);
             normal.getBounds().setOutlineThickness(1.0);
             onFocus.getBounds().setOutlineColor(Color.BLUE);
@@ -116,12 +116,12 @@ public class UserSelectionButton implements Scalable, Drawable, Focusable {
     }
 
     private void setAddNewUser(){
-        BoundedString normal = new BoundedString("+", 200, 540, 360, 360, 180);
+        BoundedString normal = new BoundedString("Add New User", 40, 540, 330, 600, 270);
         normal.getBounds().setOutlineColor(Color.WHITE);
         normal.getBounds().setOutlineThickness(3.0);
         addNewUser.setNormal(normal);
 
-        BoundedString onFocus = new BoundedString("+", 200, 540, 360, 360, 180);
+        BoundedString onFocus = new BoundedString("Add New User", 40, 540, 330, 600, 270);
         onFocus.getBounds().setOutlineColor(Color.BLUE);
         onFocus.getBounds().setOutlineThickness(5.0);
         addNewUser.setOnFocus(onFocus);
