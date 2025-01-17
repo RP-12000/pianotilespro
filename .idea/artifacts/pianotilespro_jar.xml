@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="pianotilespro:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/pianotilespro_jar</output-path>
+    <root id="archive" name="pianotilespro.jar">
+      <element id="module-output" name="pianotilespro" />
+    </root>
+  </artifact>
+</component>
