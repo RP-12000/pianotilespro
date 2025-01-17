@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -138,7 +137,7 @@ public class CRectButton extends KButton {
 
     public boolean setIcon(String iconPath){
         try {
-            icon = ImageIO.read(new File(Objects.requireNonNull(getClass().getResource("/"+iconPath)).getPath()));
+            icon = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/" + iconPath)));
             return true;
         } catch (RuntimeException | IOException e) {
             icon = null;
