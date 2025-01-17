@@ -31,16 +31,15 @@ public class SettingsText implements Drawable {
         header.getBounds().setOutlineThickness(3.0);
     }
 
-    public void updateText(int pageNum){
-        if(pageNum==1){
+    public void updateText(){
+        if(Settings.page==1){
             firstVerdict.setString("Sync Hint");
             secondVerdict.setString("FC/AP Hint");
             thirdVerdict.setString("Hand Hint");
         }
         else{
-            firstVerdict.setString("FPS");
-            secondVerdict.setString("Music Delay");
-            thirdVerdict.setString("Tolerance");
+            firstVerdict.setString("Music Delay");
+            secondVerdict.setString("Tolerance");
         }
     }
 
@@ -53,9 +52,11 @@ public class SettingsText implements Drawable {
         header.render(g2d);
         firstVerdict.render(g2d);
         secondVerdict.render(g2d);
-        thirdVerdict.render(g2d);
         firstBoundary.render(g2d);
         secondBoundary.render(g2d);
-        thirdBoundary.render(g2d);
+        if(Settings.page==1){
+            thirdVerdict.render(g2d);
+            thirdBoundary.render(g2d);
+        }
     }
 }

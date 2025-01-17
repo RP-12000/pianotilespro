@@ -16,7 +16,7 @@ public class ResultPage extends AnimatablePanel {
     private final DynamicMotionManager dmm = new DynamicMotionManager();
     private final ResultPageButtons rpb = new ResultPageButtons(dmm);
 
-    boolean goBack = false;
+    private boolean goBack = false;
 
     public ResultPage(){
         super(1500);

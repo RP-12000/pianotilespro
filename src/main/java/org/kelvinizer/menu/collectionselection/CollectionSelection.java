@@ -68,6 +68,7 @@ public class CollectionSelection extends AnimatablePanel {
 
     @Override
     public void render(Graphics2D g2d){
+        Selection.collectionIndex = collections.getMenuIndex();
         Selection.collectionDir = collections.getSelectionString();
         cst.selectionName.setString(collections.getSelectionString().replace('_', ' '));
         cst.selectionName.render(g2d);
@@ -92,7 +93,6 @@ public class CollectionSelection extends AnimatablePanel {
 
     @Override
     public void toNextPanel() {
-        Selection.collectionIndex = collections.getMenuIndex();
         switch(sb.state){
             case SelectionButtons.EXIT -> Control.panel_index = 2;
             case SelectionButtons.BACK -> Control.panel_index = 0;

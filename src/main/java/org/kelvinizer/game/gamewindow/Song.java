@@ -12,7 +12,7 @@ import static org.kelvinizer.constants.Control.getResourceInput;
 public class Song {
     private final String absoluteDir, songName, composer, illustration;
     private final boolean lg;
-    public final HashMap<String, Pair<String, Double>> data = new HashMap<>();
+    private final HashMap<String, Pair<String, Double>> data = new HashMap<>();
     public final double OFFSET;
 
     public Song(String dir) throws RuntimeException {
@@ -39,16 +39,16 @@ public class Song {
             throw new RuntimeException("Error when reading credits for this song: "+songName);
         }
         if(firstTimeOpen){
-            if(!Chart.isValidChart(this, "BS")){
+            if(Chart.invalidChart(this, "BS")){
                 throw new RuntimeException("Broken Basic Chart");
             }
-            else if(!Chart.isValidChart(this, "MD")){
+            else if(Chart.invalidChart(this, "MD")){
                 throw new RuntimeException("Broken MD Chart");
             }
-            else if(!Chart.isValidChart(this, "AV")){
+            else if(Chart.invalidChart(this, "AV")){
                 throw new RuntimeException("Broken MD Chart");
             }
-            else if(lg && !Chart.isValidChart(this, "LG")){
+            else if(lg && Chart.invalidChart(this, "LG")){
                 throw new RuntimeException("Broken MD Chart");
             }
         }

@@ -27,7 +27,8 @@ import static org.kelvinizer.constants.Selection.*;
 
 public class Chart extends AnimatablePanel {
     public static double noteCount;
-    public static double CURRENT_TIME = 0 ;
+    public static double CURRENT_TIME = 0;
+
     private final ChartText ct = new ChartText();
     private final ChartButtons cb = new ChartButtons();
     private final Lane[] lanes = new Lane[16];
@@ -35,7 +36,6 @@ public class Chart extends AnimatablePanel {
 
     private final AudioInputStream inputStream;
     private final Clip music;
-    public static double duration;
 
     private final CRect progressBar = new CRect(0, 10);
 
@@ -100,7 +100,6 @@ public class Chart extends AnimatablePanel {
         inputStream = AudioSystem.getAudioInputStream(getResourceInput(song.getAbsoluteDir()+"/audio.wav"));
         music = AudioSystem.getClip();
         music.open(inputStream);
-        duration = music.getMicrosecondLength()/1e3;
         BufferedReader chart = new BufferedReader(new InputStreamReader(getResourceInput(song.getAbsoluteDir()+"/"+level+".txt")));
         ArrayList<Note> tempNotes = new ArrayList<>();
         noteCount = Double.parseDouble(chart.readLine());
@@ -195,12 +194,12 @@ public class Chart extends AnimatablePanel {
         this(getSongData(), Selection.level);
     }
 
-    public static boolean isValidChart(Song s, String level){
+    public static boolean invalidChart(Song s, String level){
         try{
             new Chart(s, level);
-            return true;
-        } catch (IOException | RuntimeException | LineUnavailableException | UnsupportedAudioFileException e){
             return false;
+        } catch (IOException | RuntimeException | LineUnavailableException | UnsupportedAudioFileException e){
+            return true;
         }
     }
 

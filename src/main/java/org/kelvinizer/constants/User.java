@@ -111,12 +111,7 @@ public class User {
         } catch (IOException ignored) {}
     }
 
-    public User(){
-        StringBuilder sb = new StringBuilder();
-        for(int i=0; i<10; i++){
-            sb.append((int) (Math.random() * 10));
-        }
-        userName = "User"+sb;
+    private void init(){
         for(int i=0; i<collections.size(); i++){
             String cd = collections.getSelectionString(i);
             userData.put(cd, new HashMap<>());
@@ -131,6 +126,20 @@ public class User {
             }
         }
         exportUser();
+    }
+
+    public User(String userName){
+        this.userName = userName;
+        init();
+    }
+
+    public User(){
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<10; i++){
+            sb.append((int) (Math.random() * 10));
+        }
+        userName = "User"+sb;
+        init();
     }
 
     public ScoreData getScoreData(){

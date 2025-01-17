@@ -19,36 +19,36 @@ import static org.kelvinizer.constants.JudgementLimits.*;
 import static org.kelvinizer.constants.Selection.*;
 
 public class ResultPageText {
-    public final DynamicString scoreText = new DynamicString("", 80, 280, 175);
-    public final DynamicString newBestScore = new DynamicString("", 30, 600, 180);
-    public final DynamicString grade = new DynamicString("", 120, 860, 175);
+    private final DynamicString scoreText = new DynamicString("", 80, 280, 175);
+    private final DynamicString newBestScore = new DynamicString("", 30, 600, 180);
+    private final DynamicString grade = new DynamicString("", 120, 860, 175);
 
-    public final DynamicString maxCombo = new DynamicString("", 20, 650, 340, 120, 50);
-    public final DynamicString maxComboVerdict = new DynamicString("Max Combo", 15, 650, 420);
-    public final DynamicString bestMaxCombo = new DynamicString("", 15, 650, 380);
-    public final DynamicString worstHit = new DynamicString("", 30, 800, 340, 120, 50);
-    public final DynamicString worstHitVerdict = new DynamicString("Worst Hit", 15, 800, 420);
-    public final DynamicString bestWorstHit = new DynamicString("", 15, 800, 380);
-    public final DynamicString accuracy = new DynamicString("", 30, 950, 340, 120, 50);
-    public final DynamicString accuracyVerdict = new DynamicString("Accuracy", 15, 950, 420);
-    public final DynamicString bestAccuracy = new DynamicString("", 15, 950, 380);
+    private final DynamicString maxCombo = new DynamicString("", 20, 650, 340, 120, 50);
+    private final DynamicString maxComboVerdict = new DynamicString("Max Combo", 15, 650, 420);
+    private final DynamicString bestMaxCombo = new DynamicString("", 15, 650, 380);
+    private final DynamicString worstHit = new DynamicString("", 30, 800, 340, 120, 50);
+    private final DynamicString worstHitVerdict = new DynamicString("Worst Hit", 15, 800, 420);
+    private final DynamicString bestWorstHit = new DynamicString("", 15, 800, 380);
+    private final DynamicString accuracy = new DynamicString("", 30, 950, 340, 120, 50);
+    private final DynamicString accuracyVerdict = new DynamicString("Accuracy", 15, 950, 420);
+    private final DynamicString bestAccuracy = new DynamicString("", 15, 950, 380);
 
-    public final DynamicString perfect = new DynamicString("", 15, 695, 540, 150, 30);
-    public final DynamicString bad = new DynamicString("", 15, 695, 585, 150, 30);
-    public final DynamicString miss = new DynamicString("", 15, 695, 630, 150, 30);
-    public final DynamicString good = new DynamicString("", 15, 905, 540, 150, 30);
-    public final DynamicString early = new DynamicString("", 15, 905, 585, 150, 30);
-    public final DynamicString late = new DynamicString("", 15, 905, 630, 150, 30);
+    private final DynamicString perfect = new DynamicString("", 15, 695, 540, 150, 30);
+    private final DynamicString bad = new DynamicString("", 15, 695, 585, 150, 30);
+    private final DynamicString miss = new DynamicString("", 15, 695, 630, 150, 30);
+    private final DynamicString good = new DynamicString("", 15, 905, 540, 150, 30);
+    private final DynamicString early = new DynamicString("", 15, 905, 585, 150, 30);
+    private final DynamicString late = new DynamicString("", 15, 905, 630, 150, 30);
 
-    public final DynamicString scoreBounds = new DynamicString("", 0, 540, 175, 1000, 150);
-    public final DynamicString accBounds = new DynamicString("", 0, 810, 375, 480, 150);
-    public final DynamicString noteBounds = new DynamicString("", 0, 810, 585, 480, 150);
+    private final DynamicString scoreBounds = new DynamicString("", 0, 540, 175, 1000, 150);
+    private final DynamicString accBounds = new DynamicString("", 0, 810, 375, 480, 150);
+    private final DynamicString noteBounds = new DynamicString("", 0, 810, 585, 480, 150);
 
-    public final DynamicString songName = new DynamicString(Selection.songDir.replace('_', ' '), 15, 136, 630, 192, 60);
-    public final DynamicString level = new DynamicString(Selection.level+" "+Selection.chartConstant, 15, 280, 630, 96, 60);
-    public final DynamicString userName = new DynamicString(users.get(userIndex).userName, 15, 424, 630, 192, 60);
+    private final DynamicString songName = new DynamicString(Selection.songDir.replace('_', ' '), 15, 136, 630, 192, 60);
+    private final DynamicString level = new DynamicString(Selection.level+" "+Selection.chartConstant, 15, 280, 630, 96, 60);
+    private final DynamicString userName = new DynamicString(users.get(userIndex).userName, 15, 424, 630, 192, 60);
 
-    public final DynamicImage jacket = new DynamicImage(new CRect(280, 450, 480, 300));
+    private final DynamicImage jacket = new DynamicImage(new CRect(280, 450, 480, 300));
 
     private void addMotion(DynamicString ds){
         ds.addHorizontalMotion(new Motion(

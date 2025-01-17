@@ -28,17 +28,15 @@ import static org.kelvinizer.constants.Control.*;
 
 public class App extends JFrame {
     private AnimatablePanel display;
-    int lastPanel = 0;
+    private int lastPanel = 0;
 
     public App(){
         try{
             BufferedReader br = new BufferedReader(new FileReader("ptp_settings"));
-            FPS = Integer.parseInt(br.readLine());
             userIndex = Integer.parseInt(br.readLine());
             firstTimeOpen = Boolean.parseBoolean(br.readLine());
             Selection.collectionIndex = Integer.parseInt(br.readLine());
         } catch (Exception ignored) {}
-        newFPS = FPS;
         boot();
         ScheduledExecutorService gameLoop = Executors.newSingleThreadScheduledExecutor();
         gameLoop.scheduleAtFixedRate(this::runGame, 0, 1000/Control.FPS, TimeUnit.MILLISECONDS);
@@ -64,7 +62,7 @@ public class App extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 try(PrintWriter pw = new PrintWriter("ptp_settings")){
-                    pw.println(newFPS+"\n"+userIndex+"\n"+firstTimeOpen+"\n"+ Selection.collectionIndex);
+                    pw.println(userIndex+"\n"+firstTimeOpen+"\n"+ Selection.collectionIndex);
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }

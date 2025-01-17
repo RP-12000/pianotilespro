@@ -2,7 +2,6 @@ package org.kelvinizer.menu.settingpage.settingbuttons;
 
 import org.kelvinizer.buttons.CRectButton;
 import org.kelvinizer.buttons.SlidingButton;
-import org.kelvinizer.constants.Control;
 import org.kelvinizer.shapes.CRect;
 import org.kelvinizer.support.classes.BoundedString;
 import org.kelvinizer.support.interfaces.Drawable;
@@ -17,7 +16,6 @@ import static org.kelvinizer.constants.Control.users;
 
 public class SettingsSlidingButton implements Scalable, Drawable, Focusable {
     public final SlidingButton tolerance = new SlidingButton(0, 160, users.get(userIndex).tolerance);
-    public final SlidingButton frameRate = new SlidingButton(30, 144, Control.FPS);
     public final SlidingButton musicDelay = new SlidingButton(-600, 600, users.get(userIndex).MUSIC_DIFFERENCE);
 
     private void setSlidingButton(SlidingButton sb, double y){
@@ -44,9 +42,8 @@ public class SettingsSlidingButton implements Scalable, Drawable, Focusable {
     }
 
     public SettingsSlidingButton(){
-        setSlidingButton(frameRate, 210);
-        setSlidingButton(musicDelay, 390);
-        setSlidingButton(tolerance, 570);
+        setSlidingButton(musicDelay, 210);
+        setSlidingButton(tolerance, 390);
     }
 
     @Override
@@ -55,21 +52,17 @@ public class SettingsSlidingButton implements Scalable, Drawable, Focusable {
         musicDelay.render(g2d);
         tolerance.setVerdictString((int)tolerance.getCurrentVal() +" ms");
         tolerance.render(g2d);
-        frameRate.setVerdictString((int)frameRate.getCurrentVal() +" FPS");
-        frameRate.render(g2d);
     }
 
     @Override
     public void setFocused(MouseEvent e) {
         tolerance.setFocused(e);
-        frameRate.setFocused(e);
         musicDelay.setFocused(e);
     }
 
     @Override
     public void scale(Dimension d) {
         tolerance.scale(d);
-        frameRate.scale(d);
         musicDelay.scale(d);
     }
 }

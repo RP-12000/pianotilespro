@@ -1,5 +1,12 @@
 package org.kelvinizer.support.classes;
 
+/**
+ * A motion is an exponent function with respect to time
+ * It is in the form of f(t)=a*t<sup>c</sup>+b where b and c are user-defined parameters
+ * It serves as the basis for all movement animation in the program, such as the
+ * motion of {@code DynamicObject} and the motion of {@code note}
+ * @author Boyan Hu
+ */
 public class Motion {
     private final double start, end;
     private final double exp, startPoint, constant;

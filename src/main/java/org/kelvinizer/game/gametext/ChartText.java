@@ -13,21 +13,21 @@ import static org.kelvinizer.constants.Control.users;
 import static org.kelvinizer.constants.JudgementLimits.*;
 
 public class ChartText implements Drawable {
-    public final BoundedString score = new BoundedString("0000000", 30, 990, 108);
-    public final BoundedString songName = new BoundedString(Selection.songDir.replace('_', ' '), 20, 90, 660, 140, 150);
-    public final BoundedString level = new BoundedString(Selection.level+" "+Selection.chartConstant, 20, 990, 660);
-    public final BoundedString combo = new BoundedString("", 30, 90, 108, 140, 150);
-    public final BoundedString acc = new BoundedString("", 15, 990, 144);
-    public final BoundedString userName = new BoundedString("", 15, 90, 144);
+    private final BoundedString score = new BoundedString("0000000", 30, 990, 108);
+    private final BoundedString songName = new BoundedString(Selection.songDir.replace('_', ' '), 20, 90, 660, 140, 150);
+    private final BoundedString level = new BoundedString(Selection.level+" "+Selection.chartConstant, 20, 990, 660);
+    private final BoundedString combo = new BoundedString("", 30, 90, 108, 140, 150);
+    private final BoundedString acc = new BoundedString("", 15, 990, 144);
+    private final BoundedString userName = new BoundedString("", 15, 90, 144);
 
-    public final BoundedString perfect = new BoundedString("", 18, 90, 300, 140, 30);
-    public final BoundedString good = new BoundedString("", 18, 90, 340, 140, 30);
-    public final BoundedString bad = new BoundedString("", 18, 90, 380, 140, 30);
-    public final BoundedString miss = new BoundedString("", 18, 90, 420, 140, 30);
-    public final BoundedString early = new BoundedString("", 18, 990, 300, 140, 30);
-    public final BoundedString late = new BoundedString("", 18, 990, 340, 140, 30);
-    public final BoundedString maxCombo = new BoundedString("", 18, 990, 380, 140, 30);
-    public final BoundedString worstHit = new BoundedString("", 18, 990, 420, 140, 30);
+    private final BoundedString perfect = new BoundedString("", 18, 90, 300, 140, 30);
+    private final BoundedString good = new BoundedString("", 18, 90, 340, 140, 30);
+    private final BoundedString bad = new BoundedString("", 18, 90, 380, 140, 30);
+    private final BoundedString miss = new BoundedString("", 18, 90, 420, 140, 30);
+    private final BoundedString early = new BoundedString("", 18, 990, 300, 140, 30);
+    private final BoundedString late = new BoundedString("", 18, 990, 340, 140, 30);
+    private final BoundedString maxCombo = new BoundedString("", 18, 990, 380, 140, 30);
+    private final BoundedString worstHit = new BoundedString("", 18, 990, 420, 140, 30);
 
     private void setMaxStringSizes(){
         songName.setMaxStringSize(20);

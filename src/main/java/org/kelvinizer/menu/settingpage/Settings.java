@@ -2,6 +2,7 @@ package org.kelvinizer.menu.settingpage;
 
 import org.kelvinizer.animation.AnimatablePanel;
 import org.kelvinizer.constants.Control;
+import org.kelvinizer.menu.settingpage.settingbuttons.ResetUserButton;
 import org.kelvinizer.menu.settingpage.settingbuttons.SettingsCRectButtons;
 import org.kelvinizer.menu.settingpage.settingbuttons.SettingsGeneralButton;
 import org.kelvinizer.menu.settingpage.settingbuttons.SettingsSlidingButton;
@@ -18,6 +19,7 @@ public class Settings extends AnimatablePanel {
     private final SettingsCRectButtons scb = new SettingsCRectButtons();
     private final SettingsGeneralButton sgb = new SettingsGeneralButton();
     private final SettingsSlidingButton ssb = new SettingsSlidingButton();
+    private final ResetUserButton rub = new ResetUserButton();
     private final SettingsText st = new SettingsText();
     public static int page = 1;
 
@@ -47,6 +49,46 @@ public class Settings extends AnimatablePanel {
                 }
             }
         });
+        addKeyBinding(KeyEvent.VK_LEFT, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(page==2){
+                    ssb.musicDelay.moveSlider(-1.0);
+                }
+            }
+        });
+        addKeyBinding(KeyEvent.VK_RIGHT, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(page==2){
+                    ssb.musicDelay.moveSlider(1.0);
+                }
+            }
+        });
+        addKeyBinding(KeyEvent.VK_LEFT, true, KeyEvent.SHIFT_DOWN_MASK, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(page==2){
+                    ssb.tolerance.moveSlider(-1.0);
+                }
+            }
+        });
+        addKeyBinding(KeyEvent.VK_RIGHT, true, KeyEvent.SHIFT_DOWN_MASK, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(page==2){
+                    ssb.tolerance.moveSlider(1.0);
+                }
+            }
+        });
+        addKeyBinding(KeyEvent.VK_R, true, KeyEvent.CTRL_DOWN_MASK, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(page==2){
+                    rub.resetUserData();
+                }
+            }
+        });
         addKeyBinding(KeyEvent.VK_PAGE_DOWN, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,13 +114,13 @@ public class Settings extends AnimatablePanel {
         scb.setFocused(e);
         sgb.setFocused(e);
         ssb.setFocused(e);
+        rub.setFocused(e);
     }
 
     @Override
     public void mouseDragged(MouseEvent e){
         if(page==2){
             ssb.musicDelay.moveSlider(e);
-            ssb.frameRate.moveSlider(e);
             ssb.tolerance.moveSlider(e);
         }
     }
@@ -100,6 +142,11 @@ public class Settings extends AnimatablePanel {
                 users.get(userIndex).handHintEnabled = false;
             }
         }
+        else{
+            if(rub.resetUser.isFocused()){
+                rub.resetUserData();
+            }
+        }
         if(sgb.back.isFocused()){
             exit();
         }
@@ -116,11 +163,14 @@ public class Settings extends AnimatablePanel {
         scb.scale(d);
         ssb.scale(d);
         sgb.scale(d);
+        rub.scale(d);
     }
 
     @Override
     public void render(Graphics2D g2d){
         sgb.back.render(g2d);
+        st.updateText();
+        st.render(g2d);
         if(page==1){
             sgb.moveRight.render(g2d);
             scb.render(g2d);
@@ -128,10 +178,8 @@ public class Settings extends AnimatablePanel {
         if(page==2){
             sgb.moveLeft.render(g2d);
             ssb.render(g2d);
+            rub.render(g2d);
         }
-        st.updateText(page);
-        st.render(g2d);
-        newFPS = (int) ssb.frameRate.getCurrentVal();
         users.get(userIndex).MUSIC_DIFFERENCE = (int) ssb.musicDelay.getCurrentVal();
         users.get(userIndex).tolerance = (int) ssb.tolerance.getCurrentVal();
     }
