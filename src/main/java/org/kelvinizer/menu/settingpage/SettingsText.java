@@ -7,14 +7,14 @@ import org.kelvinizer.support.interfaces.Drawable;
 import java.awt.*;
 
 public class SettingsText implements Drawable {
-    private final BoundedString header = new BoundedString("", 30, 540, 100);
-    private final BoundedString firstVerdict = new BoundedString("", 25, 300, 200, 150, 60);
-    private final BoundedString secondVerdict = new BoundedString("", 25, 300, 380, 150, 60);
-    private final BoundedString thirdVerdict = new BoundedString("", 25, 300, 560, 150, 60);
+    private final BoundedString header = new BoundedString("", 30, 540, 100, 150, 60);
+    private final BoundedString firstVerdict = new BoundedString("", 25, 300, 240, 150, 60);
+    private final BoundedString secondVerdict = new BoundedString("", 25, 300, 420, 150, 60);
+    private final BoundedString thirdVerdict = new BoundedString("", 25, 300, 600, 150, 60);
 
-    private final CRect firstBoundary = new CRect(540, 200, 720, 160);
-    private final CRect secondBoundary = new CRect(540, 380, 720, 160);
-    private final CRect thirdBoundary = new CRect(540, 560, 720, 160);
+    private final CRect firstBoundary = new CRect(540, 240, 720, 160);
+    private final CRect secondBoundary = new CRect(540, 420, 720, 160);
+    private final CRect thirdBoundary = new CRect(540, 600, 720, 160);
 
     public void setBoundAndVerdict(BoundedString verdict, CRect bound){
         verdict.getBounds().setOutlineColor(Color.WHITE);
@@ -27,6 +27,8 @@ public class SettingsText implements Drawable {
         setBoundAndVerdict(firstVerdict, firstBoundary);
         setBoundAndVerdict(secondVerdict, secondBoundary);
         setBoundAndVerdict(thirdVerdict, thirdBoundary);
+        header.getBounds().setOutlineColor(Color.WHITE);
+        header.getBounds().setOutlineThickness(3.0);
     }
 
     public void updateText(int pageNum){

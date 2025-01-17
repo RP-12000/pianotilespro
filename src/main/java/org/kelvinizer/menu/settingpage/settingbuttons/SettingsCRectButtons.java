@@ -64,9 +64,9 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
     }
 
     public SettingsCRectButtons(){
-        setOnAndOffIndicator(syncOn, syncOff, 200);
-        setOnAndOffIndicator(FCAP_On, FCAP_Off, 380);
-        setOnAndOffIndicator(handHintOn, handHintOff, 560);
+        setOnAndOffIndicator(syncOn, syncOff, 240);
+        setOnAndOffIndicator(FCAP_On, FCAP_Off, 420);
+        setOnAndOffIndicator(handHintOn, handHintOff, 600);
     }
 
     @Override

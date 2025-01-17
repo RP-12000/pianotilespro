@@ -44,9 +44,9 @@ public class SettingsSlidingButton implements Scalable, Drawable, Focusable {
     }
 
     public SettingsSlidingButton(){
-        setSlidingButton(frameRate, 170);
-        setSlidingButton(musicDelay, 350);
-        setSlidingButton(tolerance, 530);
+        setSlidingButton(frameRate, 210);
+        setSlidingButton(musicDelay, 390);
+        setSlidingButton(tolerance, 570);
     }
 
     @Override
