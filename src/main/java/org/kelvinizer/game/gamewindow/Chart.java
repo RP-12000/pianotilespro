@@ -116,8 +116,8 @@ public class Chart extends AnimatablePanel {
 
     public Chart(Song song, String level) throws IOException, RuntimeException, LineUnavailableException {
         super(2000);
-        getMusic(new File(getResourcePathName(song.getAbsoluteDir())));
-        BufferedReader chart = new BufferedReader(new FileReader(getResourcePathName(song.getAbsoluteDir()+"/"+level+".txt")));
+        getMusic(new File(song.getAbsoluteDir()));
+        BufferedReader chart = new BufferedReader(new FileReader(song.getAbsoluteDir()+"/"+level+".txt"));
         ArrayList<Note> tempNotes = new ArrayList<>();
         noteCount = Double.parseDouble(chart.readLine());
         if(noteCount==0){
@@ -142,8 +142,7 @@ public class Chart extends AnimatablePanel {
             else{
                 throw new RuntimeException("Invalid Note detected at Note No."+i);
             }
-        }
-        tempNotes.sort((Note a, Note b) -> (int)( (a.getStartTime()-b.getStartTime())));
+        }tempNotes.sort((Note a, Note b) -> (int)( (a.getStartTime()-b.getStartTime())));
         for(int i=0; i<tempNotes.size()-1; i++){
             if(tempNotes.get(i).equals(tempNotes.get(i+1))){
                 tempNotes.get(i).sync();

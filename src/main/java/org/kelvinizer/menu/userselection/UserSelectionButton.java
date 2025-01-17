@@ -50,7 +50,7 @@ public class UserSelectionButton implements Scalable, Drawable, Focusable {
         BoundedString normal = new BoundedString("", 0, 50, 50, 100, 100);
         BoundedString onFocus = new BoundedString("", 0, 60, 60, 120, 120);
 
-        if(!back.setIcon("Back.jpg")) {
+        if(!back.setIcon("Icon/Back.jpg")) {
             normal.getBounds().setOutlineColor(Color.WHITE);
             normal.getBounds().setOutlineThickness(1.0);
             onFocus.getBounds().setOutlineColor(Color.BLUE);

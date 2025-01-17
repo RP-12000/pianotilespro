@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.kelvinizer.constants.Control.getResourcePathName;
-
 public class JacketMenu{
     private final String dir;
     private final ArrayList<Pair<String, BufferedImage>> menu = new ArrayList<>();
@@ -34,7 +32,7 @@ public class JacketMenu{
 
     private void updateMenu() {
         menu.clear();
-        File f = new File(getResourcePathName(dir));
+        File f = new File(dir);
         File[] lf = f.listFiles();
         if(lf == null){
             throw new RuntimeException();

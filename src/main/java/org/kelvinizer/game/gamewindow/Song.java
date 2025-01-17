@@ -6,8 +6,6 @@ import org.kelvinizer.support.classes.Pair;
 import java.io.*;
 import java.util.HashMap;
 
-import static org.kelvinizer.constants.Control.getResourcePathName;
-
 public class Song {
     private final String absoluteDir, songName, composer, illustration;
     private final boolean lg;
@@ -19,7 +17,7 @@ public class Song {
         String[] sp = dir.split("/");
         songName = sp[sp.length-1];
         try{
-            BufferedReader br = new BufferedReader(new FileReader(getResourcePathName(dir+"/credits.txt")));
+            BufferedReader br = new BufferedReader(new FileReader(dir+"/credits.txt"));
             composer = br.readLine();
             illustration = br.readLine();
             OFFSET = Double.parseDouble(br.readLine());

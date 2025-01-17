@@ -2,7 +2,6 @@ package org.kelvinizer.constants;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Control {
     public static final String GAME_VERSION = "v0.0.0-a";
@@ -11,10 +10,6 @@ public class Control {
     public static int userIndex = 0;
     public static int FPS;
     public static int newFPS;
-
-    public static String getResourcePathName(String path){
-        return Objects.requireNonNull(Control.class.getResource("/"+path)).getPath();
-    }
 
     public static void getAllUsers(){
         File userFolder = new File("Users");
