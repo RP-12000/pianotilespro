@@ -13,14 +13,40 @@ import java.awt.event.MouseEvent;
 import static org.kelvinizer.constants.Control.userIndex;
 import static org.kelvinizer.constants.Control.users;
 
+/**
+ * The {@code SettingsCRectButtons} class handles the functionality and rendering of the
+ * setting buttons used to toggle user-specific settings such as sync, FC/AP (Full Combo/ All Perfect) hints, and hand hints.
+ * Implements {@link Scalable}, {@link Drawable}, and {@link Focusable}.
+ * @author Boyan Hu
+ */
 public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
+
+    /** Button for enabling sync. */
     public final CRectButton syncOn = new CRectButton();
+
+    /** Button for disabling sync. */
     public final CRectButton syncOff = new CRectButton();
+
+    /** Button for enabling FC/AP hints. */
     public final CRectButton FCAP_On = new CRectButton();
+
+    /** Button for disabling FC/AP hints. */
     public final CRectButton FCAP_Off = new CRectButton();
+
+    /** Button for enabling hand hints. */
     public final CRectButton handHintOn = new CRectButton();
+
+    /** Button for disabling hand hints. */
     public final CRectButton handHintOff = new CRectButton();
 
+    /**
+     * Initializes the "On" and "Off" buttons for each setting (sync, FC/AP, and hand hints),
+     * setting their appearance and behavior for normal, focused, and selected states.
+     *
+     * @param on the "On" button
+     * @param off the "Off" button
+     * @param y the vertical position of the buttons on the screen
+     */
     private void setOnAndOffIndicator(CRectButton on, CRectButton off, double y){
         BoundedString normalOn = new BoundedString("On", 50);
         normalOn.setBounds(new CRect(540, y, 160, 96));
@@ -63,12 +89,21 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
         off.setOnSelection(onSelection);
     }
 
+    /**
+     * Constructs a {@code SettingsCRectButtons} instance and initializes the buttons
+     * for the settings: sync, FCAP hints, and hand hints.
+     */
     public SettingsCRectButtons(){
         setOnAndOffIndicator(syncOn, syncOff, 240);
         setOnAndOffIndicator(FCAP_On, FCAP_Off, 420);
         setOnAndOffIndicator(handHintOn, handHintOff, 600);
     }
 
+    /**
+     * Scales the buttons and their associated elements based on the new window dimensions.
+     *
+     * @param d the new dimension of the window
+     */
     @Override
     public void scale(Dimension d) {
         syncOn.scale(d);
@@ -79,8 +114,15 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
         handHintOff.scale(d);
     }
 
+    /**
+     * Renders the buttons based on the current user settings (sync, FCAP, and hand hints).
+     * The button states will be updated to reflect whether the features are enabled or disabled.
+     *
+     * @param g2d the {@link Graphics2D} object responsible for drawing
+     */
     @Override
     public void render(Graphics2D g2d) {
+        // Update button states based on the user's settings
         if(users.get(userIndex).syncEnabled){
             syncOff.select(false);
             syncOn.select(true);
@@ -89,6 +131,7 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
             syncOff.select(true);
             syncOn.select(false);
         }
+
         if(users.get(userIndex).FCAPHintEnabled){
             FCAP_Off.select(false);
             FCAP_On.select(true);
@@ -97,6 +140,7 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
             FCAP_Off.select(true);
             FCAP_On.select(false);
         }
+
         if(users.get(userIndex).handHintEnabled){
             handHintOff.select(false);
             handHintOn.select(true);
@@ -105,6 +149,8 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
             handHintOff.select(true);
             handHintOn.select(false);
         }
+
+        // Render buttons
         syncOn.render(g2d);
         syncOff.render(g2d);
         FCAP_On.render(g2d);
@@ -113,6 +159,11 @@ public class SettingsCRectButtons implements Scalable, Drawable, Focusable {
         handHintOff.render(g2d);
     }
 
+    /**
+     * Sets the focus state for all buttons based on the mouse event.
+     *
+     * @param e the {@link MouseEvent} indicating the focus event
+     */
     @Override
     public void setFocused(MouseEvent e) {
         syncOn.setFocused(e);

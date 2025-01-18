@@ -10,11 +10,26 @@ import org.kelvinizer.support.interfaces.Scalable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * The {@code SettingsGeneralButton} class represents the general buttons used for settings
+ * navigation and actions, such as the back button, and the move left and move right buttons.
+ * Implements {@link Scalable} and {@link Focusable}.
+ * @author Boyan Hu
+ */
 public class SettingsGeneralButton implements Scalable, Focusable {
+
+    /** Button for navigating back in settings. */
     public final CRectButton back = new CRectButton();
+
+    /** Button for moving left in settings. */
     public final CTriangleButton moveLeft = new CTriangleButton();
+
+    /** Button for moving right in settings. */
     public final CTriangleButton moveRight = new CTriangleButton();
 
+    /**
+     * Sets up the appearance and behavior for the back button, including normal and focus states.
+     */
     private void setBack(){
         BoundedString normal = new BoundedString("", 0, 50, 50, 100, 100);
         BoundedString onFocus = new BoundedString("", 0, 60, 60, 120, 120);
@@ -30,6 +45,9 @@ public class SettingsGeneralButton implements Scalable, Focusable {
         back.setOnFocus(onFocus);
     }
 
+    /**
+     * Sets up the appearance and behavior for the move left button, including normal and focus states.
+     */
     private void setMoveLeft(){
         CTriangle normal = new CTriangle();
         normal.setFirstPoint(60, 310);
@@ -48,6 +66,9 @@ public class SettingsGeneralButton implements Scalable, Focusable {
         moveLeft.setOnFocus(onFocus);
     }
 
+    /**
+     * Sets up the appearance and behavior for the move right button, including normal and focus states.
+     */
     private void setMoveRight(){
         CTriangle normal = new CTriangle();
         normal.setFirstPoint(1020, 310);
@@ -66,12 +87,21 @@ public class SettingsGeneralButton implements Scalable, Focusable {
         moveRight.setOnFocus(onFocus);
     }
 
+    /**
+     * Constructs a {@code SettingsGeneralButton} instance and initializes the back, move left,
+     * and move right buttons by setting their appearance and behavior.
+     */
     public SettingsGeneralButton(){
         setBack();
         setMoveLeft();
         setMoveRight();
     }
 
+    /**
+     * Sets the focused state for all buttons based on the mouse event.
+     *
+     * @param e the {@link MouseEvent} indicating the focus event
+     */
     @Override
     public void setFocused(MouseEvent e) {
         back.setFocused(e);
@@ -79,6 +109,11 @@ public class SettingsGeneralButton implements Scalable, Focusable {
         moveRight.setFocused(e);
     }
 
+    /**
+     * Scales the buttons based on the new window dimensions.
+     *
+     * @param d the new dimensions of the window
+     */
     @Override
     public void scale(Dimension d) {
         back.scale(d);

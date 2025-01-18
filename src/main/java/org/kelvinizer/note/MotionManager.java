@@ -12,6 +12,7 @@ import static org.kelvinizer.constants.ReferenceWindow.UNIT;
  * Manages the motion of {@code Note} over time in the game.
  * It stores a sequence of motions and calculates the position and movement
  * of a note based on its time and associated motions.
+ * @author Boyan Hu
  */
 public class MotionManager {
 

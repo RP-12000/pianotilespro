@@ -12,7 +12,7 @@ import static org.kelvinizer.constants.Selection.*;
 
 /**
  * Represents a user with their settings, game data, and score information.
- * Provides methods to load and save user data, as well as access scores and FCAP (Full Combo/All Perfect) statistics.
+ * Provides methods to load and save user data, as well as access scores and FC/AP (Full Combo/All Perfect) statistics.
  * @author Boyan Hu
  */
 public class User {

@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
  * This panel contains buttons for restarting the game or going back to the previous screen,
  * and it handles user input for interaction such as mouse movements, clicks, and keyboard events.
  * The page also supports dynamic animations and transitions during the appearance and rendering.
+ * @author Boyan Hu
  */
 public class ResultPage extends AnimatablePanel {
 

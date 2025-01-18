@@ -11,6 +11,7 @@ import java.awt.*;
  * converting to a {@link Rectangle} and scaling the rectangle.
  *
  * @see CShape
+ * @author Boyan Hu
  */
 public class CRect extends CShape {
 

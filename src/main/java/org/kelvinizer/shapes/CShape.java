@@ -11,6 +11,7 @@ import java.awt.*;
  * Implements the {@link Drawable} interface.
  *
  * @see Drawable
+ * @author Boyan Hu
  */
 public abstract class CShape implements Drawable {
 

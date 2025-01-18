@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 /**
  * The {@code SlidingButton} class represents a UI component consisting of a base, a slider, and an optional verdict text.
  * The slider allows users to select a value within a defined range.
- * @author Boyan HU
+ * @author Boyan Hu
  */
 public class SlidingButton implements Focusable, Drawable, Scalable {
     private CRect base = new CRect();

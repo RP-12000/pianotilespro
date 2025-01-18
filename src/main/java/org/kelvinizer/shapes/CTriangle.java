@@ -10,6 +10,7 @@ import static org.kelvinizer.constants.ReferenceWindow.*;
  * converting to a {@link Polygon} and scaling the triangle.
  *
  * @see CShape
+ * @author Boyan Hu
  */
 public class CTriangle extends CShape {
 

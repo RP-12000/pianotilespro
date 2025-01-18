@@ -22,6 +22,7 @@ import static org.kelvinizer.constants.Selection.*;
  * It extends {@link AnimatablePanel} and manages user interactions such as keyboard inputs, mouse movements,
  * and button clicks. It updates the song and level selection based on the user's actions and renders the
  * corresponding UI elements.
+ * @author Boyan Hu
  */
 public class SongSelection extends AnimatablePanel {
 

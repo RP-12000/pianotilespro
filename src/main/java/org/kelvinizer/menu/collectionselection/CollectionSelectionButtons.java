@@ -8,11 +8,24 @@ import org.kelvinizer.support.interfaces.Scalable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * Represents the buttons used in the collection selection menu for navigating left and right.
+ * Implements {@link Scalable} and {@link Focusable} to support responsive scaling and focus handling.
+ * @author Boyan Hu
+ */
 public class CollectionSelectionButtons implements Scalable, Focusable {
+
+    /** Button for moving to the previous collection. */
     public final CTriangleButton moveLeft = new CTriangleButton();
+
+    /** Button for moving to the next collection. */
     public final CTriangleButton moveRight = new CTriangleButton();
 
-    private void setMoveLeft(){
+    /**
+     * Configures the appearance and behavior of the {@code moveLeft} button.
+     * Sets its normal state and on-focus state using {@link CTriangle}.
+     */
+    private void setMoveLeft() {
         CTriangle normal = new CTriangle();
         normal.setFirstPoint(60, 310);
         normal.setSecondPoint(60, 410);
@@ -30,7 +43,11 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
         moveLeft.setOnFocus(onFocus);
     }
 
-    private void setMoveRight(){
+    /**
+     * Configures the appearance and behavior of the {@code moveRight} button.
+     * Sets its normal state and on-focus state using {@link CTriangle}.
+     */
+    private void setMoveRight() {
         CTriangle normal = new CTriangle();
         normal.setFirstPoint(1020, 310);
         normal.setSecondPoint(1020, 410);
@@ -48,17 +65,32 @@ public class CollectionSelectionButtons implements Scalable, Focusable {
         moveRight.setOnFocus(onFocus);
     }
 
-    public CollectionSelectionButtons(){
+    /**
+     * Constructs a {@code CollectionSelectionButtons} instance and initializes the buttons
+     * for navigating left and right.
+     */
+    public CollectionSelectionButtons() {
         setMoveLeft();
         setMoveRight();
     }
 
+    /**
+     * Scales the {@code moveLeft} and {@code moveRight} buttons based on the given dimensions.
+     *
+     * @param d the {@link Dimension} representing the new display size
+     */
     @Override
     public void scale(Dimension d) {
         moveLeft.scale(d);
         moveRight.scale(d);
     }
 
+    /**
+     * Updates the focus state of the {@code moveLeft} and {@code moveRight} buttons
+     * based on the mouse position.
+     *
+     * @param e the {@link MouseEvent} representing the mouse movement
+     */
     @Override
     public void setFocused(MouseEvent e) {
         moveLeft.setFocused(e);

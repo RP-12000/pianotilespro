@@ -11,6 +11,7 @@ import static org.kelvinizer.constants.JudgementLimits.maxScore;
  * Represents the score data for a game session, including the player's score, maximum combo, accuracy,
  * worst hit time, and whether the player achieved a full combo (FC) or is playing a new chart.
  * This class provides methods to format and display the score and performance statistics.
+ * @author Boyan Hu
  */
 public class ScoreData {
 

@@ -18,7 +18,7 @@ public class DynamicImage extends DynamicObject {
     private BufferedImage bf;
 
     /** The bounds of the image */
-    private CRect bounds;
+    private final CRect bounds;
 
     /**
      * Constructs a new {@code DynamicImage} with specified bounds.

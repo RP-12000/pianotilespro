@@ -30,6 +30,7 @@ import static org.kelvinizer.constants.Selection.*;
  * The chart is responsible for handling the timing and display of notes, managing keyboard input for note hits,
  * controlling the music playback, and rendering the game environment.
  * It provides functionality for restarting, pausing, and interacting with the gameplay via keybindings.
+ * @author Boyan Hu
  */
 public class Chart extends AnimatablePanel {
     /**
