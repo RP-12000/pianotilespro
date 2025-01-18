@@ -156,7 +156,7 @@ public class SongSelectionText {
         autoplayVerdict.addVerticalMotion(new Motion(0, 0.8, 320, 200));
         autoplayVerdict.addHorizontalMotion(new Motion(2.8, 4.0, 450, 1530, 3.5));
         bestScore.setRelativeX(0.3);
-        bestScore.getBounds().setOutlineThickness(1.0);
+        bestScore.getBounds().setOutlineThickness(3.0);
         newSong.setStyle(Font.ITALIC);
         setDm();
     }
@@ -174,11 +174,16 @@ public class SongSelectionText {
         selectedLevel.getBoundedString().setString(Selection.level);
         selectedSongDifficulty.getBoundedString().setString(levelToString(sd.get(jm.getMenuIndex()).getCharterData()));
 
-        bestScore.setString(getScoreData().getScoreString());
-        bestAcc.setString(getScoreData().getAccuracyString());
-        bestWorstHit.setString(getScoreData().getWorstHitString());
         getScoreData().setGradeString(bestGrade);
+
+        bestScore.setString(getScoreData().getScoreString());
         bestScore.getBounds().setOutlineColor(bestGrade.getStringColor());
+        bestScore.setStringColor(bestGrade.getStringColor());
+        bestAcc.setString(getScoreData().getAccuracyString());
+        bestAcc.setStringColor(bestGrade.getStringColor());
+        bestWorstHit.setString(getScoreData().getWorstHitString());
+        bestWorstHit.setStringColor(bestGrade.getStringColor());
+
         isNewSong = getScoreData().newChart;
 
         if(!jm.atBeginning()){

@@ -90,8 +90,14 @@ public class ScoreData {
             grade.setString("V");
         }
         else{
-            grade.setStringColor(Color.GREEN);
-            grade.setString("P");
+            if(worstHit<=1/60.0){
+                grade.setString("T");
+                grade.setStringColor(Color.MAGENTA);
+            }
+            else{
+                grade.setString("P");
+                grade.setStringColor(Color.GREEN);
+            }
         }
     }
 
