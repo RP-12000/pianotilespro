@@ -346,7 +346,7 @@ public abstract class Note implements Comparable<Note> {
      */
     @Override
     public int compareTo(Note n) {
-        return (int)(perfect_hit_time - n.perfect_hit_time);
+        return (int) (1e6*(perfect_hit_time - n.perfect_hit_time));
     }
 
     /**

@@ -113,7 +113,11 @@ public class Lane {
      * Sorts the notes in both the render and judgement orders based on their start times.
      */
     void sort() {
-        renderOrder.sort((Note a, Note b) -> (int)((a.getStartTime() - b.getStartTime())));
+        renderOrder.sort(
+                (Note a, Note b) -> (
+                        (int) (1000*(a.getStartTime() - b.getStartTime()))
+                )
+        );
         judgementOrder.sort(Note::compareTo);
     }
 

@@ -202,11 +202,11 @@ public class Chart extends AnimatablePanel {
             if(s[0].equals("0")){
                 n = TapNote.parseTapNote(chart.readLine(), song.OFFSET);
             }
-            else if(s[1].equals("1")){
+            else if(s[0].equals("1")){
                 n = HoldNote.parseHoldNote(chart.readLine(), song.OFFSET);
             }
             else{
-                throw new RuntimeException("Invalid Note Type detected at Note No."+i);
+                throw new RuntimeException("Invalid Note type detected at Note No."+i);
             }
             for(int j=0; j<numMotions; j++){
                 n.addMotion(new Motion(chart.readLine()));
@@ -225,7 +225,11 @@ public class Chart extends AnimatablePanel {
                 tempNotes.get(i+1).sync();
             }
         }
-        tempNotes.sort((Note a, Note b) -> (int)((a.getStartTime() - b.getStartTime())));
+        tempNotes.sort(
+                (Note a, Note b) -> (
+                        (int) (1e6*(a.getStartTime() - b.getStartTime()))
+                )
+        );
         STATIC_TIMER = Math.min(0.0, tempNotes.getFirst().getStartTime());
         if(!users.isEmpty()){
             STATIC_TIMER = Math.min(STATIC_TIMER, users.get(userIndex).MUSIC_DIFFERENCE);
