@@ -46,10 +46,10 @@ public class CollectionSelection extends AnimatablePanel {
 
     @Override
     public void mouseClicked(MouseEvent e){
-        if(csb.moveRight.isFocused() && !collections.atEnd()){
+        if(csb.moveRight.isFocused() && collections.notAtEnd()){
             collections.moveForward();
         }
-        else if(csb.moveLeft.isFocused() && !collections.atBeginning()){
+        else if(csb.moveLeft.isFocused() && collections.notAtBeginning()){
             collections.moveBackward();
         }
         sb.process();
@@ -72,10 +72,10 @@ public class CollectionSelection extends AnimatablePanel {
         Selection.collectionDir = collections.getSelectionString();
         cst.selectionName.setString(collections.getSelectionString().replace('_', ' '));
         cst.selectionName.render(g2d);
-        if(!collections.atBeginning()){
+        if(collections.notAtBeginning()){
             csb.moveLeft.render(g2d);
         }
-        if(!collections.atEnd()){
+        if(collections.notAtEnd()){
             csb.moveRight.render(g2d);
         }
         if(collections.getSelectionJacket()!=null){

@@ -86,15 +86,15 @@ public class HoldNote extends Note{
     @Override
     public void judge(int signal) {
         if(signal == 0){
-            if (Chart.CURRENT_TIME - perfect_hit_time > JudgementLimits.BAD_LIMIT && status == 4) {
+            if (Chart.CURRENT_TIME - perfect_hit_time > JudgementLimits.BAD && status == 4) {
                 status = 3;
             }
         }
         else if (signal == 1) {
             double difference = perfect_hit_time - Chart.CURRENT_TIME;
-            if (Math.abs(difference) <= JudgementLimits.GOOD_LIMIT) {
+            if (Math.abs(difference) <= JudgementLimits.GOOD) {
                 actual_hit_time = Chart.CURRENT_TIME;
-                if (Math.abs(difference) > JudgementLimits.PERFECT_LIMIT) {
+                if (Math.abs(difference) > JudgementLimits.PERFECT) {
                     status = 1;
                 }
                 else {

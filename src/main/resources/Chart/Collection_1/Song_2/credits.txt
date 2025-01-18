@@ -1,7 +1,7 @@
 Kelvin
 Kelvin
-0
+0.45
 false
-Kelvin 1.0
+Kelvin 1.5
 Kelvin 2.0
 Kelvin 15.0

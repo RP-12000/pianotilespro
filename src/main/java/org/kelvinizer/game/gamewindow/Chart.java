@@ -107,7 +107,12 @@ public class Chart extends AnimatablePanel {
             throw new RuntimeException("Zero-note chart detected");
         }
         for(int i=0; i<(int)noteCount; i++){
-            String[] s = chart.readLine().split(" ");
+            String string = chart.readLine();
+            String[] s = string.split(" ");
+            if(s.length==0 || string.startsWith("#")){
+                i--;
+                continue;
+            }
             int numMotions = Integer.parseInt(s[1]);
             Note n;
             if(s[0].equals("0")){
@@ -233,10 +238,10 @@ public class Chart extends AnimatablePanel {
     }
 
     private void setJudgementLineColor(Graphics2D g2d){
-        if(Lane.bad+Lane.good+Lane.miss == 0 && users.get(userIndex).FCAPHintEnabled){
+        if(Lane.worstHit<=JudgementLimits.PERFECT && users.get(userIndex).FCAPHintEnabled){
             g2d.setColor(Color.GREEN);
         }
-        else if(Lane.bad+Lane.miss == 0 && users.get(userIndex).FCAPHintEnabled){
+        else if(Lane.worstHit<=JudgementLimits.GOOD && users.get(userIndex).FCAPHintEnabled){
             g2d.setColor(Color.BLUE);
         }
         else{
@@ -280,7 +285,6 @@ public class Chart extends AnimatablePanel {
         setGlobalOpacity(g2d, timePoint);
         ct.updateText();
         ct.render(g2d);
-        setGlobalOpacity(g2d, 1);
         renderVerticalJudgement(g2d, (int) (ReferenceWindow.VERTICAL_JUDGEMENT_SPACING*4*Math.min(timePoint, 1)));
     }
 
@@ -295,7 +299,6 @@ public class Chart extends AnimatablePanel {
                 setGlobalOpacity(g2d, 1.0-timePoint);
                 ct.updateText();
                 ct.render(g2d);
-                setGlobalOpacity(g2d, 1);
                 renderVerticalJudgement(g2d, (int) (ReferenceWindow.VERTICAL_JUDGEMENT_SPACING*4*(1-timePoint)));
                 progressBar.setY(-progressBar.getHeight()*timePoint);
                 progressBar.render(g2d);

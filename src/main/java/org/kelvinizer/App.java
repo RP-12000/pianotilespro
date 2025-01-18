@@ -26,10 +26,25 @@ import java.util.concurrent.*;
 
 import static org.kelvinizer.constants.Control.*;
 
+/**
+ * The {@code App} class represents the main application window for the PianoTilesPro game.
+ * It extends {@link JFrame} and serves as the entry point for initializing the game interface,
+ * managing different game panels, and handling user settings and panel transitions.
+ * @author Boyan Hu
+ */
 public class App extends JFrame {
+
+    /** The currently displayed panel. */
     private AnimatablePanel display;
+
+    /** The index of the last panel displayed. */
     private int lastPanel = 0;
 
+    /**
+     * Constructs an {@code App} instance and initializes the game.
+     * The constructor reads the settings from a file and starts the game loop in a scheduled executor.
+     * It also makes the window visible.
+     */
     public App(){
         try{
             BufferedReader br = new BufferedReader(new FileReader("ptp_settings"));
@@ -43,19 +58,24 @@ public class App extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Initializes the main window and sets up the initial panel and window closing behavior.
+     * The window is titled "PianoTilesPro" and its size is based on reference window constants.
+     * The window will dispose properly when closed, saving user settings and performing clean-up tasks.
+     */
     private void boot(){
         setTitle("PianoTilesPro");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(0, 0,
-                (int) ReferenceWindow.REF_WIN_W+ReferenceWindow.extraWidth,
-                (int) ReferenceWindow.REF_WIN_H+ReferenceWindow.extraHeight
+                (int) ReferenceWindow.REF_WIN_W + ReferenceWindow.extraWidth,
+                (int) ReferenceWindow.REF_WIN_H + ReferenceWindow.extraHeight
         );
         display = new WelcomePage();
         add(display);
         addWindowListener(new WindowAdapter() {
             /**
-             * Invoked when a window is in the process of being closed.
-             * The close operation can be overridden at this point.
+             * Invoked when the window is in the process of being closed.
+             * It saves user settings, deletes temporary files, and exports user data before exiting.
              *
              * @param e the event to be processed
              */
@@ -77,10 +97,15 @@ public class App extends JFrame {
         });
     }
 
+    /**
+     * The game loop method that runs periodically to update the displayed panel based on the current panel index.
+     * It switches the displayed panel when the panel index changes, and it properly sets the bounds
+     * and scaling of the new panel.
+     */
     private void runGame(){
-        if(lastPanel!= Control.panel_index){
+        if(lastPanel != Control.panel_index){
             remove(display);
-            display = null;//Java Garbage Collector
+            display = null; // Java Garbage Collector
             switch (Control.panel_index){
                 case 0 -> display = new WelcomePage();
                 case 1 -> display = new CollectionSelection();
@@ -93,26 +118,25 @@ public class App extends JFrame {
                     }
                 }
                 case 4 -> display = new ResultPage();
-                case 5, 6-> display = new UserSelection();
+                case 5, 6 -> display = new UserSelection();
                 default -> display = new Settings();
             }
             display.setBounds(0, 0,
-                    getSize().width-ReferenceWindow.extraWidth,
-                    getSize().height-ReferenceWindow.extraHeight
+                    getSize().width - ReferenceWindow.extraWidth,
+                    getSize().height - ReferenceWindow.extraHeight
             );
             add(display);
             revalidate();
             lastPanel = panel_index;
-        }
-        else{
+        } else {
             display.setBounds(0, 0,
-                    getSize().width-ReferenceWindow.extraWidth,
-                    getSize().height-ReferenceWindow.extraHeight
+                    getSize().width - ReferenceWindow.extraWidth,
+                    getSize().height - ReferenceWindow.extraHeight
             );
         }
         display.scale(new Dimension(
-                getSize().width-ReferenceWindow.extraWidth,
-                getSize().height-ReferenceWindow.extraHeight
+                getSize().width - ReferenceWindow.extraWidth,
+                getSize().height - ReferenceWindow.extraHeight
         ));
     }
 }

@@ -75,6 +75,9 @@ public class SongSelection extends AnimatablePanel {
             }
         });
         sb.addKeyBindings(this);
+        if(!getSongData().hasLG() && Selection.level.equals("LG")){
+            Selection.level = "AV";
+        }
     }
 
     @Override
@@ -158,11 +161,11 @@ public class SongSelection extends AnimatablePanel {
         sb.render(g2d);
         sst.updateSelectionStrings(songs.get(collectionDir), songData.get(collectionDir));
         sst.renderCurrent(g2d);
-        if(!songs.get(collectionDir).atBeginning()){
+        if(songs.get(collectionDir).notAtBeginning()){
             ssb.moveUp.render(g2d);
             sst.renderPrevious(g2d);
         }
-        if(!songs.get(collectionDir).atEnd()){
+        if(songs.get(collectionDir).notAtEnd()){
             ssb.moveDown.render(g2d);
             sst.renderNext(g2d);
         }

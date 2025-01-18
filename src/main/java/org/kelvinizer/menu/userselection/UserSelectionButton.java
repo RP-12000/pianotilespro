@@ -28,7 +28,7 @@ public class UserSelectionButton implements Scalable, Drawable, Focusable {
 
     public final CRectButton addNewUser = new CRectButton();
 
-    private void setLevelButton(CRectButton crb, String s, int x){
+    private void setLevelButton(CRectButton crb, String s, int x, Color c){
         BoundedString normal = new BoundedString(s, 24, x, 140, 80, 50);
         BoundedString onFocus = new BoundedString(s, 24, x, 140, 80, 50);
         BoundedString onSelect = new BoundedString(s, 24, x, 140, 80, 50);
@@ -38,8 +38,8 @@ public class UserSelectionButton implements Scalable, Drawable, Focusable {
         onFocus.getBounds().setOutlineThickness(5.0);
         onFocus.getBounds().setOutlineColor(Color.BLUE);
         onSelect.getBounds().setOutlineThickness(3.0);
-        onSelect.getBounds().setOutlineColor(Color.GREEN);
-        onSelect.setStringColor(Color.GREEN);
+        onSelect.getBounds().setOutlineColor(Color.WHITE);
+        onSelect.getBounds().setFillColor(c);
 
         crb.setNormal(normal);
         crb.setOnFocus(onFocus);
@@ -128,10 +128,10 @@ public class UserSelectionButton implements Scalable, Drawable, Focusable {
     }
 
     public UserSelectionButton(){
-        setLevelButton(basic, "BS", 405);
-        setLevelButton(medium, "MD", 495);
-        setLevelButton(advanced, "AV", 585);
-        setLevelButton(legendary, "LG", 675);
+        setLevelButton(basic, "BS", 405, Color.GREEN);
+        setLevelButton(medium, "MD", 495, Color.BLUE);
+        setLevelButton(advanced, "AV", 585, Color.RED);
+        setLevelButton(legendary, "LG", 675, Color.MAGENTA);
         setBack();
         setMoveLeft();
         setMoveRight();

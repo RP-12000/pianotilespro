@@ -1,5 +1,6 @@
 package org.kelvinizer.game.gamewindow;
 
+import org.kelvinizer.constants.JudgementLimits;
 import org.kelvinizer.support.classes.BoundedString;
 
 import java.awt.*;
@@ -90,7 +91,7 @@ public class ScoreData {
             grade.setString("V");
         }
         else{
-            if(worstHit<=1/60.0){
+            if(worstHit<=JudgementLimits.THEORETICAL){
                 grade.setString("T");
                 grade.setStringColor(Color.MAGENTA);
             }

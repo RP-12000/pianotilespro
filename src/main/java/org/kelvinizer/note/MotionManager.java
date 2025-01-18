@@ -41,7 +41,7 @@ public class MotionManager {
                 return m.getPos(time)*UNIT;
             }
         }
-        return FINAL_POS/ JudgementLimits.BAD_LIMIT * (time - duration) * UNIT;
+        return FINAL_POS/ JudgementLimits.BAD * (time - duration) * UNIT;
     }
 
     public double dist(double time){

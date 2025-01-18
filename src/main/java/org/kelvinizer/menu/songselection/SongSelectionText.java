@@ -186,12 +186,12 @@ public class SongSelectionText {
 
         isNewSong = getScoreData().newChart;
 
-        if(!jm.atBeginning()){
+        if(jm.notAtBeginning()){
             previousSong.setString(jm.getSelectionString(jm.getMenuIndex()-1));
             previousSongComposer.setString(sd.get(jm.getMenuIndex()-1).getComposer());
             previousSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()-1).getCharterData()));
         }
-        if(!jm.atEnd()){
+        if(jm.notAtEnd()){
             nextSong.setString(jm.getSelectionString(jm.getMenuIndex()+1));
             nextSongComposer.setString(sd.get(jm.getMenuIndex()+1).getComposer());
             nextSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()+1).getCharterData()));

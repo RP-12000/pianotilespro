@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/pianotilespro_jar</output-path>
     <root id="archive" name="pianotilespro.jar">
       <element id="module-output" name="pianotilespro" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/maven/maven-artifact/4.0.0-rc-2/maven-artifact-4.0.0-rc-2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

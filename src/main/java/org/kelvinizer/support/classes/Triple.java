@@ -8,8 +8,19 @@ package org.kelvinizer.support.classes;
  * @author Boyan Hu
  */
 public class Triple<A, B, C> {
+    /**
+     * The first object with type A
+     */
     public A first;
+
+    /**
+     * The second object with type B
+     */
     public B second;
+
+    /**
+     * The third object with type C
+     */
     public C third;
 
     /**

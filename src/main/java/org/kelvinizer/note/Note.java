@@ -136,7 +136,7 @@ public abstract class Note implements Comparable<Note>{
                         0.0,
                         fillColor.getAlpha() - Math.max(
                                 0.0,
-                                fillColor.getAlpha() / JudgementLimits.GOOD_LIMIT * (Chart.CURRENT_TIME - perfect_hit_time)
+                                fillColor.getAlpha() / JudgementLimits.GOOD * (Chart.CURRENT_TIME - perfect_hit_time)
                         )
                 ))
         ));
@@ -145,7 +145,7 @@ public abstract class Note implements Comparable<Note>{
                 (int)(Math.max(
                         0.0,
                         SYNC_COLOR.getAlpha() - Math.max(
-                                0.0, SYNC_COLOR.getAlpha() / JudgementLimits.GOOD_LIMIT * (Chart.CURRENT_TIME - perfect_hit_time)
+                                0.0, SYNC_COLOR.getAlpha() / JudgementLimits.GOOD * (Chart.CURRENT_TIME - perfect_hit_time)
                         )
                 ))
         ));
