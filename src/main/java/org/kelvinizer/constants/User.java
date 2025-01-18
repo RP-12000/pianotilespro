@@ -10,19 +10,48 @@ import java.util.HashMap;
 import static org.kelvinizer.constants.Control.*;
 import static org.kelvinizer.constants.Selection.*;
 
+/**
+ * Represents a user with their settings, game data, and score information.
+ * Provides methods to load and save user data, as well as access scores and FCAP (Full Combo/All Perfect) statistics.
+ * @author Boyan Hu
+ */
 public class User {
+
+    /** The name of the user. */
     public String userName;
+
+    /** Flag indicating whether autoplay is enabled. */
     public boolean isAutoplay = false;
+
+    /** Flag indicating whether synchronization is enabled. */
     public boolean syncEnabled = true;
+
+    /** Flag indicating whether FCAP (Full Combo/All Perfect) hint is enabled. */
     public boolean FCAPHintEnabled = true;
+
+    /** Flag indicating whether hints for left and right hand is enabled. */
     public boolean handHintEnabled = false;
+
+    /** The music difference setting. */
     public int MUSIC_DIFFERENCE = 0;
+
+    /** The tolerance setting for the user. */
     public int tolerance = 80;
+
+    /** A map storing the user's game data, indexed by collection, song, and level. */
     public HashMap<String, HashMap<String, HashMap<String, ScoreData>>> userData = new HashMap<>();
+
+    /** Flag indicating whether the user is valid. */
     public boolean isValidUser = true;
 
+    /**
+     * Reads the user's settings from the given BufferedReader.
+     *
+     * @param userInfo The BufferedReader to read user settings from.
+     * @throws RuntimeException If an error occurs while reading the settings.
+     */
     private void readSettings(BufferedReader userInfo){
-        try{
+        try {
             userName = userInfo.readLine();
             isAutoplay = Boolean.parseBoolean(userInfo.readLine());
             syncEnabled = Boolean.parseBoolean(userInfo.readLine());
@@ -35,6 +64,11 @@ public class User {
         }
     }
 
+    /**
+     * Writes the user's settings to the given PrintWriter.
+     *
+     * @param pw The PrintWriter to write the user's settings to.
+     */
     private void printSettings(PrintWriter pw){
         pw.println(userName);
         pw.println(isAutoplay);
@@ -45,6 +79,11 @@ public class User {
         pw.println(tolerance);
     }
 
+    /**
+     * Constructor that initializes a User object by reading data from a file.
+     *
+     * @param f The file containing the user data.
+     */
     public User(File f){
         try{
             String[] s = f.getCanonicalPath().split("\\\\");
@@ -88,6 +127,9 @@ public class User {
         }
     }
 
+    /**
+     * Exports the user's data to a file in the "Users" directory.
+     */
     public void exportUser(){
         try{
             PrintWriter user = new PrintWriter(new FileWriter("Users/"+userName+".ptpuser"));
@@ -111,6 +153,9 @@ public class User {
         } catch (IOException ignored) {}
     }
 
+    /**
+     * Initializes the user's data by iterating through all collections and songs, and setting default score data.
+     */
     private void init(){
         for(int i=0; i<collections.size(); i++){
             String cd = collections.getSelectionString(i);
@@ -128,11 +173,19 @@ public class User {
         exportUser();
     }
 
+    /**
+     * Constructor to create a User object with the specified user name.
+     *
+     * @param userName The user's name.
+     */
     public User(String userName){
         this.userName = userName;
         init();
     }
 
+    /**
+     * Default constructor that generates a random user name and initializes the user data.
+     */
     public User(){
         StringBuilder sb = new StringBuilder();
         for(int i=0; i<10; i++){
@@ -142,10 +195,22 @@ public class User {
         init();
     }
 
+    /**
+     * Retrieves the score data for the current user, song, and level.
+     *
+     * @return The score data for the current user, song, and level.
+     */
     public ScoreData getScoreData(){
         return userData.get(collectionDir).get(songDir).get(level);
     }
 
+    /**
+     * Retrieves FCAP (Full Combo/All Perfect) statistics for a given collection and level.
+     *
+     * @param cd The collection ID.
+     * @param level The level ID (e.g., "LG").
+     * @return A pair containing the total number of songs and a triple of FCAP statistics: new charts, full combos, and perfect scores.
+     */
     public Pair<Integer, Triple<Integer, Integer, Integer>> getFCAPData(String cd, String level){
         Pair<Integer, Triple<Integer, Integer, Integer>> ans = new Pair<>(0, new Triple<>(0, 0, 0));
         if(level.equals("LG")){
@@ -190,14 +255,24 @@ public class User {
         return ans;
     }
 
-    public Pair<Integer, Triple<Integer, Integer, Integer>> getWholeGameFCAPData(String level){
+    /**
+     * Retrieves the FCAP (Full Combo/All Perfect) data for the entire game at a specific difficulty level.
+     * This method aggregates the FCAP data across all collections in the game.
+     *
+     * @param level The difficulty level to retrieve the FCAP data for (e.g., "BS", "MD", "AV", or "LG").
+     * @return A {@code Pair} containing the total number of songs with FCAP data, and a {@code Triple} containing:
+     *         - The count of songs with new charts,
+     *         - The count of songs with a full combo (FC),
+     *         - The count of songs with a perfect score (score equals 1000000).
+     */
+    public Pair<Integer, Triple<Integer, Integer, Integer>> getWholeGameFCAPData(String level) {
         Pair<Integer, Triple<Integer, Integer, Integer>> ans = new Pair<>(0, new Triple<>(0,0,0));
-        for(int i=0; i<collections.size(); i++){
+        for (int i = 0; i < collections.size(); i++) {
             Pair<Integer, Triple<Integer, Integer, Integer>> a = getFCAPData(collections.getSelectionString(i), level);
-            ans.first+=a.first;
-            ans.second.first+=a.second.first;
-            ans.second.second+=a.second.second;
-            ans.second.third+=a.second.third;
+            ans.first += a.first;
+            ans.second.first += a.second.first;
+            ans.second.second += a.second.second;
+            ans.second.third += a.second.third;
         }
         return ans;
     }

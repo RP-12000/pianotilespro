@@ -130,14 +130,15 @@ public class Chart extends AnimatablePanel {
             else{
                 throw new RuntimeException("Invalid Note detected at Note No."+i);
             }
-        }tempNotes.sort((Note a, Note b) -> (int)( (a.getStartTime()-b.getStartTime())));
+        }
+        tempNotes.sort(Note::compareTo);
         for(int i=0; i<tempNotes.size()-1; i++){
             if(tempNotes.get(i).equals(tempNotes.get(i+1))){
                 tempNotes.get(i).sync();
                 tempNotes.get(i+1).sync();
             }
         }
-        STATIC_TIMER = Math.min(0.0, tempNotes.getFirst().getPerfectHitTime() - tempNotes.getFirst().getTotalMovementTime());
+        STATIC_TIMER = Math.min(0.0, tempNotes.getFirst().getStartTime());
         if(!users.isEmpty()){
             STATIC_TIMER = Math.min(STATIC_TIMER, users.get(userIndex).MUSIC_DIFFERENCE);
         }

@@ -16,15 +16,42 @@ import static org.kelvinizer.constants.Control.userIndex;
 import static org.kelvinizer.constants.Control.users;
 import static org.kelvinizer.constants.Selection.*;
 
+/**
+ * The {@code SongSelection} class handles the song selection interface, including navigation through the
+ * available songs, level selection, and the behavior of the UI elements related to the song selection panel.
+ * It extends {@link AnimatablePanel} and manages user interactions such as keyboard inputs, mouse movements,
+ * and button clicks. It updates the song and level selection based on the user's actions and renders the
+ * corresponding UI elements.
+ */
 public class SongSelection extends AnimatablePanel {
+
+    /**
+     * A flag indicating whether the end scene has started.
+     */
     private boolean startEndScene = false;
 
+    /**
+     * The {@code SelectionButtons} instance used to handle general selection buttons.
+     */
     private final SelectionButtons sb = new SelectionButtons();
+
+    /**
+     * The {@code SongSelectionButtons} instance used to handle the song-specific selection buttons.
+     */
     private final SongSelectionButtons ssb = new SongSelectionButtons();
+
+    /**
+     * The {@code SongSelectionText} instance that manages text rendering for the song selection panel.
+     */
     private final SongSelectionText sst = new SongSelectionText();
 
+    /**
+     * Constructs a new {@code SongSelection} panel, initializing key bindings and selection behavior.
+     */
     public SongSelection(){
         super();
+
+        // Key bindings for navigating and selecting levels and songs
         addKeyBinding(KeyEvent.VK_UP, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,23 +101,41 @@ public class SongSelection extends AnimatablePanel {
                 users.get(userIndex).isAutoplay = !users.get(userIndex).isAutoplay;
             }
         });
+
+        // Add key bindings for the selection buttons
         sb.addKeyBindings(this);
         if(!getSongData().hasLG() && Selection.level.equals("LG")){
             Selection.level = "AV";
         }
     }
 
+    /**
+     * Scales the UI components based on the given {@code Dimension}.
+     *
+     * @param d The {@code Dimension} to scale the UI components to.
+     */
     @Override
     public void scale(Dimension d){
         ssb.scale(d);
+        sb.scale(d);
     }
 
+    /**
+     * Handles mouse movement events by updating the focus on the selection buttons.
+     *
+     * @param e The {@code MouseEvent} representing the mouse movement.
+     */
     @Override
     public void mouseMoved(MouseEvent e){
         ssb.setFocused(e);
         sb.setFocused(e);
     }
 
+    /**
+     * Handles mouse click events and processes actions such as moving between songs and selecting levels.
+     *
+     * @param e The {@code MouseEvent} representing the mouse click.
+     */
     @Override
     public void mouseClicked(MouseEvent e){
         sb.process();
@@ -125,6 +170,11 @@ public class SongSelection extends AnimatablePanel {
         }
     }
 
+    /**
+     * Handles mouse wheel events to move through the song list.
+     *
+     * @param e The {@code MouseWheelEvent} representing the mouse wheel movement.
+     */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e){
         songs.get(collectionDir).move(e);
@@ -133,6 +183,11 @@ public class SongSelection extends AnimatablePanel {
         }
     }
 
+    /**
+     * Handles the disappearance of the {@code SongSelection} panel and triggers the end scene animation.
+     *
+     * @param g2d The {@code Graphics2D} object used for rendering.
+     */
     @Override
     public void onDisappearance(Graphics2D g2d){
         if(sb.state == 0){
@@ -148,6 +203,12 @@ public class SongSelection extends AnimatablePanel {
         }
     }
 
+    /**
+     * Renders the UI components for the song selection panel, including the song jacket, song information,
+     * and the selection buttons.
+     *
+     * @param g2d The {@code Graphics2D} object used for rendering.
+     */
     @Override
     public void render(Graphics2D g2d){
         songDir = songs.get(collectionDir).getSelectionString();
@@ -180,6 +241,9 @@ public class SongSelection extends AnimatablePanel {
         }
     }
 
+    /**
+     * Transitions to the next panel based on the current selection, updating the {@code Control.panel_index}.
+     */
     @Override
     public void toNextPanel(){
         songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());

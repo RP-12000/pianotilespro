@@ -8,12 +8,29 @@ import org.kelvinizer.support.interfaces.Scalable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * The {@code ChartButtons} class represents a collection of interactive buttons (Pause, Play, Restart, Back)
+ * used in a game interface. Each button is represented as a {@link CRectButton}, and it supports scaling and focus functionality.
+ * The buttons are initialized with appropriate icons and visual effects when focused.
+ * @author Boyan Hu
+ */
 public class ChartButtons implements Scalable, Focusable {
+
+    /** The pause button */
     public final CRectButton pause = new CRectButton();
+
+    /** The play button */
     public final CRectButton play = new CRectButton();
+
+    /** The restart button */
     public final CRectButton restart = new CRectButton();
+
+    /** The back button */
     public final CRectButton back = new CRectButton();
 
+    /**
+     * Initializes the pause button with its icon, bounds, and visual effects when focused.
+     */
     private void initPause(){
         BoundedString normal = new BoundedString("", 0, 90, 54, 40, 40);
         BoundedString onFocus = new BoundedString("", 0, 90, 54, 48, 48);
@@ -29,6 +46,9 @@ public class ChartButtons implements Scalable, Focusable {
         pause.setOnFocus(onFocus);
     }
 
+    /**
+     * Initializes the play button with its icon, bounds, and visual effects when focused.
+     */
     private void initPlay(){
         BoundedString normal = new BoundedString("", 0, 600, 360, 40, 40);
         BoundedString onFocus = new BoundedString("", 0, 600, 360, 48, 48);
@@ -44,6 +64,9 @@ public class ChartButtons implements Scalable, Focusable {
         play.setOnFocus(onFocus);
     }
 
+    /**
+     * Initializes the restart button with its icon, bounds, and visual effects when focused.
+     */
     private void initRestart(){
         BoundedString normal = new BoundedString("", 0, 540, 360, 40, 40);
         BoundedString onFocus = new BoundedString("", 0, 540, 360, 48, 48);
@@ -59,6 +82,9 @@ public class ChartButtons implements Scalable, Focusable {
         restart.setOnFocus(onFocus);
     }
 
+    /**
+     * Initializes the back button with its icon, bounds, and visual effects when focused.
+     */
     private void initBack(){
         BoundedString normal = new BoundedString("", 0, 480, 360, 40, 40);
         BoundedString onFocus = new BoundedString("", 0, 480, 360, 48, 48);
@@ -74,6 +100,9 @@ public class ChartButtons implements Scalable, Focusable {
         back.setOnFocus(onFocus);
     }
 
+    /**
+     * Constructs the {@code ChartButtons} and initializes all the buttons (Pause, Play, Restart, Back).
+     */
     public ChartButtons(){
         initBack();
         initPlay();
@@ -81,6 +110,11 @@ public class ChartButtons implements Scalable, Focusable {
         initRestart();
     }
 
+    /**
+     * Sets the focus state for all the buttons based on the given {@code MouseEvent}.
+     *
+     * @param e the {@code MouseEvent} used to determine which button is focused
+     */
     @Override
     public void setFocused(MouseEvent e) {
         back.setFocused(e);
@@ -89,6 +123,11 @@ public class ChartButtons implements Scalable, Focusable {
         restart.setFocused(e);
     }
 
+    /**
+     * Scales all the buttons based on the given {@code Dimension}.
+     *
+     * @param d the {@code Dimension} used to scale the buttons
+     */
     @Override
     public void scale(Dimension d) {
         back.scale(d);

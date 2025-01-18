@@ -81,6 +81,9 @@ public class App extends JFrame {
              */
             @Override
             public void windowClosing(WindowEvent e) {
+                if(users.isEmpty()){
+                    return;
+                }
                 try(PrintWriter pw = new PrintWriter("ptp_settings")){
                     pw.println(userIndex+"\n"+firstTimeOpen+"\n"+ Selection.collectionIndex);
                 } catch (FileNotFoundException ex) {

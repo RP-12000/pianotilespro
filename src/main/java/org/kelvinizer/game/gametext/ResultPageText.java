@@ -18,53 +18,162 @@ import static org.kelvinizer.constants.Control.users;
 import static org.kelvinizer.constants.JudgementLimits.*;
 import static org.kelvinizer.constants.Selection.*;
 
+/**
+ * Class responsible for managing and rendering the result page text and related graphics
+ * during the game.
+ * It updates and displays various statistics such as score, accuracy, combo, and worst hit,
+ * as well as handling the creation of dynamic motion for UI elements.
+ * @author Boyan Hu
+ */
 public class ResultPageText {
+    /**
+     * The score text displayed on the result page, representing the user's score.
+     */
     private final DynamicString scoreText = new DynamicString("", 80, 280, 175);
+
+    /**
+     * The text displayed when the user achieves a new best score.
+     */
     private final DynamicString newBestScore = new DynamicString("", 30, 600, 180);
+
+    /**
+     * The grade or rating text displayed on the result page.
+     */
     private final DynamicString grade = new DynamicString("", 120, 860, 175);
 
+    /**
+     * The text representing the maximum combo achieved by the user.
+     */
     private final DynamicString maxCombo = new DynamicString("", 20, 650, 340, 120, 50);
+
+    /**
+     * The verdict text displayed next to the max combo statistic, labeled "Max Combo".
+     */
     private final DynamicString maxComboVerdict = new DynamicString("Max Combo", 15, 650, 420);
+
+    /**
+     * The best max combo achieved by the user.
+     */
     private final DynamicString bestMaxCombo = new DynamicString("", 15, 650, 380);
+
+    /**
+     * The worst hit text displayed for the user, showing their worst hit result.
+     */
     private final DynamicString worstHit = new DynamicString("", 30, 800, 340, 120, 50);
+
+    /**
+     * The verdict text displayed next to the worst hit statistic, labeled "Worst Hit".
+     */
     private final DynamicString worstHitVerdict = new DynamicString("Worst Hit", 15, 800, 420);
+
+    /**
+     * The best worst hit result achieved by the user.
+     */
     private final DynamicString bestWorstHit = new DynamicString("", 15, 800, 380);
+
+    /**
+     * The accuracy text displayed for the user, showing their accuracy result.
+     */
     private final DynamicString accuracy = new DynamicString("", 30, 950, 340, 120, 50);
+
+    /**
+     * The verdict text displayed next to the accuracy statistic, labeled "Accuracy".
+     */
     private final DynamicString accuracyVerdict = new DynamicString("Accuracy", 15, 950, 420);
+
+    /**
+     * The best accuracy result achieved by the user.
+     */
     private final DynamicString bestAccuracy = new DynamicString("", 15, 950, 380);
 
+    /**
+     * The number of perfect hits made by the user.
+     */
     private final DynamicString perfect = new DynamicString("", 15, 695, 540, 150, 30);
+
+    /**
+     * The number of bad hits made by the user.
+     */
     private final DynamicString bad = new DynamicString("", 15, 695, 585, 150, 30);
+
+    /**
+     * The number of missed hits made by the user.
+     */
     private final DynamicString miss = new DynamicString("", 15, 695, 630, 150, 30);
+
+    /**
+     * The number of good hits made by the user.
+     */
     private final DynamicString good = new DynamicString("", 15, 905, 540, 150, 30);
+
+    /**
+     * The number of early hits made by the user.
+     */
     private final DynamicString early = new DynamicString("", 15, 905, 585, 150, 30);
+
+    /**
+     * The number of late hits made by the user.
+     */
     private final DynamicString late = new DynamicString("", 15, 905, 630, 150, 30);
 
+    /**
+     * The boundaries of the score display area.
+     */
     private final DynamicString scoreBounds = new DynamicString("", 0, 540, 175, 1000, 150);
+
+    /**
+     * The boundaries of the accuracy display area.
+     */
     private final DynamicString accBounds = new DynamicString("", 0, 810, 375, 480, 150);
+
+    /**
+     * The boundaries of the note display area.
+     */
     private final DynamicString noteBounds = new DynamicString("", 0, 810, 585, 480, 150);
 
+    /**
+     * The name of the song being displayed, with special formatting to replace underscores with spaces.
+     */
     private final DynamicString songName = new DynamicString(Selection.songDir.replace('_', ' '), 15, 136, 630, 192, 60);
-    private final DynamicString level = new DynamicString(Selection.level+" "+Selection.chartConstant, 15, 280, 630, 96, 60);
+
+    /**
+     * The level and chart constant for the song, formatted as a string (e.g., "level chartConstant").
+     */
+    private final DynamicString level = new DynamicString(Selection.level + " " + Selection.chartConstant, 15, 280, 630, 96, 60);
+
+    /**
+     * The user name of the player, retrieved from the users list by user index.
+     */
     private final DynamicString userName = new DynamicString(users.get(userIndex).userName, 15, 424, 630, 192, 60);
 
+    /**
+     * The jacket image displayed in the result screen.
+     */
     private final DynamicImage jacket = new DynamicImage(new CRect(280, 450, 480, 300));
 
-    private void addMotion(DynamicString ds){
+    /**
+     * Adds horizontal motion to the provided DynamicString object to animate its movement.
+     *
+     * @param ds the DynamicString object to which motion is added.
+     */
+    private void addMotion(DynamicString ds) {
         ds.addHorizontalMotion(new Motion(
                 0, 1.5,
-                ds.getBoundedString().getBounds().getX()- ReferenceWindow.REF_WIN_W,
+                ds.getBoundedString().getBounds().getX() - ReferenceWindow.REF_WIN_W,
                 ds.getBoundedString().getBounds().getX(),
                 0.5
         ));
     }
 
-    private void initMotion(){
+    /**
+     * Initializes the horizontal motion for all DynamicString and DynamicImage objects on the result page.
+     * This method configures the animations for score text, grade, combo, accuracy, and other statistics.
+     */
+    private void initMotion() {
         jacket.addHorizontalMotion(new Motion(0, 1.5, -800, 280, 0.5));
         addMotion(scoreText);
         addMotion(newBestScore);
         addMotion(grade);
-
         addMotion(maxCombo);
         addMotion(maxComboVerdict);
         addMotion(bestMaxCombo);
@@ -74,36 +183,42 @@ public class ResultPageText {
         addMotion(accuracy);
         addMotion(accuracyVerdict);
         addMotion(bestAccuracy);
-
         addMotion(perfect);
         addMotion(good);
         addMotion(bad);
         addMotion(miss);
         addMotion(early);
         addMotion(late);
-
         addMotion(scoreBounds);
         addMotion(accBounds);
         addMotion(noteBounds);
-
         addMotion(songName);
         addMotion(level);
         addMotion(userName);
     }
 
-    private void initBound(DynamicString ds){
+    /**
+     * Initializes the bounds and outline properties for a specific DynamicString object.
+     *
+     * @param ds the DynamicString object to initialize bounds for.
+     */
+    private void initBound(DynamicString ds) {
         ds.getBoundedString().getBounds().setOutlineColor(grade.getBoundedString().getStringColor());
         ds.getBoundedString().getBounds().setOutlineThickness(3.0f);
     }
 
-    private void initBounds(){
+    /**
+     * Initializes the bounds for various DynamicString objects, such as song name, level, user name, and score bounds.
+     * This method also checks if the user is set to autoplay and changes the user name color accordingly.
+     */
+    private void initBounds() {
         initBound(songName);
         initBound(level);
         initBound(userName);
         initBound(scoreBounds);
         initBound(accBounds);
         initBound(noteBounds);
-        if(users.get(userIndex).isAutoplay){
+        if (users.get(userIndex).isAutoplay) {
             userName.getBoundedString().setStringColor(Color.GREEN);
         }
     }
