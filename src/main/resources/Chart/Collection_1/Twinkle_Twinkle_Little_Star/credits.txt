@@ -1,8 +1,0 @@
-Kelvin
-Kelvin
-0.45
-true
-Kelvin 3.5
-Kelvin 8.1
-Kelvin 14.5
-Kelvin 16.3

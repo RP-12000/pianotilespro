@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public class Control {
     /** The current version of the game. */
-    public static final String GAME_VERSION = "v0.0.0-a";
+    public static final String GAME_VERSION = "v0.0.0";
     /** Index of the current panel being displayed. */
     public static int panel_index = 0;
     /** List of registered users. */
