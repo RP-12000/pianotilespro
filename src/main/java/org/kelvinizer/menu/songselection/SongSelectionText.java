@@ -339,12 +339,12 @@ public class SongSelectionText {
         isNewSong = getScoreData().newChart;
 
         if(jm.notAtBeginning()){
-            previousSong.setString(jm.getSelectionString(jm.getMenuIndex()-1));
+            previousSong.setString(jm.getSelectionString(jm.getMenuIndex()-1).replace('_', ' '));
             previousSongComposer.setString(sd.get(jm.getMenuIndex()-1).getComposer());
             previousSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()-1).getCharterData()));
         }
         if(jm.notAtEnd()){
-            nextSong.setString(jm.getSelectionString(jm.getMenuIndex()+1));
+            nextSong.setString(jm.getSelectionString(jm.getMenuIndex()+1).replace('_', ' '));
             nextSongComposer.setString(sd.get(jm.getMenuIndex()+1).getComposer());
             nextSongLevel.setString(levelToString(sd.get(jm.getMenuIndex()+1).getCharterData()));
         }
