@@ -250,7 +250,7 @@ public class ResultPageText {
         thisGameScore.setGradeString(grade.getBoundedString());
         perfect.getBoundedString().setString("Perfect: "+ (int)Lane.perfect);
         good.getBoundedString().setString("Good: "+(int)Lane.good);
-        bad.getBoundedString().setString("Bad "+(int)Lane.bad);
+        bad.getBoundedString().setString("Bad: "+(int)Lane.bad);
         miss.getBoundedString().setString("Miss: "+(int)Lane.miss);
         early.getBoundedString().setString("Early: "+(int)Lane.early);
         late.getBoundedString().setString("Late: "+(int)Lane.late);
