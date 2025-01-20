@@ -15,8 +15,6 @@ Author: Boyan Hu
 
 6. Other Notes
 
-7. Author Credits
-
 ********************************************
 
 **How to Play**
@@ -230,7 +228,7 @@ That is your data before it was reset. You can change the file type back to .ptp
 
 2. When in the game, you might see a **.refresh** file within the application directory. Ignore that. It is just a buffer for force refreshing the audio file and should be deleted every time it you exit a game or exit the application. If not, you can delete it yourself. It is not a big deal.
 
-3. The only song that can be played is the *Twinkle Twinkle Little Star*, the last song in the Collection *Faraway Stars*, which has all 4 levels. More songs will be added in the future. Remember that this is still just a testing version.
+3. The only song that has normal charts is the *Twinkle Twinkle Little Star*, the last song in the Collection *Faraway Stars*, which has all 4 levels. More songs will be added in the future. Remember that this is still just a testing version.
 
 *************
 

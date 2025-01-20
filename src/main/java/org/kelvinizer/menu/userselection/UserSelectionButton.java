@@ -244,7 +244,7 @@ public class UserSelectionButton implements Scalable, Drawable, Focusable {
         back.scale(d);
         select.scale(d);
         moveLeft.scale(d);
-        moveLeft.scale(d);
+        moveRight.scale(d);
         basic.scale(d);
         medium.scale(d);
         advanced.scale(d);

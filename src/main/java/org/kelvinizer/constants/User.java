@@ -86,8 +86,6 @@ public class User {
      */
     public User(File f){
         try{
-            String[] s = f.getCanonicalPath().split("\\\\");
-            userName = s[s.length-1].split("\\.")[0];
             BufferedReader br;
             String temp;
             try{
@@ -122,6 +120,8 @@ public class User {
             } catch (IOException | RuntimeException e) {
                 isValidUser=false;
             }
+            String[] s = f.getCanonicalPath().split("\\\\");
+            userName = s[s.length-1].split("\\.")[0];
         } catch (IOException e) {
             isValidUser=false;
         }
