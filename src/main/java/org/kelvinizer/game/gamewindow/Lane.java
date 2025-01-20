@@ -57,9 +57,9 @@ public class Lane {
                     good++;
                     currentCombo++;
                     if ((judgementOrder.get(active_note_pointer).getStrikeTimeDifference() < 0)) {
-                        early++;
-                    } else {
                         late++;
+                    } else {
+                        early++;
                     }
                 }
                 else if (judgementOrder.get(active_note_pointer).getStatus() == 2) {
