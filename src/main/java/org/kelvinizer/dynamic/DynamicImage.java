@@ -39,6 +39,17 @@ public class DynamicImage extends DynamicObject {
     }
 
     /**
+     * Retrieves the buffered image.
+     * This method returns the current instance of the {@link BufferedImage} stored in the class.
+     * The returned image can be used for various purposes, such as displaying or manipulating the image data.
+     *
+     * @return the {@link BufferedImage} object representing the image.
+     */
+    public BufferedImage getImage() {
+        return bf;
+    }
+
+    /**
      * Renders the image at its current position, applying motion transformations based on the time passed.
      * The image's position is updated according to the horizontal and vertical motions.
      *
