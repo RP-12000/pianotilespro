@@ -34,9 +34,7 @@ For the skyline
 
 Also, the keys to trigger hold notes need to be held until the hold note completly disappears.
 
-Finally, if notes needs to be tapped at the same time they will have a yellow outline like this:
-
-![](file:///C:/Users/kelvi/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-01-19%20212502.png "Sync Notes")
+Finally, if notes needs to be tapped at the same time they will have a yellow outline.
 
 *********************************
 
@@ -127,13 +125,11 @@ The level of the song can range between 1.0 and 16.9, with 1.0 being the easiest
 **Keyboard Shortcuts in Different Panels**
 
 1. Welcome Page: 
-   ![](file:///C:/Users/kelvi/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-01-19%20212045.png "Welcome Page when loading")
-   ![](C:/Users/kelvi/Pictures/Screenshots/屏幕截图%202025-01-19%20212055.png "Welcome Page when finish loading")
    
    - Enter: enter the game
 
 2. Collection Selection Page:
-   ![](file:///C:/Users/kelvi/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-01-19%20212134.png "Collection Selection Page")
+
    
    - left/right arrow keys: move left/right
    
@@ -146,7 +142,6 @@ The level of the song can range between 1.0 and 16.9, with 1.0 being the easiest
    - U: go to User Selection Page
 
 3. Song Selection Page:
-   ![](file:///C:/Users/kelvi/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-01-19%20212146.png "Song Selection Page")
    
    - Backspace: go back to Welcome Page
    - Enter: play the chart with the level and song displayed on the screen
@@ -157,9 +152,6 @@ The level of the song can range between 1.0 and 16.9, with 1.0 being the easiest
    - Ctrl+A: switch to Autoplay (view what the chart looks like when a grade of **T** is achieved)
 
 4. Chart (main game UI):
-   ![loading-ag-2328](C:/Users/kelvi/Pictures/Screenshots/屏幕截图%202025-01-19%20212342.png "Game UI when active")
-   
-   ![](file:///C:/Users/kelvi/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-01-19%20214341.png "Game UI when paused")
    
    - Space: pause/go
    
@@ -170,16 +162,12 @@ The level of the song can range between 1.0 and 16.9, with 1.0 being the easiest
    - - Side note: you have to pause the game first for go back and restart options to be enabled
 
 5. Result Page:
-   ![loading-ag-2335](C:/Users/kelvi/Pictures/Screenshots/屏幕截图%202025-01-19%20212515.png "Result Page")
    
    - Backspace: go back to Song Selection Page
    
    - Ctrl+R: restart the chart
 
 6. Settings:
-   ![](file:///C:/Users/kelvi/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-01-19%20212112.png "Settings Hint Page")
-   
-   ![](file:///C:/Users/kelvi/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-01-19%20212122.png "Settings Time Page")
    
    - Backspace: go back to where you entered the Settings page
    
@@ -202,10 +190,6 @@ The level of the song can range between 1.0 and 16.9, with 1.0 being the easiest
      - Ctrl+R: reset user data
 
 7. User Selection: 
-   
-   ![](file:///C:/Users/kelvi/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-01-19%20212154.png "User Selection Page")
-   
-   ![](file:///C:/Users/kelvi/Pictures/Screenshots/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-01-19%20212159.png "Add new user")
    
    - Backspace: go back to where you entered the User Selction page
    
