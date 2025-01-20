@@ -142,7 +142,7 @@ public class ResultPageText {
     private final DynamicString level = new DynamicString(Selection.level + " " + Selection.chartConstant, 15, 280, 630, 96, 60);
 
     /**
-     * The user name of the player, retrieved from the users list by user index.
+     * The username of the player, retrieved from the users list by user index.
      */
     private final DynamicString userName = new DynamicString(users.get(userIndex).userName, 15, 424, 630, 192, 60);
 
@@ -208,8 +208,8 @@ public class ResultPageText {
     }
 
     /**
-     * Initializes the bounds for various DynamicString objects, such as song name, level, user name, and score bounds.
-     * This method also checks if the user is set to autoplay and changes the user name color accordingly.
+     * Initializes the bounds for various DynamicString objects, such as song name, level, username, and score bounds.
+     * This method also checks if the user is set to autoplay and changes the username color accordingly.
      */
     private void initBounds() {
         initBound(songName);
@@ -313,6 +313,16 @@ public class ResultPageText {
         dmm.addDynamicObject(level);
         dmm.addDynamicObject(userName);
 
-        dmm.addDynamicObject(jacket);
+        if(jacket.getImage()!=null){
+            dmm.addDynamicObject(jacket);
+        }
+        else{
+            DynamicString nullJacket = new DynamicString("No jacket preview available", 15, 280, 448, 480, 299);
+            nullJacket.getBoundedString().setStyle(Font.ITALIC);
+            nullJacket.getBoundedString().getBounds().setOutlineColor(Color.WHITE);
+            nullJacket.getBoundedString().getBounds().setOutlineThickness(2.0f);
+            nullJacket.addHorizontalMotion(new Motion(0, 1.5, -800, 280, 0.5));
+            dmm.addDynamicObject(nullJacket);
+        }
     }
 }
