@@ -1,8 +1,8 @@
-Kelvin
-Kelvin
+Traditional English Folk Song
+DALL-E
 0.45
 true
-Kelvin 3.5
-Kelvin 8.1
-Kelvin 14.5
-Kelvin 16.3
+Kelvin_on_Earth 3.5
+Kelvin_on_Mars 8.1
+Kelvin_on_Pluto 14.5
+Kelvin_with_the_Stars 16.3

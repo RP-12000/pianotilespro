@@ -14,8 +14,8 @@ public class JudgementLimits {
     /** The theoretical maximum timing limit for note accuracy, expressed as 1.2 times a single frame. */
     public static final double THEORETICAL = 1.2 * FRAME;
 
-    /** The timing window for a "Perfect" judgment, expressed as 5.1 times a single frame. */
-    public static final double PERFECT = 5.1 * FRAME;
+    /** The timing window for a "Perfect" judgment, expressed as 5.4 times a single frame. */
+    public static final double PERFECT = 5.4 * FRAME;
 
     /** The timing window for a "Good" judgment, expressed as 9.6 times a single frame. */
     public static final double GOOD = 9.6 * FRAME;
