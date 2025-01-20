@@ -1,4 +1,5 @@
-Piano Tiles Pro is a rythme game that is played on a PC or laptop.
+**Piano Tiles Pro** is a rythme game that is played on a PC or laptop.
+Author: Boyan Hu
 
 **Table of Contents:**
 
@@ -233,12 +234,6 @@ That is your data before it was reset. You can change the file type back to .ptp
 
 *************
 
-**Author Credits**
-
-This application is created solely by Boyan Hu. Please acknowledge him if needed to cite the code inside this application
-
-
-
-Boyan Hu.
-
+Hope you have a wonderful time enjoying the game!
+Boyan Hu
 2025.1.19
