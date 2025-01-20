@@ -1,4 +1,4 @@
-**Piano Tiles Pro** is a rythme game that is played on a PC or laptop.
+**Piano Tiles Pro** is a rhythm game that is played on a PC or laptop.
 Author: Boyan Hu
 
 **Table of Contents:**
@@ -29,11 +29,11 @@ Each lane has a specific key to trigger a pressed event.
 
 Note that although in the same lane, the notes that land on the bottom judgement line does NOT have the same trigger key as the notes that rise to the upper judgement line。
 
-For the bottom 8 lanes, from left to right, is A,S,D,F,J,K,L,and the semicolon key
+For the baseline 8 lanes, from left to right, is A,S,D,F,J,K,L,and the semicolon key
 
-For the skyline
+For the skyline 8 lanes, from left to right, is Q,W,E,R,U,I,O,and P
 
-Also, the keys to trigger hold notes need to be held until the hold note completly disappears.
+Also, the keys to trigger hold notes need to be held until the hold note completely disappears.
 
 Finally, if notes needs to be tapped at the same time they will have a yellow outline.
 
@@ -59,7 +59,7 @@ The **Worst Hit** of a game is defined as the largest T value
 
 
 
-For each note played, you get an **Accuracy** (acc) for that note. The accuracy threasholds are:
+For each note played, you get an **Accuracy** (acc) for that note. The accuracy thresholds are:
 
 1. **Perfect** ==> 100% acc
 
@@ -210,7 +210,7 @@ On the first time you start the game, it will run a simple check to see that all
 
 Then it will create the **Users** folder for you and generate a user called **Userxxxxxxxxxx** where **x** represents a digit between 0 and 9
 
-After you close the application, a **Userxxxxxxxxxx.ptpuser** file will appear in the **Users** folder
+After you close the application, an **Userxxxxxxxxxx.ptpuser** file will appear in the **Users** folder
 
 You can change the filename to change the username.
 
@@ -220,7 +220,7 @@ Every time you close the application your data is saved in that .ptpuser file
 
 If you choose to reset your userdata in the Settings page, you will find a file that ends in ".userarchive" with the same username within the **Users** folder
 
-That is your data before it was reset. You can change the file type back to .ptpuser to revert the changes, or you can delete it permenently.
+That is your data before it was reset. You can change the file type back to .ptpuser to revert the changes, or you can delete it permanently.
 
 ******************
 
