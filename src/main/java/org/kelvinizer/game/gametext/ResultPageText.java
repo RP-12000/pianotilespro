@@ -274,8 +274,10 @@ public class ResultPageText {
                 bestWorstHit.getBoundedString().setString(String.format("%.2f", (thisGameScore.worstHit-getScoreData().worstHit)*1000)+" ms");
                 getScoreData().worstHit = thisGameScore.worstHit;
             }
-            getScoreData().fc = thisGameScore.fc;
-            getScoreData().newChart = thisGameScore.newChart;
+            if(!getScoreData().fc){
+                getScoreData().fc = thisGameScore.fc;
+            }
+            getScoreData().newChart = false;
         }
     }
 
