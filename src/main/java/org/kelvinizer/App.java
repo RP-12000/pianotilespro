@@ -22,6 +22,7 @@ import java.awt.event.WindowEvent;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.concurrent.*;
 
 import static org.kelvinizer.constants.Control.*;
@@ -51,6 +52,10 @@ public class App extends JFrame {
             userIndex = Integer.parseInt(br.readLine());
             firstTimeOpen = Boolean.parseBoolean(br.readLine());
             Selection.collectionIndex = Integer.parseInt(br.readLine());
+            Selection.level = br.readLine();
+            if(!Selection.level.equals("BS")&&!Selection.level.equals("MD")&&!Selection.level.equals("AV")){
+                Selection.level="BS";
+            }
         } catch (Exception ignored) {}
         boot();
         ScheduledExecutorService gameLoop = Executors.newSingleThreadScheduledExecutor();
@@ -87,6 +92,10 @@ public class App extends JFrame {
                 else{
                     try(PrintWriter pw = new PrintWriter("ptp_settings")){
                         pw.println(userIndex+"\n"+firstTimeOpen+"\n"+ Selection.collectionIndex);
+                        if(Objects.equals(Selection.level, "LG")){
+                            Selection.level="AV";
+                        }
+                        pw.println(Selection.level);
                     } catch (FileNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
