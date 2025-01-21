@@ -230,7 +230,7 @@ public class Chart extends AnimatablePanel {
                         (int) (1e6*(a.getStartTime() - b.getStartTime()))
                 )
         );
-        STATIC_TIMER = Math.min(0.0, tempNotes.getFirst().getStartTime());
+        STATIC_TIMER = Math.min(0.0, tempNotes.get(0).getStartTime());
         if(!users.isEmpty()){
             STATIC_TIMER = Math.min(STATIC_TIMER, users.get(userIndex).MUSIC_DIFFERENCE);
         }

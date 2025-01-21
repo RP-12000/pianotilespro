@@ -188,7 +188,7 @@ public class AnimatablePanel extends JPanel implements Animatable, MouseMotionLi
      * @param ratio the opacity ratio (0.0 to 1.0)
      */
     protected void setGlobalOpacity(Graphics2D g2d, double ratio) {
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Math.clamp((float) ratio, 0.0f, 1.0f)));
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, Math.min(Math.max((float) ratio, 0.0f), 1.0f)));
     }
 
     @Override

@@ -77,9 +77,9 @@ public class SongSelection extends AnimatablePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (Selection.level){
-                    case "BS" -> Selection.level = "MD";
-                    case "MD" -> Selection.level = "AV";
-                    case "AV" -> Selection.level = "LG";
+                    case "BS": Selection.level = "MD";break;
+                    case "MD": Selection.level = "AV";break;
+                    case "AV": Selection.level = "LG";break;
                 }
                 if(!getSongData().hasLG() && Selection.level.equals("LG")){
                     Selection.level = "AV";
@@ -90,9 +90,9 @@ public class SongSelection extends AnimatablePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (Selection.level){
-                    case "LG" -> Selection.level = "AV";
-                    case "AV" -> Selection.level = "MD";
-                    case "MD" -> Selection.level = "BS";
+                    case "LG": Selection.level = "AV";break;
+                    case "AV": Selection.level = "MD";break;
+                    case "MD": Selection.level = "BS";break;
                 }
             }
         });
@@ -249,14 +249,14 @@ public class SongSelection extends AnimatablePanel {
     public void toNextPanel(){
         songIndex.put(collectionDir, songs.get(collectionDir).getMenuIndex());
         switch(sb.state){
-            case SelectionButtons.EXIT -> {
+            case SelectionButtons.EXIT: {
                 songJacket = songs.get(collectionDir).getSelectionJacket();
                 chartConstant = getSongData().getCharterData().second;
                 Control.panel_index = 3;
-            }
-            case SelectionButtons.BACK -> Control.panel_index = 1;
-            case SelectionButtons.SETTINGS -> Control.panel_index = -Control.panel_index;
-            case SelectionButtons.USER -> Control.panel_index+=4;
+            }break;
+            case SelectionButtons.BACK: Control.panel_index = 1;break;
+            case SelectionButtons.SETTINGS: Control.panel_index = -Control.panel_index;break;
+            case SelectionButtons.USER: Control.panel_index+=4;break;
         }
     }
 }

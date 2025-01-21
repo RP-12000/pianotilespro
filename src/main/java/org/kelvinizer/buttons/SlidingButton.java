@@ -76,8 +76,8 @@ public class SlidingButton implements Focusable, Drawable, Scalable {
      */
     public void moveSlider(MouseEvent e) {
         if (slider.isFocused()) {
-            slider.getNormal().getBounds().setX(Math.clamp(e.getX() / mousePosScaleFactor, start, end));
-            slider.getOnFocus().getBounds().setX(Math.clamp(e.getX() / mousePosScaleFactor, start, end));
+            slider.getNormal().getBounds().setX(Math.min(Math.max(e.getX() / mousePosScaleFactor, start), end));
+            slider.getOnFocus().getBounds().setX(Math.min(Math.max(e.getX() / mousePosScaleFactor, start), end));
             currentVal = k * slider.getOnFocus().getBounds().getX() + b;
         }
     }
@@ -88,7 +88,7 @@ public class SlidingButton implements Focusable, Drawable, Scalable {
      * @param delta the change in value to move the slider
      */
     public void moveSlider(double delta) {
-        currentVal = Math.clamp(currentVal + delta, minVal, maxVal);
+        currentVal = Math.min(Math.max(currentVal + delta, minVal), maxVal);
         slider.getNormal().getBounds().setX((currentVal - b) / k);
         slider.getOnFocus().getBounds().setX((currentVal - b) / k);
     }

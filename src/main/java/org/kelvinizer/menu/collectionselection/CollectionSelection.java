@@ -153,10 +153,10 @@ public class CollectionSelection extends AnimatablePanel {
     @Override
     public void toNextPanel() {
         switch (sb.state) {
-            case SelectionButtons.EXIT -> Control.panel_index = 2;
-            case SelectionButtons.BACK -> Control.panel_index = 0;
-            case SelectionButtons.SETTINGS -> Control.panel_index = -Control.panel_index;
-            case SelectionButtons.USER -> Control.panel_index += 4;
+            case SelectionButtons.EXIT: Control.panel_index = 2;break;
+            case SelectionButtons.BACK: Control.panel_index = 0;break;
+            case SelectionButtons.SETTINGS: Control.panel_index = -Control.panel_index;break;
+            case SelectionButtons.USER: Control.panel_index += 4;break;
         }
     }
 }

@@ -110,19 +110,20 @@ public class App extends JFrame {
             remove(display);
             display = null; // Java Garbage Collector
             switch (Control.panel_index){
-                case 0 -> display = new WelcomePage();
-                case 1 -> display = new CollectionSelection();
-                case 2 -> display = new SongSelection();
-                case 3 ->{
+                case 0: display = new WelcomePage();break;
+                case 1: display = new CollectionSelection();break;
+                case 2: display = new SongSelection();break;
+                case 3:{
                     try {
                         display = new Chart();
                     } catch (IOException | LineUnavailableException | RuntimeException | UnsupportedAudioFileException e) {
                         throw new RuntimeException("Corrupted Chart Detected");
-                    }
+                    }break;
                 }
-                case 4 -> display = new ResultPage();
-                case 5, 6 -> display = new UserSelection();
-                default -> display = new Settings();
+                case 4: display = new ResultPage();break;
+                case 5: display = new UserSelection();break;
+                case 6: display = new UserSelection();break;
+                default: display = new Settings();break;
             }
             display.setBounds(0, 0,
                     getSize().width - ReferenceWindow.extraWidth,

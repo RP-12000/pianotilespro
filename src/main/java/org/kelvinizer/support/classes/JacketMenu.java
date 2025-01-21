@@ -98,7 +98,7 @@ public class JacketMenu{
      * @param amount the change in menuIndex
      */
     public void move(int amount){
-        menuIndex = Math.clamp(menuIndex+amount, 0, menu.size()-1);
+        menuIndex = Math.min(Math.max(menuIndex+amount, 0), menu.size()-1);
     }
 
     /**

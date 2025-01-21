@@ -66,7 +66,7 @@ public class MotionManager {
      * @return true if the motion sequence is valid, false otherwise.
      */
     public boolean isValidMotionManager() {
-        if (movement.getFirst().getStart() != 0) {
+        if (movement.get(0).getStart() != 0) {
             return false;
         }
         for (int i = 0; i < movement.size() - 1; i++) {
@@ -74,7 +74,7 @@ public class MotionManager {
                 return false;
             }
         }
-        return movement.getLast().getEnd() == duration;
+        return movement.get(movement.size()-1).getEnd() == duration;
     }
 
     /**

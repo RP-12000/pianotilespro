@@ -88,7 +88,7 @@ public class ResetUserButton implements Scalable, Drawable, Focusable {
         resetUser.render(g2d);
         g2d.setComposite(AlphaComposite.getInstance(
                 AlphaComposite.SRC_OVER,
-                (float) Math.clamp(1.0 - 1.0 / 3 * (System.nanoTime() - verdictAppearanceTime) / 1e9, 0.0, 1.0)
+                (float) Math.min(Math.max(1.0 - 1.0 / 3 * (System.nanoTime() - verdictAppearanceTime) / 1e9, 0.0), 1.0)
         ));
         verdict1.render(g2d);
         verdict1.render(g2d);
