@@ -83,9 +83,9 @@ public class SettingsText implements Drawable {
      */
     @Override
     public void render(Graphics2D g2d) {
-        switch (Settings.page) {
-            case 1 -> header.setString("Hints");
-            case 2 -> header.setString("Time");
+        header.setString("Time");
+        if(Settings.page==1){
+            header.setString("Hints");
         }
         header.render(g2d);
         firstVerdict.render(g2d);
