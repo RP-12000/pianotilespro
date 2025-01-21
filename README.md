@@ -1,5 +1,6 @@
 **Piano Tiles Pro** is a rhythm game that is played on a PC or laptop.
-Author: Boyan Hu
+
+Author: **Boyan Hu**
 
 **Table of Contents:**
 
@@ -32,6 +33,22 @@ For the skyline 8 lanes, from left to right, is Q, W, E, R, U, I, O, and P.
 Also, the keys to trigger hold notes need to be held until the hold note completely disappears.
 
 Finally, if notes needs to be tapped at the same time they will have a yellow outline.
+
+
+
+The score will be shown on the top right corner of the game, in bold.
+
+The current combo will be shown on the top right corner of the game, in bold.
+
+Beneath the score is the accuracy.
+
+Beneath the combo is the username. If it in autoplay mode, the username will be shown in green.
+
+At the bottom left corner is the song name.
+
+At the bottom left corner is the chart level.
+
+The pause button is at the top left corner. After pausing, the three buttons that appear in the middle of the screen are go back, restart, and continue from left to right.
 
 *********************************
 
