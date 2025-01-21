@@ -19,17 +19,15 @@ Author: Boyan Hu
 
 **How to Play**
 
-The main game consists of 8 lanes and UI is shown with the following picture
+The main game consists of 8 lanes.
 
 Each lane has a specific key to trigger a pressed event.
 
+Note that although in the same lane, the notes that land on the bottom judgement line does NOT have the same trigger key as the notes that rise to the upper judgement line.
 
+For the baseline 8 lanes, from left to right, is A, S, D, F, J, K, L, and the semicolon key.
 
-Note that although in the same lane, the notes that land on the bottom judgement line does NOT have the same trigger key as the notes that rise to the upper judgement line。
-
-For the baseline 8 lanes, from left to right, is A,S,D,F,J,K,L,and the semicolon key
-
-For the skyline 8 lanes, from left to right, is Q,W,E,R,U,I,O,and P
+For the skyline 8 lanes, from left to right, is Q, W, E, R, U, I, O, and P.
 
 Also, the keys to trigger hold notes need to be held until the hold note completely disappears.
 
@@ -39,9 +37,9 @@ Finally, if notes needs to be tapped at the same time they will have a yellow ou
 
 **Judgement Rule**
 
-Define T as the absolute value of the time interval between the key event is triggered to the note's time that it lands on the judgement line
+Define T as the absolute value of the time interval between the key event is triggered to the note's time that it lands on the judgement line.
 
-Every tap note has 4 different judgement states
+Every tap note has 4 different judgement states.
 
 1. **Perfect**:  T<=90ms (5.4 frames at 60FPS)
 
@@ -53,7 +51,7 @@ Every tap note has 4 different judgement states
 
 Except that the hold notes does not have a **Bad** judgement state, which means that miss for hold notes is T>160ms (12 frames at 60FPS), the other judgement rules are the same as tap notes.
 
-The **Worst Hit** of a game is defined as the largest T value
+The **Worst Hit** of a game is defined as the largest T value.
 
 
 
@@ -69,13 +67,13 @@ By taking the average of the accuracy of every note played, you get the overall 
 
 
 
-The **Score** is calculated differetly.
+The **Score** is calculated differently.
 
-Let M denote the number of notes in the largest interval in the game for which no notes have a judgement state of **Bad** or **Miss**
+Let M denote the number of notes in the largest interval in the game for which no notes have a judgement state of **Bad** or **Miss**.
 
-Let N denote the total number of notes in the game
+Let N denote the total number of notes in the game.
 
-Then the final score is equal to overall_acc * 900000+M/N * 100000
+Then the final score is equal to overall_acc * 900000+M/N * 100000.
 
 Depending on the final score, you can get these different **Grades** in the game:
 
@@ -91,7 +89,7 @@ Depending on the final score, you can get these different **Grades** in the game
 
 6. **V**: 960000<=score<1000000
 
-If no notes in the game are **Bad** or **Miss**, and there is at least one **Good**, then the grade will have a blue color. We call this state **Full Combo (FC)**
+If no notes in the game are **Bad** or **Miss**, and there is at least one **Good**, then the grade will have a blue color. We call this state **Full Combo (FC)**.
 
 Otherwise, the color of the grade will be white
 
@@ -105,30 +103,29 @@ There are two other grades that you can get by playing every note with a **Perfe
 
 **Level Specification**
 
-In this game, there are multiple sets of songs that are called **Collections**
+In this game, there are multiple sets of songs that are called **Collections**.
 
-Each collection has multiple **Songs**, which contains a variety of different levels of **Chart**
+Each collection has multiple **Songs**, which contains a variety of different levels of **Chart**.
 
-A **Chart** is a .txt file that encodes every position-time function of every note within the game
+A **Chart** is a .txt file that encodes every position-time function of every note within the game.
 
 
 
-Each **Song** is guarenteed to have 3 different levels: **Basic (BS)**, **Medium (MD)** and **Advanced (AV)**
+Each **Song** is guaranteed to have 3 different levels: **Basic (BS)**, **Medium (MD)** and **Advanced (AV)**.
 
-Some songs have an optional fourth level called **Legendary (LG)**
+Some songs have an optional fourth level called **Legendary (LG)**.
 
-The level of the song can range between 1.0 and 16.9, with 1.0 being the easiest and 16.9 being the hardest
+The level of the song can range between 1.0 and 16.9, with 1.0 being the easiest and 16.9 being the hardest.
 
 ****************************
 
 **Keyboard Shortcuts in Different Panels**
 
-1. Welcome Page: 
+1. Start up Page: 
    
    - Enter: enter the game
 
 2. Collection Selection Page:
-
    
    - left/right arrow keys: move left/right
    
@@ -143,11 +140,17 @@ The level of the song can range between 1.0 and 16.9, with 1.0 being the easiest
 3. Song Selection Page:
    
    - Backspace: go back to Welcome Page
+   
    - Enter: play the chart with the level and song displayed on the screen
+   
    - S: go to Settings
+   
    - U: go to User Selection Page
+   
    - up/down arrow keys: move up/down the song menu
+   
    - left/right arrow keys: move left/right on the level selection menu
+   
    - Ctrl+A: switch to Autoplay (view what the chart looks like when a grade of **T** is achieved)
 
 4. Chart (main game UI):
@@ -158,7 +161,7 @@ The level of the song can range between 1.0 and 16.9, with 1.0 being the easiest
    
    - Ctrl+R: restart
    
-   - - Side note: you have to pause the game first for go back and restart options to be enabled
+   - Side note: you have to pause the game first for go back and restart options to be enabled
 
 5. Result Page:
    
@@ -190,7 +193,7 @@ The level of the song can range between 1.0 and 16.9, with 1.0 being the easiest
 
 7. User Selection: 
    
-   - Backspace: go back to where you entered the User Selction page
+   - Backspace: go back to where you entered the User Selection page
    
    - left/right arrow keys: switch user
    
@@ -202,21 +205,21 @@ The level of the song can range between 1.0 and 16.9, with 1.0 being the easiest
 
 The game has a very basic user system.
 
-All user data is stored in a folder called **Users** in the same directory of the application
+All user data is stored in a folder called **Users** in the same directory of the application.
 
-On the first time you start the game, it will run a simple check to see that all the charts exists and are not corrupted
+On the first time you start the game, it will run a simple check to see that all the charts exists and are not corrupted.
 
-Then it will create the **Users** folder for you and generate a user called **Userxxxxxxxxxx** where **x** represents a digit between 0 and 9
+Then it will create the **Users** folder for you and generate a user called **Userxxxxxxxxxx** where **x** represents a digit between 0 and 9.
 
-After you close the application, an **Userxxxxxxxxxx.ptpuser** file will appear in the **Users** folder
+After you close the application, an **Userxxxxxxxxxx.ptpuser** file will appear in the **Users** folder.
 
 You can change the filename to change the username.
 
-Every time you close the application your data is saved in that .ptpuser file
+Every time you close the application your data is saved in that .ptpuser file.
 
 
 
-If you choose to reset your userdata in the Settings page, you will find a file that ends in ".userarchive" with the same username within the **Users** folder
+If you choose to reset your userdata in the Settings page, you will find a file that ends in ".userarchive" with the same username within the **Users** folder.
 
 That is your data before it was reset. You can change the file type back to .ptpuser to revert the changes, or you can delete it permanently.
 
@@ -224,7 +227,7 @@ That is your data before it was reset. You can change the file type back to .ptp
 
 **Other Notes**
 
-1. There is also a **ptp_settings** file within the directory of the application. It has some general information about who is the last person that logged in the game and where was the person at in the game, as well as if the game was started for the first time. You shouldn't delete it, though deleting it will not cause a very big difference. It will be regenerated everytime you close the application
+1. There is also a **ptp_settings** file within the directory of the application. It has some general information about who is the last person that logged in the game and where was the person at in the game, as well as if the game was started for the first time. You shouldn't delete it, though deleting it will not cause a very big difference. It will be regenerated everytime you close the application.
 
 2. When in the game, you might see a **.refresh** file within the application directory. Ignore that. It is just a buffer for force refreshing the audio file and should be deleted every time it you exit a game or exit the application. If not, you can delete it yourself. It is not a big deal.
 
@@ -233,5 +236,7 @@ That is your data before it was reset. You can change the file type back to .ptp
 *************
 
 Hope you have a wonderful time enjoying the game!
+
 Boyan Hu
+
 2025.1.19

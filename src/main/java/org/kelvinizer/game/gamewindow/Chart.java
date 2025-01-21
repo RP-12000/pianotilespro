@@ -506,9 +506,11 @@ public class Chart extends AnimatablePanel {
         }
         for(int i=0; i<16; i++){
             if(!users.get(userIndex).isAutoplay){
-                lanes[i].update(signal[i]);
-                if(signal[i]!=0){
-                    signal[i] = 0;
+                if(!isPaused){
+                    lanes[i].update(signal[i]);
+                    if(signal[i]!=0){
+                        signal[i] = 0;
+                    }
                 }
             }
             else{
