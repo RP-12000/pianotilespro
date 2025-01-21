@@ -81,19 +81,21 @@ public class App extends JFrame {
              */
             @Override
             public void windowClosing(WindowEvent e) {
-                if(users.isEmpty()){
+                if(users==null){
                     return;
                 }
-                try(PrintWriter pw = new PrintWriter("ptp_settings")){
-                    pw.println(userIndex+"\n"+firstTimeOpen+"\n"+ Selection.collectionIndex);
-                } catch (FileNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                try{
-                    Files.deleteIfExists(Paths.get(".refresh"));
-                } catch (IOException ignored) {}
-                for(User u: users){
-                    u.exportUser();
+                else{
+                    try(PrintWriter pw = new PrintWriter("ptp_settings")){
+                        pw.println(userIndex+"\n"+firstTimeOpen+"\n"+ Selection.collectionIndex);
+                    } catch (FileNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    try{
+                        Files.deleteIfExists(Paths.get(".refresh"));
+                    } catch (IOException ignored) {}
+                    for(User u: users){
+                        u.exportUser();
+                    }
                 }
                 System.exit(0);
             }
