@@ -78,7 +78,7 @@ public class Chart extends AnimatablePanel {
      * The Clip object used to play the audio for the song. It interfaces with the
      * AudioInputStream to produce sound during the gameplay.
      */
-    private final Clip music;
+    private Clip music;
 
     /**
      * A CRect object representing the progress bar in the chart, which visually indicates
@@ -162,7 +162,7 @@ public class Chart extends AnimatablePanel {
         }
         CURRENT_TIME = STATIC_TIMER;
         isPaused = false;
-        if (inputStream != null) {
+        if (inputStream != null && music!=null) {
             music.setMicrosecondPosition(0);
         }
     }
@@ -182,8 +182,14 @@ public class Chart extends AnimatablePanel {
     public Chart(Song song, String level) throws IOException, RuntimeException, LineUnavailableException, UnsupportedAudioFileException {
         super(2000);
         inputStream = AudioSystem.getAudioInputStream(getResourceInput(song.getAbsoluteDir()+"/audio.wav"));
-        music = AudioSystem.getClip();
-        music.open(inputStream);
+        try{
+            music = AudioSystem.getClip();
+        }catch (Exception e){
+            music = null;
+        }
+        if(music!=null){
+            music.open(inputStream);
+        }
         BufferedReader chart = new BufferedReader(new InputStreamReader(getResourceInput(song.getAbsoluteDir()+"/"+level+".txt")));
         ArrayList<Note> tempNotes = new ArrayList<>();
         noteCount = Double.parseDouble(chart.readLine());
@@ -489,7 +495,9 @@ public class Chart extends AnimatablePanel {
         if (music != null && isPaused && music.isRunning()) {
             music.stop();
         }
-        forceRefresh();
+        if(music!=null){
+            forceRefresh();
+        }
         if(isPaused){
             if (goBack) {
                 setGlobalOpacity(g2d, 1-timePoint);
